@@ -4,7 +4,7 @@
 
 [Obsidian](https://obsidian.md/) plugin that adds Markdown hotkeys that automatically select words before applying markup.
 
-When using the hotkey, the selection is automatically expanded to the whole word(s) before applying the markup. As long as you prefer to write `*laziness*` over `lazi**ness`, this will save you the time of selecting the word(s) under the cursor.
+When using the hotkey, the selection is automatically expanded to the whole word(s) before applying the markup. As long as you prefer to write `*laziness*` over `lazi**ness`, this plugin save you the time of selecting the word(s) under the cursor.
 
 `Placeholder: demo video`
 
@@ -20,6 +20,8 @@ Essentially, all basic Markdown commands for applying markup to words are added:
 - Lazy Strikethrough
 - Lazy Markdown Link
 - Lazy Wikilink
+
+***
 
 💡 If you want to replace the default commands from Obsidian, remember to remove their hotkey binding before changing the hotkeys from this plugin. Example for `Lazy Bold`:
 1. Remove the hotkey `cmd/ctrl + B`[^1] for the default command `Toggle Bold`.

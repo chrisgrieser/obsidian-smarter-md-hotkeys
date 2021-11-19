@@ -18,14 +18,36 @@ export default class LazyMDhotkeys extends Plugin {
 
   expandAndWrap(beforeStr: string, afterStr: string, editor: Editor): void {
 
-    let selectedText = "";
-    if (editor.somethingSelected()) selectedText = editor.getSelection();
-
     function Cursor(pos: number): EditorPosition {
       return editor.offsetToPos(pos);
     }
+    // let selectedText = "";
+    // if (editor.somethingSelected()) selectedText = editor.getSelection();
 
-    // Detect whether the selected text is surrounded with Syntax
+
+    const sp = editor.posToOffset(editor.getCursor("from")); // Starting position
+
+    let i = 0;
+    let charBefore;
+    while (charBefore != " "){
+      charBefore = editor.getRange(Cursor(sp - i - 1), Cursor(sp - i));
+      i++;
+    }
+    const wordStartPos = i;
+
+    i = 0;
+    let charAfter;
+    while (charAfter != " "){
+      charAfter = editor.getRange(Cursor(sp + i + 1), Cursor(sp + i));
+      i++;
+    }
+    const wordEndPos = i;
+
+    editor.setSelection(Cursor(wordStartPos), Cursor(wordEndPos));
+
+
+
+/*    // Detect whether the selected text is surrounded with Syntax
     // If true, unpack it, else pack with Syntax
     // ------------------------------------------------
     const sp = editor.posToOffset(editor.getCursor("from")); // Starting position
@@ -62,7 +84,7 @@ export default class LazyMDhotkeys extends Plugin {
         cursor.ch -= alen;
         editor.setCursor(cursor);
       }
-    }
+    }*/
 
 
   }

@@ -1,71 +1,22 @@
 import { MarkdownView, Plugin, EditorPosition, Editor } from "obsidian";
 
-export default class ExtraMDcommands extends Plugin {
+export default class LazyMDhotkeys extends Plugin {
   async onload() {
     this.addCommand({
-      id: "underscore-bold",
-      name: "Underscore Bold",
+      id: "lazy-bold",
+      name: "Lazy Bold",
       editorCallback: (editor: Editor, view: MarkdownView) => this
-        .wrapSelection("__", "__", editor),
+        .expandAndWrap("**", "**", editor),
     });
 
-    this.addCommand({
-      id: "underscore-italics",
-      name: "Underscore Italics",
-      editorCallback: (editor: Editor, view: MarkdownView) => this
-        .wrapSelection("_", "_", editor),
-    });
-
-    this.addCommand({
-      id: "html-comment",
-      name: "HTML Comment",
-      editorCallback: (editor: Editor, view: MarkdownView) => this
-        .wrapSelection("<!-- "," -->", editor),
-    });
-
-    this.addCommand({
-      id: "html-cite",
-      name: "<cite> tags",
-      editorCallback: (editor: Editor, view: MarkdownView) => this
-        .wrapSelection("<cite>","</cite>", editor),
-    });
-
-    this.addCommand({
-      id: "html-aside",
-      name: "<aside> tags",
-      editorCallback: (editor: Editor, view: MarkdownView) => this
-        .wrapSelection("<aside>","</aside>", editor),
-    });
-
-    this.addCommand({
-      id: "html-underline",
-      name: "<u> tags (underline)",
-      editorCallback: (editor: Editor, view: MarkdownView) => this
-        .wrapSelection("<u>","</u>", editor),
-    });
-
-    this.addCommand({
-      id: "multi-color-highlight-1",
-      name: "Multicolor Highlight 1",
-      editorCallback: (editor: Editor, view: MarkdownView) => this
-        .wrapSelection("_==","==_", editor),
-    });
-
-    this.addCommand({
-      id: "multi-color-highlight-2",
-      name: "Multicolor Highlight 2",
-      editorCallback: (editor: Editor, view: MarkdownView) => this
-        .wrapSelection("__==","==__", editor),
-    });
-
-    console.log ("Extra MD Commands Plugin loaded.");
+    console.log ("Lazy MD Hotkeys Plugin loaded.");
   }
 
   async onunload() {
-    console.log ("Extra MD Commands Plugin unloaded.");
+    console.log ("Lazy MD Hotkeys Plugin unloaded.");
   }
 
-  wrapSelection(beforeStr: string, afterStr: string, editor: Editor): void {
+  expandAndWrap(beforeStr: string, afterStr: string, editor: Editor): void {
 
     let selectedText = "";
     if (editor.somethingSelected()) selectedText = editor.getSelection();

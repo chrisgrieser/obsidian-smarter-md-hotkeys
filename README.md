@@ -6,13 +6,13 @@
 
 When using the hotkey, the selection is automatically expanded to the whole word(s) before applying the markup. As long as you prefer to write `*laziness*` over `lazi**ness`, this plugin save you the time of selecting the word(s) under the cursor.
 
-`Placeholder: demo gif`
+![](https://i.imgur.com/1Gx5OqA.gif){width="200", height="200"}
 
 ## Commands added
-- Smarter Bold
-- Smarter Italics
-- Smarter Underscore Bold
-- Smarter Underscore Italics
+- Smarter Bold (`**foobar**`)
+- Smarter Italics (`*foobar*`)
+- Smarter Underscore Bold (`__foobar__`)
+- Smarter Underscore Italics (`_foobar_`)
 - Smarter Comment
 - Smarter Inline Code
 - Smarter Highlight
@@ -20,8 +20,7 @@ When using the hotkey, the selection is automatically expanded to the whole word
 - Smarter Markdown Link
 - Smarter Wikilink (Internal Link)
 
----
-
+## Setting the Hotkeys
 💡 If you want to replace the default commands from Obsidian, remember to remove their hotkey binding before changing the hotkeys from this plugin. Example for `Smarter Bold`:
 1. Remove the hotkey `cmd/ctrl + B`[^1] for the default command `Toggle Bold`.
 2. Assign `cmd/ctrl + B` as the hotkey for the command `Smarter Bold`.

@@ -105,9 +105,17 @@ export default class SmarterMDhotkeys extends Plugin {
       multiWordExpanded = true;
     }
 
-    // Set Selection
-    const selectedText = editor.getSelection();
-    const sp = editor.posToOffset(editor.getCursor("from")); // Starting position
+    // "Trim" in case of leading or trailing spaces
+    let selectedText = editor.getSelection();
+    let sp = editor.posToOffset(editor.getCursor("from")); // Starting position
+    if (selectedText.startsWith(" ")){
+      selectedText = selectedText.slice(1);
+      sp++;
+    }
+    if (selectedText.endsWith(" ")){
+      selectedText = selectedText.slice(-1);
+      sp--;
+    }
     const len = selectedText.length;
     const blen = beforeStr.length;
     const alen = afterStr.length;

@@ -1,137 +1,118 @@
-import { App, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting } from 'obsidian';
+import { MarkdownView, Plugin, EditorPosition, Editor } from "obsidian";
 
-// Remember to rename these classes and interfaces!
+export default class ExtraMDcommands extends Plugin {
+  async onload() {
+    this.addCommand({
+      id: "underscore-bold",
+      name: "Underscore Bold",
+      editorCallback: (editor: Editor, view: MarkdownView) => this
+        .wrapSelection("__", "__", editor),
+    });
 
-interface MyPluginSettings {
-	mySetting: string;
-}
+    this.addCommand({
+      id: "underscore-italics",
+      name: "Underscore Italics",
+      editorCallback: (editor: Editor, view: MarkdownView) => this
+        .wrapSelection("_", "_", editor),
+    });
 
-const DEFAULT_SETTINGS: MyPluginSettings = {
-	mySetting: 'default'
-}
+    this.addCommand({
+      id: "html-comment",
+      name: "HTML Comment",
+      editorCallback: (editor: Editor, view: MarkdownView) => this
+        .wrapSelection("<!-- "," -->", editor),
+    });
 
-export default class MyPlugin extends Plugin {
-	settings: MyPluginSettings;
+    this.addCommand({
+      id: "html-cite",
+      name: "<cite> tags",
+      editorCallback: (editor: Editor, view: MarkdownView) => this
+        .wrapSelection("<cite>","</cite>", editor),
+    });
 
-	async onload() {
-		await this.loadSettings();
+    this.addCommand({
+      id: "html-aside",
+      name: "<aside> tags",
+      editorCallback: (editor: Editor, view: MarkdownView) => this
+        .wrapSelection("<aside>","</aside>", editor),
+    });
 
-		// This creates an icon in the left ribbon.
-		const ribbonIconEl = this.addRibbonIcon('dice', 'Sample Plugin', (evt: MouseEvent) => {
-			// Called when the user clicks the icon.
-			new Notice('This is a notice!');
-		});
-		// Perform additional things with the ribbon
-		ribbonIconEl.addClass('my-plugin-ribbon-class');
+    this.addCommand({
+      id: "html-underline",
+      name: "<u> tags (underline)",
+      editorCallback: (editor: Editor, view: MarkdownView) => this
+        .wrapSelection("<u>","</u>", editor),
+    });
 
-		// This adds a status bar item to the bottom of the app. Does not work on mobile apps.
-		const statusBarItemEl = this.addStatusBarItem();
-		statusBarItemEl.setText('Status Bar Text');
+    this.addCommand({
+      id: "multi-color-highlight-1",
+      name: "Multicolor Highlight 1",
+      editorCallback: (editor: Editor, view: MarkdownView) => this
+        .wrapSelection("_==","==_", editor),
+    });
 
-		// This adds a simple command that can be triggered anywhere
-		this.addCommand({
-			id: 'open-sample-modal-simple',
-			name: 'Open sample modal (simple)',
-			callback: () => {
-				new SampleModal(this.app).open();
-			}
-		});
-		// This adds an editor command that can perform some operation on the current editor instance
-		this.addCommand({
-			id: 'sample-editor-command',
-			name: 'Sample editor command',
-			editorCallback: (editor: Editor, view: MarkdownView) => {
-				console.log(editor.getSelection());
-				editor.replaceSelection('Sample Editor Command');
-			}
-		});
-		// This adds a complex command that can check whether the current state of the app allows execution of the command
-		this.addCommand({
-			id: 'open-sample-modal-complex',
-			name: 'Open sample modal (complex)',
-			checkCallback: (checking: boolean) => {
-				// Conditions to check
-				const markdownView = this.app.workspace.getActiveViewOfType(MarkdownView);
-				if (markdownView) {
-					// If checking is true, we're simply "checking" if the command can be run.
-					// If checking is false, then we want to actually perform the operation.
-					if (!checking) {
-						new SampleModal(this.app).open();
-					}
+    this.addCommand({
+      id: "multi-color-highlight-2",
+      name: "Multicolor Highlight 2",
+      editorCallback: (editor: Editor, view: MarkdownView) => this
+        .wrapSelection("__==","==__", editor),
+    });
 
-					// This command will only show up in Command Palette when the check function returns true
-					return true;
-				}
-			}
-		});
+    console.log ("Extra MD Commands Plugin loaded.");
+  }
 
-		// This adds a settings tab so the user can configure various aspects of the plugin
-		this.addSettingTab(new SampleSettingTab(this.app, this));
+  async onunload() {
+    console.log ("Extra MD Commands Plugin unloaded.");
+  }
 
-		// If the plugin hooks up any global DOM events (on parts of the app that doesn't belong to this plugin)
-		// Using this function will automatically remove the event listener when this plugin is disabled.
-		this.registerDomEvent(document, 'click', (evt: MouseEvent) => {
-			console.log('click', evt);
-		});
+  wrapSelection(beforeStr: string, afterStr: string, editor: Editor): void {
 
-		// When registering intervals, this function will automatically clear the interval when the plugin is disabled.
-		this.registerInterval(window.setInterval(() => console.log('setInterval'), 5 * 60 * 1000));
-	}
+    let selectedText = "";
+    if (editor.somethingSelected()) selectedText = editor.getSelection();
 
-	onunload() {
+    function Cursor(pos: number): EditorPosition {
+      return editor.offsetToPos(pos);
+    }
 
-	}
+    // Detect whether the selected text is surrounded with Syntax
+    // If true, unpack it, else pack with Syntax
+    // ------------------------------------------------
+    const sp = editor.posToOffset(editor.getCursor("from")); // Starting position
+    const len = selectedText.length;
+    const blen = beforeStr.length;
+    const alen = afterStr.length;
 
-	async loadSettings() {
-		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
-	}
+    const charsBefore = editor.getRange(Cursor(sp - blen), Cursor(sp));
+    const charsAfter = editor.getRange(Cursor(sp + len), Cursor(sp + len + alen));
 
-	async saveSettings() {
-		await this.saveData(this.settings);
-	}
-}
+    const firstChars = editor.getRange(Cursor(sp), Cursor(sp + blen));
+    const lastChars = editor.getRange(Cursor(sp + len - alen), Cursor(sp + len));
 
-class SampleModal extends Modal {
-	constructor(app: App) {
-		super(app);
-	}
+   // Undo surrounding Syntax (outside selection)
+    if (charsBefore == beforeStr && charsAfter == afterStr) {
+      editor.setSelection(Cursor(sp - blen), Cursor(sp + len + alen));
+      editor.replaceSelection(selectedText);
+      editor.setSelection(Cursor(sp - blen), Cursor(sp - blen + len));
 
-	onOpen() {
-		const {contentEl} = this;
-		contentEl.setText('Woah!');
-	}
+   // Undo surrounding Syntax (inside selection)
+    } else if (firstChars == beforeStr && lastChars == afterStr) {
+      editor.replaceSelection(selectedText.slice(blen,-alen));
+      editor.setSelection(Cursor(sp), Cursor(sp + len - (blen + alen)));
 
-	onClose() {
-		const {contentEl} = this;
-		contentEl.empty();
-	}
-}
+   // Wrap Syntax around Selection
+    } else {
+      if (selectedText) {
+        editor.replaceSelection(beforeStr + selectedText + afterStr);
+        editor.setSelection(Cursor(sp + blen), Cursor(sp + blen + len));
+   // No Selection
+      } else {
+        editor.replaceSelection(beforeStr + afterStr);
+        const cursor = editor.getCursor();
+        cursor.ch -= alen;
+        editor.setCursor(cursor);
+      }
+    }
 
-class SampleSettingTab extends PluginSettingTab {
-	plugin: MyPlugin;
 
-	constructor(app: App, plugin: MyPlugin) {
-		super(app, plugin);
-		this.plugin = plugin;
-	}
-
-	display(): void {
-		const {containerEl} = this;
-
-		containerEl.empty();
-
-		containerEl.createEl('h2', {text: 'Settings for my awesome plugin.'});
-
-		new Setting(containerEl)
-			.setName('Setting #1')
-			.setDesc('It\'s a secret')
-			.addText(text => text
-				.setPlaceholder('Enter your secret')
-				.setValue(this.plugin.settings.mySetting)
-				.onChange(async (value) => {
-					console.log('Secret: ' + value);
-					this.plugin.settings.mySetting = value;
-					await this.plugin.saveSettings();
-				}));
-	}
+  }
 }

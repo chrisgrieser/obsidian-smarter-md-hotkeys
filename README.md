@@ -1,6 +1,6 @@
 # Smarter Markdown Hotkeys
 
-![](https://img.shields.io/github/downloads/chrisgrieser/obsidian-smarter-markdown-hotkeys/total?label=Total%20Downloads&style=plastic) ![](https://img.shields.io/github/v/release/chrisgrieser/obsidian-smarter-markdown-hotkeys?label=Latest%20Release&style=plastic)
+![](https://img.shields.io/github/downloads/chrisgrieser/obsidian-smarter-md-hotkeys/total?label=Total%20Downloads&style=plastic) ![](https://img.shields.io/github/v/release/chrisgrieser/obsidian-smarter-md-hotkeys?label=Latest%20Release&style=plastic)
 
 [Obsidian](https://obsidian.md/) plugin that adds Markdown hotkeys that automatically select words before applying markup.
 

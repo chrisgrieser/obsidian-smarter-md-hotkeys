@@ -6,11 +6,9 @@
 
 When using the hotkey, the selection is automatically expanded to the whole word(s) before applying the markup. As long as you prefer to write `*laziness*` over `lazi**ness`, this plugin save you the time of selecting the word(s) under the cursor.
 
-`Placeholder: demo video`
+`Placeholder: demo gif`
 
-   ## Commands added
-
-
+## Commands added
 - Smarter Bold
 - Smarter Italics
 - Smarter Underscore Bold
@@ -22,6 +20,7 @@ When using the hotkey, the selection is automatically expanded to the whole word
 - Smarter Markdown Link
 - Smarter Wikilink (Internal Link)
 
+---
 
 💡 If you want to replace the default commands from Obsidian, remember to remove their hotkey binding before changing the hotkeys from this plugin. Example for `Smarter Bold`:
 1. Remove the hotkey `cmd/ctrl + B`[^1] for the default command `Toggle Bold`.

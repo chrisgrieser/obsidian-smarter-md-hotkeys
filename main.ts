@@ -126,6 +126,8 @@ export default class SmarterMDhotkeys extends Plugin {
         noSelPosition.ch -= blen;
         editor.setCursor(noSelPosition);
       } else if (multiWordExpanded){
+        selStart.ch -= blen;
+        selEnd.ch -= blen;
         editor.setSelection(selStart, selEnd);
       } else {
         editor.setSelection(Cursor(sp - blen), Cursor(sp - blen + len));
@@ -134,7 +136,16 @@ export default class SmarterMDhotkeys extends Plugin {
     // Undo surrounding markup (inside selection)
     } else if (firstChars == beforeStr && lastChars == afterStr) {
       editor.replaceSelection(selectedText.slice(blen,-alen));
-      editor.setSelection(Cursor(sp), Cursor(sp + len - (blen + alen)));
+      if (wordExpanded) { //has to be considered, because findWordAt considers underscores as word-parts
+        noSelPosition.ch -= blen;
+        editor.setCursor(noSelPosition);
+      } else if (multiWordExpanded){
+        selStart.ch -= blen;
+        selEnd.ch -= blen;
+        editor.setSelection(selStart, selEnd);
+      } else {
+        editor.setSelection(Cursor(sp), Cursor(sp + len - (blen + alen)));
+      }
 
     // Do Markup
     } else {
@@ -143,6 +154,8 @@ export default class SmarterMDhotkeys extends Plugin {
         noSelPosition.ch += blen;
         editor.setCursor(noSelPosition);
       } else if (multiWordExpanded){
+        selStart.ch += blen;
+        selEnd.ch += blen;
         editor.setSelection(selStart, selEnd);
       } else {
         editor.setSelection(Cursor(sp + blen), Cursor(sp + blen + len));

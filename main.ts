@@ -130,8 +130,8 @@ export default class SmarterMDhotkeys extends Plugin {
 		}
 
 		// Trim selection in case of leading or trailing spaces
-		const trimBefore = ["- [ ] ", "- [x] ", "- ", " ", "\n"];
-		const trimAfter = [" ", "\n"];
+		const trimBefore = ["- [ ] ", "- [x] ", "- ", " ", "\n", "\t"];
+		const trimAfter = [" ", "\n", "\t"];
 		trimSelection(trimBefore, trimAfter, editor);
 
 		// Expand selection to word boundaries if multiple words

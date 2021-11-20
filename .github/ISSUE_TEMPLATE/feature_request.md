@@ -14,4 +14,4 @@ Clear and Concise description of the feature.
 If applicable, add screenshots to help explain your request.
 
 **Checklist**
-- [ ] I have checked that there isn't [another hotkey plugin](https://publish.obsidian.md/hub/02+-+Community+Expansions/02.01+Plugins+by+Category/Plugins+that+add+or+manage+hotkeys) that does the same thing.
+- [ ] I have checked that there isn't [another hotkey plugin](https://publish.obsidian.md/hub/02+-+Community+Expansions/02.01+Plugins+by+Category/Plugins+that+add+or+manage+hotkeys) that does what I want.

@@ -4,7 +4,7 @@
 
 [Obsidian](https://obsidian.md/) plugin that adds Markdown hotkeys that automatically select words before applying markup.
 
-When using the hotkeys, the selection is automatically expanded to the whole word(s) before applying the markup. As long as you prefer to write `*laziness*` instead of `lazi**ness`, this plugin save you the time of selecting the word(s) under the cursor.
+When using the hotkeys, the markup is automatically appied to the whole word(s) under the cursor. As long as you prefer to write `*laziness*` instead of `lazi**ness`, this plugin saves you the time of selecting text.
 
 <img src="https://i.imgur.com/1Gx5OqA.gif" alt="demo video" width=35%>
 

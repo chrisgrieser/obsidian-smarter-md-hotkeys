@@ -80,7 +80,7 @@ export default class SmarterMDhotkeys extends Plugin {
 			if (editor.cm?.findWordAt) return editor.cm.findWordAt(ep); //CM5
 			else if (editor.cm?.state.wordAt) return editor.cm.state.wordAt(editor.posToOffset(ep)); //CM6
 		}
-		function trimSelection (trimBefArray: string[], trimAftArray: string[], editor: Editor): void{
+		function trimSelection (trimBefArray: string[], trimAftArray: string[]): void{
 			let selection = editor.getSelection();
 			let sp = editor.posToOffset(editor.getCursor("from"));
 
@@ -102,8 +102,9 @@ export default class SmarterMDhotkeys extends Plugin {
 			while (!trimFinished){
 				let cleanCount = 0;
 				trimAftArray.forEach(str =>{
-					if (selection.endsWith(str)) selection = selection.slice (0, -str.length);
-					else cleanCount++;
+					if (selection.endsWith(str)) {
+						selection = selection.slice (0, -str.length);
+					} else cleanCount++;
 				});
 				if (cleanCount == trimAftArray.length || selection.length == 0) trimFinished = true;
 			}
@@ -112,7 +113,10 @@ export default class SmarterMDhotkeys extends Plugin {
 			const blockID = selection.match(/ \^\w+$/);
 			if (blockID != null) selection = selection.slice (0, -blockID[0].length);
 
-			if (selection.length == 0) return; //dont change selection when only irrelevant characters where selected
+			if (selection.length == 0) {
+				console.log("only irrelevant characters where selected");
+				return;
+			}
 			editor.setSelection(offToPos(sp), offToPos(sp + selection.length));
 		}
 
@@ -129,17 +133,36 @@ export default class SmarterMDhotkeys extends Plugin {
 			wordExpanded = true;
 		}
 
-		// Trim selection in case of leading or trailing spaces
+		// Trim selection in case of leading or trailing sequences
 		const trimBefore = ["- [ ] ", "- [x] ", "- ", " ", "\n", "\t"];
 		const trimAfter = [" ", "\n", "\t"];
-		trimSelection(trimBefore, trimAfter, editor);
+		trimSelection(trimBefore, trimAfter);
 
 		// Expand selection to word boundaries if multiple words
 		const selStart = editor.getCursor("from");
 		const selEnd = editor.getCursor("to");
-		if (editor.getSelection().includes(" ")){
+		const selected = editor.getSelection();
+
+		// Fix for punctuation messing up selection
+		if (selected.includes(" ")){
 			const firstWordRange = WordUnderCursor (selStart);
-			const lastWordRange = WordUnderCursor (selEnd);
+			let lastWordRange;
+
+			//findatword reads to the right, so without "-1" the space would be read
+			if (selected.match(/[.,;:\-–—]$/) == null){
+				selEnd.ch--;
+				lastWordRange = WordUnderCursor (selEnd);
+				selEnd.ch++;
+			} else {
+				lastWordRange = WordUnderCursor (selEnd);
+			}
+
+			// Fix for punctuation messing up selection
+			const lastWord = editor.getRange(lastWordRange.anchor, lastWordRange.head);
+			if (lastWord.match(/^[.,;:\-–—]/) != null){
+				lastWordRange.head.ch = lastWordRange.anchor.ch + 1;
+			}
+
 			editor.setSelection(firstWordRange.anchor, lastWordRange.head);
 			multiWordExpanded = true;
 		}
@@ -147,7 +170,7 @@ export default class SmarterMDhotkeys extends Plugin {
 		// Get properties of selection
 		const selectedText = editor.getSelection();
 		const sp = editor.posToOffset(editor.getCursor("from")); // Starting position
-		const len = editor.getSelection().length;
+		const len = selectedText.length;
 		const charsBefore = editor.getRange(offToPos(sp - blen), offToPos(sp));
 		const charsAfter = editor.getRange(offToPos(sp + len), offToPos(sp + len + alen));
 		const firstChars = editor.getRange(offToPos(sp), offToPos(sp + blen));
@@ -196,7 +219,6 @@ export default class SmarterMDhotkeys extends Plugin {
 				editor.setSelection(offToPos(sp + blen), offToPos(sp + blen + len));
 			}
 		}
-
 
 	}
 }

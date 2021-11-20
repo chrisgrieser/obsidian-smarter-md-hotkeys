@@ -84,6 +84,7 @@ export default class SmarterMDhotkeys extends Plugin {
 			let selection = editor.getSelection();
 			let sp = editor.posToOffset(editor.getCursor("from"));
 
+			//before
 			let trimFinished = false;
 			while (!trimFinished){
 				let cleanCount = 0;
@@ -96,6 +97,7 @@ export default class SmarterMDhotkeys extends Plugin {
 				if (cleanCount == trimBefArray.length || selection.length == 0) trimFinished = true;
 			}
 
+			//after
 			trimFinished = false;
 			while (!trimFinished){
 				let cleanCount = 0;
@@ -105,6 +107,10 @@ export default class SmarterMDhotkeys extends Plugin {
 				});
 				if (cleanCount == trimAftArray.length || selection.length == 0) trimFinished = true;
 			}
+
+			//block-ID
+			const blockID = selection.match(/ \^\w+$/);
+			if (blockID != null) selection = selection.slice (0, -blockID[0].length);
 
 			if (selection.length == 0) return; //dont change selection when only irrelevant characters where selected
 			editor.setSelection(offToPos(sp), offToPos(sp + selection.length));

@@ -3,7 +3,6 @@
 # Release Obsidian Plugin
 # https://forum.obsidian.md/t/using-github-actions-to-release-plugins/7877
 # https://marcus.se.net/obsidian-plugin-docs/publishing/release-your-plugin-with-github-actions
-
 if [[ ! -f "./manifest.json" ]] ; then
 	echo "manifest.json does not exist yet"
 	return

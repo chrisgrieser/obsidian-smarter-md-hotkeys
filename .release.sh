@@ -32,8 +32,10 @@ echo "  \"$nextVersion\": \"$minObsidianVersion\"" >> temp
 echo "}" >> temp
 mv temp versions.json
 
+# update changelog
+git log --pretty=format:"- %ad%x09%s" --date=short | grep -Ev "typos?$" > ./Changelog.md
+
 # push the manifest and versions JSONs
-git log --pretty=format:"%ad%x09%s" --date=short > ./Changelog.md
 git add -A
 git commit -m "release $nextVersion"
 git push

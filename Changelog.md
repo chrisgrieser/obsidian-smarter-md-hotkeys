@@ -1,0 +1,42 @@
+2021-11-23	improved speed of manifest retrieval by using local manifest
+2021-11-23	version bump to 0.9.10
+2021-11-23	smarter inline code delimits based on spaces, not words (#6)
+2021-11-21	version bump to 0.9.9
+2021-11-21	refactored the refactoring by @SkepticMystic
+2021-11-21	Merge pull request #5 from SkepticMystic/master
+2021-11-21	refactor: :recycle: Lots of refactoring
+2021-11-21	refactor: :truck: Change from sample name
+2021-11-21	typo
+2021-11-21	release workflow
+2021-11-21	update versions.json
+2021-11-20	release
+2021-11-20	release 0.9.8
+2021-11-20	fix for punctuation or space at end of multi-word-selection (#2)
+2021-11-20	typo
+2021-11-20	release 0.9.7
+2021-11-20	adress first part of #3
+2021-11-20	release 0.9.6
+2021-11-20	fix #2
+2021-11-20	Update README.md
+2021-11-20	release 0.9.5
+2021-11-20	fix release.yml
+2021-11-20	release 0.9.4
+2021-11-20	fix release.yml
+2021-11-20	release 0.9.3
+2021-11-20	trim function (fixes #1)
+2021-11-20	removed wrong yaml-file
+2021-11-20	add release workflow
+2021-11-19	pseudo-trim selection before applying markdown
+2021-11-19	issue templates
+2021-11-19	typos
+2021-11-19	added demo gif
+2021-11-19	fix shield.io links
+2021-11-19	fix underscore with multiword and moving selections
+2021-11-19	first working version
+2021-11-19	expand selection to word
+2021-11-19	typo
+2021-11-19	funding + license
+2021-11-19	initial setup (part 2)
+2021-11-19	initial setup
+2021-11-19	Update README.md
+2021-11-19	Initial commit

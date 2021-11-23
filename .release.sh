@@ -33,8 +33,9 @@ echo "}" >> temp
 mv temp versions.json
 
 # push the manifest and versions JSONs
+git log --pretty=format:"%ad%x09%s" --date=short > ./Changelog.md
 git add -A
-git commit -m "version bump to $nextVersion"
+git commit -m "release $nextVersion"
 git push
 
 # trigger the release action

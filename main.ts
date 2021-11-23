@@ -34,12 +34,43 @@ export default class SmarterMDhotkeys extends Plugin {
 	}
 
 	expandAndWrap(beforeStr: string, afterStr: string, editor: Editor): void {
-		const offToPos = (offset: number) => editor.offsetToPos(offset); // Arrow functions
 
-		function WordUnderCursor(ep: EditorPosition) {
-			// https://codemirror.net/doc/manual.html#api_selection
-			if (editor.cm?.findWordAt) return editor.cm.findWordAt(ep);	//CM5
-			else if (editor.cm?.state.wordAt) return editor.cm.state.wordAt(editor.posToOffset(ep)); //CM6
+		const offToPos = (offset: number) => editor.offsetToPos(offset); // Arrow function
+
+		// depending on command use either word or code under Cursor
+		function textUnderCursor(ep: EditorPosition){
+
+			function wordUnderCursor(ep: EditorPosition) {
+				// https://codemirror.net/doc/manual.html#api_selection
+				if (editor.cm?.findWordAt) return editor.cm.findWordAt(ep);	//CM5
+				else if (editor.cm?.state.wordAt) return editor.cm.state.wordAt(editor.posToOffset(ep)); //CM6
+			}
+
+			// Expand Selection based on Space as delimitor for Inline-Code
+			function codeUnderCursor(ep: EditorPosition){
+				const so = editor.posToOffset(editor.getCursor("from")); //position
+
+				let i = 0;
+				let charBefore;
+				while (charBefore != " "){
+					charBefore = editor.getRange(offToPos(so - (i+1)), offToPos(so - i));
+					i++;
+				}
+				const codeStartOff = so - (i-1);
+
+				i = 0;
+				let charAfter;
+				while (charAfter != " "){
+					charAfter = editor.getRange(offToPos(so + i), offToPos(so + (i+1)));
+					i++;
+				}
+				const codeEndOff = so + (i-1);
+
+				return {anchor: offToPos(codeStartOff), head: offToPos(codeEndOff)};
+			}
+
+			if (beforeStr === "`") return codeUnderCursor(ep);
+			else return wordUnderCursor(ep);
 		}
 
 		function trimSelection(trimBefArray: string[], trimAftArray: string[]): void {
@@ -89,7 +120,7 @@ export default class SmarterMDhotkeys extends Plugin {
 		// Expand Selection to Word if there is no selection
 		const noSelPosition = editor.getCursor();
 		if (!editor.somethingSelected()) {
-			const { anchor, head } = WordUnderCursor(noSelPosition);
+			const { anchor, head } = textUnderCursor(noSelPosition);
 			editor.setSelection(anchor, head);
 			wordExpanded = true;
 		}
@@ -103,16 +134,16 @@ export default class SmarterMDhotkeys extends Plugin {
 		const [selStart, selEnd] = [ editor.getCursor("from"), editor.getCursor("to")];
 		const selected = editor.getSelection();
 		if (selected.includes(" ")) {
-			const firstWordRange = WordUnderCursor(selStart);
+			const firstWordRange = textUnderCursor(selStart);
 			let lastWordRange;
 
 			//findAtWord reads to the right, so w/o "-1" the space would be read, not the word
-			if (selected.match(/[.,;:\-–—]$/) === null) {
+			if (/[.,;:\-–—]$/.test(selected)) {
 				selEnd.ch--;
-				lastWordRange = WordUnderCursor(selEnd);
+				lastWordRange = textUnderCursor(selEnd);
 				selEnd.ch++;
 			} else {
-				lastWordRange = WordUnderCursor(selEnd);
+				lastWordRange = textUnderCursor(selEnd);
 			}
 
 			// Fix for punctuation messing up selection due do findAtWord

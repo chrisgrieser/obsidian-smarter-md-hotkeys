@@ -1,3 +1,5 @@
+- 2021-11-24	fix: codeUnderWord now uses linebreaks, tabs, and document start/end as delimiters as well
+- 2021-11-23	fixed changelog
 - 2021-11-23	add changelog
 - 2021-11-23	improved speed of manifest retrieval by using local manifest
 - 2021-11-23	version bump to 0.9.10

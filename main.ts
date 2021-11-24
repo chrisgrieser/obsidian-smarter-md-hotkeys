@@ -74,7 +74,7 @@ export default class SmarterMDhotkeys extends Plugin {
 
 		function trimSelection(trimBefArray: string[], trimAftArray: string[]): void {
 			let selection = editor.getSelection();
-			let sp = editor.posToOffset(editor.getCursor("from"));
+			let so = editor.posToOffset(editor.getCursor("from"));
 
 			//before
 			let trimFinished = false;
@@ -83,7 +83,7 @@ export default class SmarterMDhotkeys extends Plugin {
 				trimBefArray.forEach(str => {
 					if (selection.startsWith(str)) {
 						selection = selection.slice(str.length);
-						sp += str.length;
+						so += str.length;
 					} else {
 						cleanCount++;
 					}
@@ -107,13 +107,15 @@ export default class SmarterMDhotkeys extends Plugin {
 			if (blockID !== null) selection = selection.slice(0, -blockID[0].length);
 
 			if (!selection.length) {
-				console.log("only irrelevant characters were selected");
+				console.log("Only irrelevant characters were selected.");
 				return;
 			}
-			editor.setSelection(offToPos(sp), offToPos(sp + selection.length));
+			editor.setSelection(offToPos(so), offToPos(so + selection.length));
 		}
 
 		const [blen, alen] = [beforeStr.length, afterStr.length];
+		const trimBefore = ["- [ ] ", "- [x] ", "- ", " ", "\n", "\t", beforeStr];
+		const trimAfter = [" ", "\n", "\t", afterStr];
 		let [wordExpanded, multiWordExpanded] = [false, false];
 
 		// Expand Selection to Word if there is no selection
@@ -124,9 +126,6 @@ export default class SmarterMDhotkeys extends Plugin {
 			wordExpanded = true;
 		}
 
-		// Trim selection in case of certain leading or trailing sequences
-		const trimBefore = ["- [ ] ", "- [x] ", "- ", " ", "\n", "\t"];
-		const trimAfter = [" ", "\n", "\t"];
 		trimSelection(trimBefore, trimAfter);
 
 		// Expand selection to word boundaries if multiple words
@@ -134,24 +133,21 @@ export default class SmarterMDhotkeys extends Plugin {
 		const selected = editor.getSelection();
 		if (selected.includes(" ")) {
 			const firstWordRange = textUnderCursor(selStart);
-			let lastWordRange;
 
 			//findAtWord reads to the right, so w/o "-1" the space would be read, not the word
-			if (/[.,;:\-–—]$/.test(selected)) {
-				selEnd.ch--;
-				lastWordRange = textUnderCursor(selEnd);
-				selEnd.ch++;
-			} else {
-				lastWordRange = textUnderCursor(selEnd);
-			}
+			selEnd.ch--;
+			const lastWordRange = textUnderCursor(selEnd);
+			selEnd.ch++;
 
 			// Fix for punctuation messing up selection due do findAtWord
 			const lastWord = editor.getRange(lastWordRange.anchor, lastWordRange.head);
-			if (/^[.,;:\-–—]/.test(lastWord)) head.ch = anchor.ch + 1;
+			if (/^[.,;:\-–—]/.test(lastWord)) lastWordRange.head.ch = lastWordRange.anchor.ch + 1;
 
 			editor.setSelection(firstWordRange.anchor, lastWordRange.head);
 			multiWordExpanded = true;
 		}
+
+		trimSelection(trimBefore, trimAfter);
 
 		// Get properties of selection
 		const selectedText = editor.getSelection();
@@ -160,13 +156,10 @@ export default class SmarterMDhotkeys extends Plugin {
 		const eo = so + len; // Ending offset
 		const charsBefore = editor.getRange(offToPos(so - blen), offToPos(so));
 		const charsAfter = editor.getRange(offToPos(eo), offToPos(eo + alen));
-		const firstChars = editor.getRange(offToPos(so), offToPos(so + blen));
-		const lastChars = editor.getRange(offToPos(eo - alen), offToPos(eo));
 		const markupOutsideSel = charsBefore === beforeStr && charsAfter === afterStr;
-		const markupInsideSel = firstChars === beforeStr && lastChars === afterStr;
 
 		// Do Markup
-		if (!markupOutsideSel && !markupInsideSel){
+		if (!markupOutsideSel){
 			editor.replaceSelection(beforeStr + selectedText + afterStr);
 			if (wordExpanded) {
 				const temp = noSelPosition;
@@ -183,7 +176,7 @@ export default class SmarterMDhotkeys extends Plugin {
 			}
 		}
 
-		// Undo markup (outside selection)
+		// Undo markup (outside selection, inside not necessary as trimmed away)
 		if (markupOutsideSel) {
 			editor.setSelection(offToPos(so - blen), offToPos(eo + alen));
 			editor.replaceSelection(selectedText);
@@ -199,24 +192,6 @@ export default class SmarterMDhotkeys extends Plugin {
 				editor.setSelection(selStartTemp, selEndTemp);
 			} else {
 				editor.setSelection(offToPos(so - blen), offToPos(eo - blen) );
-			}
-		}
-
-		// Undo markup (inside selection)
-		if (markupInsideSel) {
-			editor.replaceSelection(selectedText.slice(blen, -alen));
-			if (wordExpanded) {
-				const temp = noSelPosition;
-				temp.ch -= blen;
-				editor.setCursor(temp);
-			} else if (multiWordExpanded) {
-				const selStartTemp = selStart;
-				const selEndTemp = selEnd;
-				selStartTemp.ch -= blen;
-				selEndTemp.ch -= blen;
-				editor.setSelection(selStartTemp, selEndTemp);
-			} else {
-				editor.setSelection(offToPos(so), offToPos(eo - (blen + alen)));
 			}
 		}
 

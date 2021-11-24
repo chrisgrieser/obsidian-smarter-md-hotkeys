@@ -1,3 +1,5 @@
+- 2021-11-24	fix inserting markup by itself when there is no selection
+- 2021-11-24	release 0.9.12
 - 2021-11-24	fix undos and adding space after trim by including markup into characters to be trimmed
 - 2021-11-24	release 0.9.11
 - 2021-11-24	fix: codeUnderWord now uses linebreaks, tabs, and document start/end as delimiters as well

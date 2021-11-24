@@ -106,10 +106,6 @@ export default class SmarterMDhotkeys extends Plugin {
 			const blockID = selection.match(/ \^\w+$/);
 			if (blockID !== null) selection = selection.slice(0, -blockID[0].length);
 
-			if (!selection.length) {
-				console.log("Only irrelevant characters were selected.");
-				return;
-			}
 			editor.setSelection(offToPos(so), offToPos(so + selection.length));
 		}
 
@@ -118,7 +114,7 @@ export default class SmarterMDhotkeys extends Plugin {
 		const trimAfter = [" ", "\n", "\t", afterStr];
 		let [wordExpanded, multiWordExpanded] = [false, false];
 
-		// Expand Selection to Word if there is no selection
+		// Expand Selection to word if there is no selection
 		const noSelPosition = editor.getCursor();
 		if (!editor.somethingSelected()) {
 			const { anchor, head } = textUnderCursor(noSelPosition);
@@ -158,8 +154,16 @@ export default class SmarterMDhotkeys extends Plugin {
 		const charsAfter = editor.getRange(offToPos(eo), offToPos(eo + alen));
 		const markupOutsideSel = charsBefore === beforeStr && charsAfter === afterStr;
 
+		// No selection → just insert markup by itself
+		if (!editor.somethingSelected()){
+			editor.replaceSelection(beforeStr + afterStr);
+			const cursor = editor.getCursor();
+			cursor.ch -= alen;
+			editor.setCursor(cursor);
+		}
+
 		// Do Markup
-		if (!markupOutsideSel){
+		if (!markupOutsideSel && editor.somethingSelected()){
 			editor.replaceSelection(beforeStr + selectedText + afterStr);
 			if (wordExpanded) {
 				const temp = noSelPosition;

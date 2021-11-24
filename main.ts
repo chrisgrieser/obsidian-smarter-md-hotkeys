@@ -48,25 +48,24 @@ export default class SmarterMDhotkeys extends Plugin {
 
 			// Expand Selection based on Space as delimitor for Inline-Code
 			function codeUnderCursor(ep: EditorPosition){
-				const so = editor.posToOffset(editor.getCursor("from")); //position
+				const so = editor.posToOffset(editor.getCursor("from")); //start offset
 
-				let i = 0;
-				let charBefore;
-				while (charBefore != " "){
+				let charBefore, charAfter;
+				let [ i, j, endReached, startReached ] = [0, 0, false, false];
+				const noteLength = (editor.getValue()).length; //editor.getValue() gets the editor content
+
+				while (!/\s/.test(charBefore) && !startReached){
 					charBefore = editor.getRange(offToPos(so - (i+1)), offToPos(so - i));
 					i++;
+					if (so-(i-1) === 0) startReached = true;
 				}
-				const codeStartOff = so - (i-1);
-
-				i = 0;
-				let charAfter;
-				while (charAfter != " "){
-					charAfter = editor.getRange(offToPos(so + i), offToPos(so + (i+1)));
-					i++;
+				while (!/\s/.test(charAfter) && !endReached){
+					charAfter = editor.getRange(offToPos(so + j), offToPos(so + j+1));
+					j++;
+					if (so+(j-1) === noteLength) endReached = true;
 				}
-				const codeEndOff = so + (i-1);
 
-				return {anchor: offToPos(codeStartOff), head: offToPos(codeEndOff)};
+				return {anchor: offToPos(so - (i-1)), head: offToPos(so + (j-1))};
 			}
 
 			if (beforeStr === "`") return codeUnderCursor(ep);

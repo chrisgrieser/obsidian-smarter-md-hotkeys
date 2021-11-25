@@ -42,17 +42,17 @@ export default class SmarterMDhotkeys extends Plugin {
 
 			function wordUnderCursor(ep: EditorPosition) {
 				// https://codemirror.net/doc/manual.html#api_selection
-				if (editor.cm?.findWordAt) return editor.cm.findWordAt(ep);	//CM5
-				else if (editor.cm?.state.wordAt) return editor.cm.state.wordAt(editor.posToOffset(ep)); //CM6
+				if (editor.cm?.findWordAt) return editor.cm.findWordAt(ep);	// CM5
+				else if (editor.cm?.state.wordAt) return editor.cm.state.wordAt(editor.posToOffset(ep)); // CM6
 			}
 
 			// Expand Selection based on Space as delimitor for Inline-Code
 			function codeUnderCursor(ep: EditorPosition){
-				const so = editor.posToOffset(editor.getCursor("from")); //start offset
+				const so = editor.posToOffset(editor.getCursor("from")); // start offset
 
 				let charBefore, charAfter;
 				let [ i, j, endReached, startReached ] = [0, 0, false, false];
-				const noteLength = (editor.getValue()).length; //editor.getValue() gets the editor content
+				const noteLength = (editor.getValue()).length; // editor.getValue() gets the editor content
 
 				while (!/\s/.test(charBefore) && !startReached){
 					charBefore = editor.getRange(offToPos(so - (i+1)), offToPos(so - i));
@@ -69,14 +69,14 @@ export default class SmarterMDhotkeys extends Plugin {
 			}
 
 			if (beforeStr === "`") return codeUnderCursor(ep);
-			else return wordUnderCursor(ep);
+			return wordUnderCursor(ep);
 		}
 
 		function trimSelection(trimBefArray: string[], trimAftArray: string[]): void {
 			let selection = editor.getSelection();
 			let so = editor.posToOffset(editor.getCursor("from"));
 
-			//before
+			// before
 			let trimFinished = false;
 			while (!trimFinished) {
 				let cleanCount = 0;
@@ -91,7 +91,7 @@ export default class SmarterMDhotkeys extends Plugin {
 				if (cleanCount == trimBefArray.length || !selection.length) trimFinished = true;
 			}
 
-			//after
+			// after
 			trimFinished = false;
 			while (!trimFinished) {
 				let cleanCount = 0;
@@ -102,7 +102,7 @@ export default class SmarterMDhotkeys extends Plugin {
 				if (cleanCount == trimAftArray.length || !selection.length) trimFinished = true;
 			}
 
-			//block-ID
+			// block-ID
 			const blockID = selection.match(/ \^\w+$/);
 			if (blockID !== null) selection = selection.slice(0, -blockID[0].length);
 
@@ -130,7 +130,7 @@ export default class SmarterMDhotkeys extends Plugin {
 		if (selected.includes(" ")) {
 			const firstWordRange = textUnderCursor(selStart);
 
-			//findAtWord reads to the right, so w/o "-1" the space would be read, not the word
+			// findAtWord reads to the right, so w/o "-1" the space would be read, not the word
 			selEnd.ch--;
 			const lastWordRange = textUnderCursor(selEnd);
 			selEnd.ch++;

@@ -3,14 +3,24 @@
 # Release Obsidian Plugin
 # https://forum.obsidian.md/t/using-github-actions-to-release-plugins/7877
 # https://marcus.se.net/obsidian-plugin-docs/publishing/release-your-plugin-with-github-actions
+
+# ensure relevant files exist
 if [[ ! -f "./manifest.json" ]] ; then
 	echo "manifest.json does not exist yet"
+	return
+fi
+if [[ ! -f "./versions.json" ]] ; then
+	echo "versions.json does not exist yet"
 	return
 fi
 if [[ ! -f "./.github/workflows/release.yml" ]] ; then
 	echo "/.github/workflows/release.yml does not exist yet"
 	return
 fi
+
+# Lint
+eslint --fix *.ts
+echo ""
 
 # get version number from the manifest of the latest release
 lastVersion=$(cat "./manifest.json" | grep "version" | cut -d\" -f4)

@@ -1,22 +1,46 @@
 {
-    "root": true,
-    "parser": "@typescript-eslint/parser",
-    "plugins": [
-      "@typescript-eslint"
-    ],
-    "extends": [
-      "eslint:recommended",
-      "plugin:@typescript-eslint/eslint-recommended",
-      "plugin:@typescript-eslint/recommended"
-    ], 
-    "parserOptions": {
-        "sourceType": "module"
-    },
-    "rules": {
-      "no-unused-vars": "off",
-      "@typescript-eslint/no-unused-vars": "off",
-      "@typescript-eslint/ban-ts-comment": "off",
-      "no-prototype-builtins": "off",
-      "@typescript-eslint/no-empty-function": "off"
-    } 
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "@typescript-eslint"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "parserOptions": {
+    "sourceType": "module"
+  },
+  "rules": {
+    "no-mixed-spaces-and-tabs": "warn",
+    "no-empty-function": "warn",
+    "quotes": ["warn", "double"],
+    "indent": ["warn", "tab"],
+    "no-multi-spaces": "warn",
+
+    "eqeqeq" : "error",
+    "dot-notation": "error",
+
+    "no-var": "error",
+    "new-cap": "error",
+    "prefer-const": "warn",
+    "vars-on-top": "warn",
+
+    "no-negated-condition": "error",
+    "no-unneeded-ternary": "error",
+    "no-nested-ternary": "error",
+    "yoda": "warn",
+    "no-else-return": "error",
+
+    "arrow-spacing": "warn",
+    "keyword-spacing": "warn",
+    "spaced-comment": ["error", "always", { "exceptions": ["-", "_"] }],
+    "comma-spacing": "warn",
+    "no-multi-str": "error",
+
+    "no-extra-semi": "warn",
+    "no-useless-concat": "warn",
+    "no-mixed-operators": "error"
   }
+}

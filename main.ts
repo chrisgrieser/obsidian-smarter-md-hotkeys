@@ -88,7 +88,7 @@ export default class SmarterMDhotkeys extends Plugin {
 						cleanCount++;
 					}
 				});
-				if (cleanCount == trimBefArray.length || !selection.length) trimFinished = true;
+				if (cleanCount === trimBefArray.length || !selection.length) trimFinished = true;
 			}
 
 			// after
@@ -99,7 +99,7 @@ export default class SmarterMDhotkeys extends Plugin {
 					if (selection.endsWith(str)) selection = selection.slice(0, -str.length);
 					else cleanCount++;
 				});
-				if (cleanCount == trimAftArray.length || !selection.length) trimFinished = true;
+				if (cleanCount === trimAftArray.length || !selection.length) trimFinished = true;
 			}
 
 			// block-ID

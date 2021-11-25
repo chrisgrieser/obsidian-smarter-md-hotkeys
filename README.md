@@ -8,6 +8,18 @@ When using the hotkeys, the markup is automatically applied to the whole word(s)
 
 <img src="https://i.imgur.com/1Gx5OqA.gif" alt="demo video" width=35%>
 
+## Table of Content
+<!-- MarkdownTOC -->
+
+- [Commands added](#commands-added)
+- [Setting the Hotkeys](#setting-the-hotkeys)
+- [Specifics for certain commands](#specifics-for-certain-commands)
+- [Installation](#installation)
+- [Contribute](#contribute)
+- [Credits](#credits)
+
+<!-- /MarkdownTOC -->
+
 ## Commands added
 - Smarter Bold
 - Smarter Italics
@@ -25,10 +37,26 @@ When using the hotkeys, the markup is automatically applied to the whole word(s)
 1. Remove the hotkey `cmd/ctrl + B`[^1] for the default command `Toggle Bold`.
 2. Assign `cmd/ctrl + B` as the hotkey for the command `Smarter Bold`.
 
+## Specifics for certain commands
+- `Smarter Inline Code` will __not__ consider punctuation and brackets as delimiters. This means that a cursor in "object.method" will be selected the whole term instead of "object" alone.
+
 ## Installation
 Right now, the plugin is still in beta. It can be installed with the [BRAT Plugin](https://github.com/TfTHacker/obsidian42-brat).
 
 This plugin will be available in Obsidian's Community Plugin Browser: `Settings` → `Community Plugins` → `Browse` → Search for *"Smarter Markdown Hotkeys"*
+
+## Contribute
+Please use the `.eslintrc` configuration located in the repository and run eslint before doing a pull request.
+
+```shell
+# install eslint
+npm -g install eslint
+
+# Run eslint fixing most common mistakes
+eslint --fix *.ts
+
+# Then, fix the errors that cannot be auto-fixed.
+```
 
 ## Credits
 Thanks yet again to @SkepticMystic for his support.

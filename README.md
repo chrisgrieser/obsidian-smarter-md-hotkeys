@@ -17,6 +17,9 @@ When using the hotkeys, the markup is automatically applied to the whole word(s)
 - [Installation](#installation)
 - [Contribute](#contribute)
 - [Credits](#credits)
+	- [Thanks](#thanks)
+	- [Donations](#donations)
+	- [About the Developer](#about-the-developer)
 
 <!-- /MarkdownTOC -->
 
@@ -50,7 +53,7 @@ Please use the `.eslintrc` configuration located in the repository and run eslin
 
 ```shell
 # install eslint
-npm -g install eslint
+npm install eslint
 
 # Run eslint fixing most common mistakes
 eslint --fix *.ts
@@ -59,10 +62,17 @@ eslint --fix *.ts
 ```
 
 ## Credits
+
+### Thanks
 Thanks yet again to @SkepticMystic for his support.
 
+### Donations
 Donations via [PayPal](https://www.paypal.com/paypalme/ChrisGrieser) or [Ko-Fi](https://ko-fi.com/pseudometa)! 🙏
 
-This plugin has been created by @pseudometa#9546 ([Discord](https://discord.gg/veuWUTm)) aka [@pseudo_meta (Twitter)](https://twitter.com/pseudo_meta) aka Chris Grieser (rl). In my day job, I am a PhD student in sociology, studying the governance of the app economy. If you are interested in this subject, check out [my academic homepage](https://chris-grieser.de/) and get in touch.
+### About the Developer
+In my day job, I am a researcher and sociology. In my phD project, I investigate the governance of the app economy and how software ecosystems manage the tension between innovation and compatibility. If you are interested in this subject, feel free to visit [my academic homepage](https://chris-grieser.de/) and get in touch!
+
+- [Discord](https://discord.gg/veuWUTm): `@pseudometa#9546`
+- Twitter: [@pseudo_meta](https://twitter.com/pseudo_meta)
 
 [^1]: MacOS uses `cmd`, Windows and Linux use `ctrl`.

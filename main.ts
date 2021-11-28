@@ -1,10 +1,10 @@
 import { COMMANDS } from "const"; // commands exported into seperate file
 import { Editor, EditorPosition, Plugin } from "obsidian";
 
-// Override the obsidian module by adding the non-documented Editor methods
-// This makes it so that TypeScript stops shouting at you for accessing a property that it thinks doesn't exist
-// And gives you type-safety
 declare module "obsidian" {
+	// Override the obsidian module by adding the non-documented Editor methods
+	// This makes it so that TypeScript stops shouting at you for accessing a property that it thinks doesn't exist
+	// And gives you type-safety
 	interface Editor {
 		cm: {
 			state?: { wordAt: (offset: number) => EditorSelection };
@@ -40,32 +40,32 @@ export default class SmarterMDhotkeys extends Plugin {
 		// depending on command use either word or code under Cursor
 		function textUnderCursor(ep: EditorPosition){
 
-			function wordUnderCursor(ep: EditorPosition) {
+			function wordUnderCursor(ep_: EditorPosition) {
 				// https://codemirror.net/doc/manual.html#api_selection
 				if (editor.cm?.findWordAt) return editor.cm.findWordAt(ep);	// CM5
 				else if (editor.cm?.state.wordAt) return editor.cm.state.wordAt(editor.posToOffset(ep)); // CM6
 			}
 
 			// Expand Selection based on Space as delimitor for Inline-Code
-			function codeUnderCursor(ep: EditorPosition){
-				const so = editor.posToOffset(editor.getCursor("from")); // start offset
+			function codeUnderCursor(ep_: EditorPosition){
+				const so_ = editor.posToOffset(editor.getCursor("from")); // start offset
 
 				let charBefore, charAfter;
 				let [ i, j, endReached, startReached ] = [0, 0, false, false];
 				const noteLength = (editor.getValue()).length; // editor.getValue() gets the editor content
 
 				while (!/\s/.test(charBefore) && !startReached){
-					charBefore = editor.getRange(offToPos(so - (i+1)), offToPos(so - i));
+					charBefore = editor.getRange(offToPos(so_ - (i+1)), offToPos(so_ - i));
 					i++;
-					if (so-(i-1) === 0) startReached = true;
+					if (so_-(i-1) === 0) startReached = true;
 				}
 				while (!/\s/.test(charAfter) && !endReached){
-					charAfter = editor.getRange(offToPos(so + j), offToPos(so + j+1));
+					charAfter = editor.getRange(offToPos(so_ + j), offToPos(so_ + j+1));
 					j++;
-					if (so+(j-1) === noteLength) endReached = true;
+					if (so_+(j-1) === noteLength) endReached = true;
 				}
 
-				return {anchor: offToPos(so - (i-1)), head: offToPos(so + (j-1))};
+				return {anchor: offToPos(so_ - (i-1)), head: offToPos(so_ + (j-1))};
 			}
 
 			if (beforeStr === "`") return codeUnderCursor(ep);
@@ -74,7 +74,7 @@ export default class SmarterMDhotkeys extends Plugin {
 
 		function trimSelection(trimBefArray: string[], trimAftArray: string[]): void {
 			let selection = editor.getSelection();
-			let so = editor.posToOffset(editor.getCursor("from"));
+			let so_ = editor.posToOffset(editor.getCursor("from"));
 
 			// before
 			let trimFinished = false;
@@ -83,7 +83,7 @@ export default class SmarterMDhotkeys extends Plugin {
 				trimBefArray.forEach(str => {
 					if (selection.startsWith(str)) {
 						selection = selection.slice(str.length);
-						so += str.length;
+						so_ += str.length;
 					} else {
 						cleanCount++;
 					}
@@ -106,7 +106,7 @@ export default class SmarterMDhotkeys extends Plugin {
 			const blockID = selection.match(/ \^\w+$/);
 			if (blockID !== null) selection = selection.slice(0, -blockID[0].length);
 
-			editor.setSelection(offToPos(so), offToPos(so + selection.length));
+			editor.setSelection(offToPos(so_), offToPos(so_ + selection.length));
 		}
 
 		const [blen, alen] = [beforeStr.length, afterStr.length];

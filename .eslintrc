@@ -16,6 +16,7 @@
     // specifically for Obsidian Plugins
     "@typescript-eslint/no-unused-vars": "off",
     "@typescript-eslint/no-extra-semi": "warn",
+    "no-shadow": ["error", { "builtinGlobals": true, "hoist": "all", "allow": ["Editor"] }],
 
     // Variable naming
     "camelcase": ["error", {"properties": "always", "ignoreImports": true}],
@@ -51,7 +52,7 @@
     // Spacing
     "arrow-spacing": "warn",
     "keyword-spacing": "warn",
-    "spaced-comment": ["error", "always", { "exceptions": ["-", "_"] }],
+    "spaced-comment": ["warn", "always", { "exceptions": ["-", "_"] }],
     "comma-spacing": "warn",
 
     // Misc

@@ -78,7 +78,7 @@ export default class SmarterMDhotkeys extends Plugin {
 			const trimBefore = ["- [ ] ", "- [x] ", "- ", " ", "\n", "\t", frontMarkup];
 			const trimAfter = [" ", "\n", "\t", endMarkup];
 			let selection = editor.getSelection();
-			let so_ = editor.posToOffset(editor.getCursor("from"));
+			let so_ = startOffset();
 
 			// before
 			let trimFinished = false;
@@ -92,7 +92,7 @@ export default class SmarterMDhotkeys extends Plugin {
 						cleanCount++;
 					}
 				});
-				if (cleanCount === trimAfter.length || !selection.length) trimFinished = true;
+				if (cleanCount === trimBefore.length || !selection.length) trimFinished = true;
 			}
 
 			// after
@@ -114,18 +114,18 @@ export default class SmarterMDhotkeys extends Plugin {
 		}
 
 		function markupOutsideSel(){
-			const so_ = editor.posToOffset(editor.getCursor("from"));
-			const eo_ = so_ + editor.getSelection().length;
-			const charsBefore_ = editor.getRange(offToPos(so - blen), offToPos(so));
-			const charsAfter_ = editor.getRange(offToPos(eo), offToPos(eo + alen));
+			const so_ = startOffset();
+			const eo_ = endOffset();
+			const charsBefore_ = editor.getRange(offToPos(so_ - blen), offToPos(so_));
+			const charsAfter_ = editor.getRange(offToPos(eo_), offToPos(eo_ + alen));
 			return (charsBefore_ === frontMarkup && charsAfter_ === endMarkup);
 		}
 
 		//-------------------------------------------------------------------
 
 		// if nothing selected and markup outside, just undo markup
-		let so = editor.posToOffset(editor.getCursor("from")); // StartOffset
-		let eo = so + editor.getSelection().length; // EndOffset
+		let so = startOffset();
+		let eo = endOffset();
 		if (!editor.somethingSelected() && markupOutsideSel()) {
 			editor.setSelection(offToPos(so - blen), offToPos(eo + alen));
 			editor.replaceSelection("");
@@ -136,7 +136,7 @@ export default class SmarterMDhotkeys extends Plugin {
 		// Expand Selection to word if there is no selection
 		let wordExpanded = false;
 		const beforeWordExpPos = editor.getCursor();
-		if (!editor.somethingSelected() && !markupOutsideSel) {
+		if (!editor.somethingSelected() && !markupOutsideSel()) {
 			const { anchor, head } = textUnderCursor(beforeWordExpPos);
 			editor.setSelection(anchor, head);
 			wordExpanded = true;
@@ -165,8 +165,8 @@ export default class SmarterMDhotkeys extends Plugin {
 
 		// get properties of new selection
 		const selectedText = editor.getSelection();
-		so = editor.posToOffset(editor.getCursor("from"));
-		eo = so + editor.getSelection().length;
+		so = startOffset();
+		eo = endOffset();
 
 		// No selection → just insert markup by itself
 		if (!editor.somethingSelected()){

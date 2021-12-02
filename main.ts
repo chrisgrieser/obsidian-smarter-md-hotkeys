@@ -1,4 +1,4 @@
-import { COMMANDS } from "const"; // commands exported into seperate file
+import { COMMANDS } from "const"; // commands exported into separate file
 import { Editor, EditorPosition, Plugin } from "obsidian";
 
 declare module "obsidian" {
@@ -25,7 +25,6 @@ export default class SmarterMDhotkeys extends Plugin {
 					this.expandAndWrap(before, after, editor),
 			});
 		});
-
 		console.log("Smarter MD Hotkeys loaded.");
 	}
 
@@ -33,11 +32,13 @@ export default class SmarterMDhotkeys extends Plugin {
 		console.log("Smarter MD Hotkeys unloaded.");
 	}
 
-	expandAndWrap(beforeStr: string, afterStr: string, editor: Editor): void {
+	expandAndWrap(frontMarkup: string, endMarkup: string, editor: Editor): void {
 
+		const [blen, alen] = [frontMarkup.length, endMarkup.length];
 		const offToPos = (offset: number) => editor.offsetToPos(offset); // Arrow function
+		const startOffset = () => editor.posToOffset(editor.getCursor("from"));
+		const endOffset = () => editor.posToOffset(editor.getCursor("from")) + editor.getSelection().length;
 
-		// depending on command use either word or code under Cursor
 		function textUnderCursor(ep: EditorPosition){
 
 			function wordUnderCursor(ep_: EditorPosition) {
@@ -46,7 +47,7 @@ export default class SmarterMDhotkeys extends Plugin {
 				else if (editor.cm?.state.wordAt) return editor.cm.state.wordAt(editor.posToOffset(ep)); // CM6
 			}
 
-			// Expand Selection based on Space as delimitor for Inline-Code
+			// Expand Selection based on Space as delimiter for Inline-Code
 			function codeUnderCursor(ep_: EditorPosition){
 				const so_ = editor.posToOffset(editor.getCursor("from")); // start offset
 
@@ -68,11 +69,14 @@ export default class SmarterMDhotkeys extends Plugin {
 				return {anchor: offToPos(so_ - (i-1)), head: offToPos(so_ + (j-1))};
 			}
 
-			if (beforeStr === "`") return codeUnderCursor(ep);
+			// depending on command use either word or code under Cursor
+			if (frontMarkup === "`") return codeUnderCursor(ep);
 			return wordUnderCursor(ep);
 		}
 
-		function trimSelection(trimBefArray: string[], trimAftArray: string[]): void {
+		function trimSelection(): void {
+			const trimBefore = ["- [ ] ", "- [x] ", "- ", " ", "\n", "\t", frontMarkup];
+			const trimAfter = [" ", "\n", "\t", endMarkup];
 			let selection = editor.getSelection();
 			let so_ = editor.posToOffset(editor.getCursor("from"));
 
@@ -80,7 +84,7 @@ export default class SmarterMDhotkeys extends Plugin {
 			let trimFinished = false;
 			while (!trimFinished) {
 				let cleanCount = 0;
-				trimBefArray.forEach(str => {
+				trimBefore.forEach(str => {
 					if (selection.startsWith(str)) {
 						selection = selection.slice(str.length);
 						so_ += str.length;
@@ -88,18 +92,18 @@ export default class SmarterMDhotkeys extends Plugin {
 						cleanCount++;
 					}
 				});
-				if (cleanCount === trimBefArray.length || !selection.length) trimFinished = true;
+				if (cleanCount === trimAfter.length || !selection.length) trimFinished = true;
 			}
 
 			// after
 			trimFinished = false;
 			while (!trimFinished) {
 				let cleanCount = 0;
-				trimAftArray.forEach((str) => {
+				trimAfter.forEach((str) => {
 					if (selection.endsWith(str)) selection = selection.slice(0, -str.length);
 					else cleanCount++;
 				});
-				if (cleanCount === trimAftArray.length || !selection.length) trimFinished = true;
+				if (cleanCount === trimAfter.length || !selection.length) trimFinished = true;
 			}
 
 			// block-ID
@@ -109,31 +113,46 @@ export default class SmarterMDhotkeys extends Plugin {
 			editor.setSelection(offToPos(so_), offToPos(so_ + selection.length));
 		}
 
-		const [blen, alen] = [beforeStr.length, afterStr.length];
-		const trimBefore = ["- [ ] ", "- [x] ", "- ", " ", "\n", "\t", beforeStr];
-		const trimAfter = [" ", "\n", "\t", afterStr];
-		let [wordExpanded, multiWordExpanded] = [false, false];
+		function markupOutsideSel(){
+			const so_ = editor.posToOffset(editor.getCursor("from"));
+			const eo_ = so_ + editor.getSelection().length;
+			const charsBefore_ = editor.getRange(offToPos(so - blen), offToPos(so));
+			const charsAfter_ = editor.getRange(offToPos(eo), offToPos(eo + alen));
+			return (charsBefore_ === frontMarkup && charsAfter_ === endMarkup);
+		}
+
+		//-------------------------------------------------------------------
+
+		// if nothing selected and markup outside, just undo markup
+		let so = editor.posToOffset(editor.getCursor("from")); // StartOffset
+		let eo = so + editor.getSelection().length; // EndOffset
+		if (!editor.somethingSelected() && markupOutsideSel()) {
+			editor.setSelection(offToPos(so - blen), offToPos(eo + alen));
+			editor.replaceSelection("");
+			editor.setSelection(offToPos(so - blen), offToPos(eo - alen) );
+			return;
+		}
 
 		// Expand Selection to word if there is no selection
-		const noSelPosition = editor.getCursor();
-		if (!editor.somethingSelected()) {
-			const { anchor, head } = textUnderCursor(noSelPosition);
+		let wordExpanded = false;
+		const beforeWordExpPos = editor.getCursor();
+		if (!editor.somethingSelected() && !markupOutsideSel) {
+			const { anchor, head } = textUnderCursor(beforeWordExpPos);
 			editor.setSelection(anchor, head);
 			wordExpanded = true;
 		}
-
-		trimSelection(trimBefore, trimAfter);
+		trimSelection();
 
 		// Expand selection to word boundaries if multiple words
-		const [selStart, selEnd] = [ editor.getCursor("from"), editor.getCursor("to")];
-		const selected = editor.getSelection();
-		if (selected.includes(" ")) {
-			const firstWordRange = textUnderCursor(selStart);
+		let multiWordExpanded = false;
+		const [befMultiWordExpPos, aftMultiWordExpPos] = [ editor.getCursor("from"), editor.getCursor("to")];
+		if (editor.getSelection().includes(" ")) {
+			const firstWordRange = textUnderCursor(befMultiWordExpPos);
 
 			// findAtWord reads to the right, so w/o "-1" the space would be read, not the word
-			selEnd.ch--;
-			const lastWordRange = textUnderCursor(selEnd);
-			selEnd.ch++;
+			aftMultiWordExpPos.ch--;
+			const lastWordRange = textUnderCursor(aftMultiWordExpPos);
+			aftMultiWordExpPos.ch++;
 
 			// Fix for punctuation messing up selection due do findAtWord
 			const lastWord = editor.getRange(lastWordRange.anchor, lastWordRange.head);
@@ -142,60 +161,55 @@ export default class SmarterMDhotkeys extends Plugin {
 			editor.setSelection(firstWordRange.anchor, lastWordRange.head);
 			multiWordExpanded = true;
 		}
+		trimSelection();
 
-		trimSelection(trimBefore, trimAfter);
-
-		// Get properties of selection
+		// get properties of new selection
 		const selectedText = editor.getSelection();
-		const len = selectedText.length;
-		const so = editor.posToOffset(editor.getCursor("from")); // Starting offset
-		const eo = so + len; // Ending offset
-		const charsBefore = editor.getRange(offToPos(so - blen), offToPos(so));
-		const charsAfter = editor.getRange(offToPos(eo), offToPos(eo + alen));
-		const markupOutsideSel = charsBefore === beforeStr && charsAfter === afterStr;
+		so = editor.posToOffset(editor.getCursor("from"));
+		eo = so + editor.getSelection().length;
 
 		// No selection → just insert markup by itself
 		if (!editor.somethingSelected()){
-			editor.replaceSelection(beforeStr + afterStr);
+			editor.replaceSelection(frontMarkup + endMarkup);
 			const cursor = editor.getCursor();
 			cursor.ch -= alen;
 			editor.setCursor(cursor);
 		}
 
 		// Do Markup
-		if (!markupOutsideSel && editor.somethingSelected()){
-			editor.replaceSelection(beforeStr + selectedText + afterStr);
+		if (!markupOutsideSel() && editor.somethingSelected()){
+			editor.replaceSelection(frontMarkup + selectedText + endMarkup);
 			if (wordExpanded) {
-				const temp = noSelPosition;
+				const temp = beforeWordExpPos;
 				temp.ch += blen;
 				editor.setCursor(temp);
 			} else if (multiWordExpanded) {
-				const selStartTemp = selStart;
-				const selEndTemp = selEnd;
-				selStartTemp.ch += blen;
-				selEndTemp.ch += blen;
-				editor.setSelection(selStartTemp, selEndTemp);
+				const befMultiWordExpPos_ = befMultiWordExpPos;
+				const aftMultiWordExpPos_ = aftMultiWordExpPos;
+				befMultiWordExpPos_.ch += blen;
+				aftMultiWordExpPos_.ch += blen;
+				editor.setSelection(befMultiWordExpPos_, aftMultiWordExpPos_);
 			} else {
 				editor.setSelection(offToPos(so + blen), offToPos(eo + blen) );
 			}
 		}
 
-		// Undo markup (outside selection, inside not necessary as trimmed away)
-		if (markupOutsideSel) {
+		// Undo markup (outside selection, inside not necessary as trimmed)
+		if (markupOutsideSel() && editor.somethingSelected()) {
 			editor.setSelection(offToPos(so - blen), offToPos(eo + alen));
 			editor.replaceSelection(selectedText);
 			if (wordExpanded) {
-				const temp = noSelPosition; // to avoid issues with mutating properties
+				const temp = beforeWordExpPos; // to avoid issues with mutating properties
 				temp.ch -= blen;
 				editor.setCursor(temp);
 			} else if (multiWordExpanded) {
-				const selStartTemp = selStart;
-				const selEndTemp = selEnd;
-				selStartTemp.ch -= blen;
-				selEndTemp.ch -= blen;
-				editor.setSelection(selStartTemp, selEndTemp);
+				const befMultiWordExpPosTemp = befMultiWordExpPos;
+				const aftMultiWordExpPosTemp = aftMultiWordExpPos;
+				befMultiWordExpPosTemp.ch -= blen;
+				aftMultiWordExpPosTemp.ch -= blen;
+				editor.setSelection(befMultiWordExpPosTemp, aftMultiWordExpPosTemp);
 			} else {
-				editor.setSelection(offToPos(so - blen), offToPos(eo - blen) );
+				editor.setSelection(offToPos(so - blen), offToPos(eo - alen) );
 			}
 		}
 

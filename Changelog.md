@@ -1,3 +1,5 @@
+- 2021-12-02	refactoring + partial word selections now work as well
+- 2021-12-02	release 0.9.15
 - 2021-12-02	hotfix for Obsidian freezing
 - 2021-12-02	release 0.9.14
 - 2021-12-02	refactoring & undo without selection & markup outside

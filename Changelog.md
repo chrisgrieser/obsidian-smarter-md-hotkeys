@@ -1,3 +1,8 @@
+- 2021-12-02	refactoring & undo without selection & markup outside
+- 2021-11-28	update readme, eslinting
+- 2021-11-25	eslint config
+- 2021-11-25	added eslintrc config
+- 2021-11-24	release 0.9.13
 - 2021-11-24	fix inserting markup by itself when there is no selection
 - 2021-11-24	release 0.9.12
 - 2021-11-24	fix undos and adding space after trim by including markup into characters to be trimmed

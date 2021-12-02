@@ -124,7 +124,7 @@ export default class SmarterMDhotkeys extends Plugin {
 
 		// Offset Functions
 		const startOffset = () => editor.posToOffset(editor.getCursor("from"));
-		const endOffset = () => editor.posToOffset(editor.getCursor("from")) + editor.getSelection().length;
+		const endOffset = () => editor.posToOffset(editor.getCursor("to"));
 		const offToPos = (offset: number) => editor.offsetToPos(offset);
 
 		//-------------------------------------------------------------------

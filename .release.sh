@@ -20,7 +20,6 @@ fi
 
 # Lint
 eslint --fix *.ts
-echo ""
 
 # get version number from the manifest of the latest release
 lastVersion=$(cat "./manifest.json" | grep "version" | cut -d\" -f4)
@@ -43,7 +42,7 @@ echo "}" >> temp
 mv temp versions.json
 
 # update changelog
-git log --pretty=format:"- %ad%x09%s" --date=short | grep -Ev "typos?$" > ./Changelog.md
+git log --pretty=format:"- %ad%x09%s" --date=short | grep -Ev "typos?$" | grep -Ev "minor$" > ./Changelog.md
 
 # push the manifest and versions JSONs
 git add -A

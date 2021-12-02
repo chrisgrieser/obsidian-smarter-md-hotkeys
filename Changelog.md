@@ -1,3 +1,5 @@
+- 2021-12-02	hotfix for Obsidian freezing
+- 2021-12-02	release 0.9.14
 - 2021-12-02	refactoring & undo without selection & markup outside
 - 2021-11-28	update readme, eslinting
 - 2021-11-25	eslint config

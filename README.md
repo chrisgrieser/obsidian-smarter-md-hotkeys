@@ -1,6 +1,6 @@
 # Smarter Markdown Hotkeys
 
-![](https://img.shields.io/github/downloads/chrisgrieser/obsidian-smarter-md-hotkeys/total?label=Total%20Downloads&style=plastic) ![](https://img.shields.io/github/v/release/chrisgrieser/obsidian-smarter-md-hotkeys?label=Latest%20Release&style=plastic)
+![](https://img.shields.io/github/downloads/chrisgrieser/obsidian-smarter-md-hotkeys/total?label=Total%20Downloads&style=plastic) ![](https://img.shields.io/github/v/release/chrisgrieser/obsidian-smarter-md-hotkeys?label=Latest%20Release&style=plastic) [![](https://img.shields.io/badge/changelog-click%20here-FFE800?style=plastic)](Changelog.md)
 
 [Obsidian](https://obsidian.md/) plugin that adds Markdown hotkeys that automatically select words before applying markup.
 
@@ -49,7 +49,7 @@ Right now, the plugin is still in beta. It can be installed with the [BRAT Plugi
 This plugin will be available in Obsidian's Community Plugin Browser: `Settings` → `Community Plugins` → `Browse` → Search for *"Smarter Markdown Hotkeys"*
 
 ## Contribute
-Please use the `.eslintrc` configuration located in the repository and run eslint before doing a pull request.
+Please use the `.eslintrc` configuration located in the repository and run eslint before doing a pull request, though. 🙂
 
 ```shell
 # install eslint

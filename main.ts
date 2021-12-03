@@ -1,10 +1,8 @@
-import { COMMANDS } from "const"; // commands exported into separate file
+import { COMMANDS } from "const";
 import { Editor, EditorPosition, Plugin } from "obsidian";
 
 declare module "obsidian" {
-	// Override the obsidian module by adding the non-documented Editor methods
-	// This makes it so that TypeScript stops shouting at you for accessing a property that it thinks doesn't exist
-	// And gives you type-safety
+	// to add type safety of the undocumented method
 	interface Editor {
 		cm: {
 			state?: { wordAt: (offset: number) => EditorSelection };
@@ -139,7 +137,7 @@ export default class SmarterMDhotkeys extends Plugin {
 			return;
 		}
 
-		// Expand Selection to word if there is no selection
+		// Expand Selection to word if no selection
 		let preNothingExpPos;
 		if (nothingSelected() && !markupOutsideSel()) {
 			preNothingExpPos = editor.getCursor();

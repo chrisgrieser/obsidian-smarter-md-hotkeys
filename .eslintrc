@@ -13,6 +13,7 @@
     // specifically for Obsidian Plugins
     "@typescript-eslint/no-unused-vars": "off",
     "@typescript-eslint/no-extra-semi": "warn",
+    "@typescript-eslint/no-empty-function": "warn",
     "no-shadow": ["error", { "builtinGlobals": true, "hoist": "all", "allow": ["Editor"] }],
 
     //-----------------------------------

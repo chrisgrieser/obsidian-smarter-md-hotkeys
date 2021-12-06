@@ -14,6 +14,7 @@ When using the hotkeys, the markup is automatically applied to the whole word(s)
 - [Commands added](#commands-added)
 - [Setting the Hotkeys](#setting-the-hotkeys)
 - [Specifics for certain commands](#specifics-for-certain-commands)
+- [Limitations](#limitations)
 - [Installation](#installation)
 - [Contribute](#contribute)
 - [Credits](#credits)
@@ -42,6 +43,9 @@ When using the hotkeys, the markup is automatically applied to the whole word(s)
 
 ## Specifics for certain commands
 - `Smarter Inline Code` will __not__ consider punctuation and brackets as delimiters. This means that a cursor in "object.method" will be selected the whole term instead of "object" alone.
+
+## Limitations
+Currently, does only work with one cursor/one selection.
 
 ## Installation
 Right now, the plugin is still in beta. It can be installed with the [BRAT Plugin](https://github.com/TfTHacker/obsidian42-brat).

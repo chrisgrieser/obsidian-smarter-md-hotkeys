@@ -320,7 +320,7 @@ export default class SmarterMDhotkeys extends Plugin {
 
 				applyMarkup(preNothingExpPos, ...preExpPositions, "multi");
 
-				});
+			});
 
 		// single line selection
 		} else {

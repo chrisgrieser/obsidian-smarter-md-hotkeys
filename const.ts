@@ -72,5 +72,5 @@ export const COMMANDS: {
 		name: "Smarter Markdown Link",
 		before: "[",
 		after: "]()",
-	},
+	}
 ];

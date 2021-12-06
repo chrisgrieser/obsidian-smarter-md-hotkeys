@@ -1,3 +1,8 @@
+- 2021-12-07	+ add smart multiline capabilities
+- 2021-12-06	partial word includes also includes punctuation now
+- 2021-12-05	refactoring of half of main thread into `applyMarkUpAndReselect`
+- 2021-12-03	add changelog button
+- 2021-12-02	release 0.10.0
 - 2021-12-02	refactoring + partial word selections now work as well
 - 2021-12-02	release 0.9.15
 - 2021-12-02	hotfix for Obsidian freezing

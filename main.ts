@@ -85,7 +85,7 @@ export default class SmarterMDhotkeys extends Plugin {
 						selection = selection.slice(str.length);
 						so += str.length;
 					} else
-						cleanCount++;
+					{cleanCount++}
 
 				});
 				if (cleanCount === trimBefore.length || !selection.length) trimFinished = true;
@@ -167,8 +167,9 @@ export default class SmarterMDhotkeys extends Plugin {
 					anchor.ch += blen;
 					head.ch += blen;
 					editor.setSelection(anchor, head);
-				} else
+				} else {
 					editor.setSelection(offToPos(so + blen), offToPos(eo + blen) );
+				}
 
 				return;
 			}
@@ -193,8 +194,9 @@ export default class SmarterMDhotkeys extends Plugin {
 					anchor.ch -= blen;
 					head.ch -= alen;
 					editor.setSelection(anchor, head);
-				} else
+				} else {
 					editor.setSelection(offToPos(so - blen), offToPos(eo - alen) );
+				}
 
 				return;
 			}
@@ -228,6 +230,12 @@ export default class SmarterMDhotkeys extends Plugin {
 			prePartialWordExpAnchor = editor.getCursor("from");
 			prePartialWordExpHead = editor.getCursor("to");
 			const { anchor, head } = textUnderCursor(prePartialWordExpAnchor);
+
+			// Fix for punctuation messing up selection due to findAtWord
+			const word = editor.getRange(anchor, head);
+			if (/^[.,;:\-–—]/.test(word)) head.ch = anchor.ch + 1;
+
+
 			editor.setSelection(anchor, head);
 		}
 
@@ -244,7 +252,7 @@ export default class SmarterMDhotkeys extends Plugin {
 			const lastWordRange = textUnderCursor(preMultiWordExpHead);
 			preMultiWordExpHead.ch++;
 
-			// Fix for punctuation messing up selection due do findAtWord
+			// Fix for punctuation messing up selection due to findAtWord
 			const lastWord = editor.getRange(lastWordRange.anchor, lastWordRange.head);
 			if (/^[.,;:\-–—]/.test(lastWord)) lastWordRange.head.ch = lastWordRange.anchor.ch + 1;
 

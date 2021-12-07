@@ -6,7 +6,8 @@
 
 When using the hotkeys, the markup is automatically applied to the whole word(s) under the cursor. As long as you prefer to write `*laziness*` instead of `lazi**ness`, this plugin saves you the time of selecting text.
 
-<img src="https://i.imgur.com/1Gx5OqA.gif" alt="demo video" width=35%>
+<img src="https://i.imgur.com/1Gx5OqA.gif" alt="demo video" width=35%> <img src="https://user-images.githubusercontent.com/73286100/144943354-433d0fec-4f02-4a1c-b5a9-84ca1a57226e.gif" alt="Screen Recording 2021-12-07 at 01 14 40" width=40%>
+
 
 ## Table of Content
 <!-- MarkdownTOC -->

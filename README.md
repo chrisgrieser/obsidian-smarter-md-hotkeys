@@ -11,9 +11,11 @@ When using the hotkeys, the markup is automatically applied to the whole word(s)
 ## Table of Content
 <!-- MarkdownTOC -->
 
-- [How it works: Examples](#how-it-works-examples)
-	- [Inline Code](#inline-code)
-- [Commands added](#commands-added)
+- [How it works](#how-it-works)
+	- [Examples](#examples)
+	- [Commands added](#commands-added)
+	- [Smarter Inline Code: Terms instead of Words](#smarter-inline-code-terms-instead-of-words)
+	- [Smarter Markdown Link: Auto-Insert URLs](#smarter-markdown-link-auto-insert-urls)
 - [Setting the Hotkeys](#setting-the-hotkeys)
 - [Installation](#installation)
 - [Roadmap](#roadmap)
@@ -25,30 +27,35 @@ When using the hotkeys, the markup is automatically applied to the whole word(s)
 
 <!-- /MarkdownTOC -->
 
-## How it works: Examples
+## How it works
 
-| Cursor `\|` or `selection` | Result with Normal MD Hotkey                           | Result with Smarter MD Hotkey                                      |
+### Examples
+
+| Cursor `\|` or `selection`  | Result with Normal MD Hotkey                           | Result with Smarter MD Hotkey                                      |
 | --------------------------- | ------------------------------------------------------ | ------------------------------------------------------------------ |
-| foo`\|`bar                 | foo\*\*\*\*bar                                         | \*\***foobar**\*\*                                                 |
+| foo`\|`bar                  | foo\*\*\*\*bar                                         | \*\***foobar**\*\*                                                 |
 | f`oo`bar                    | f\*\***oo**\*\*bar                                     | \*\***foobar**\*\*                                                 |
 | Lor`em Ips`um               | Lor\*\***em Ips**\*\*um                                | \*\***Lorem Ipsum**\*\*                                            |
 | `- [ ] foobar ^123`         | \*\***- [ ] foobar ^123**\*\*                          | - [ ] \*\***foobar**\*\* <sup>^123</sup>                           |
 | - Lor`em`<br>`    - Ips`um  | - Lor\*\***em<br>&nbsp;&nbsp;&nbsp;&nbsp;- Ips**\*\*um | - \*\***Lorem**\*\*<br>&nbsp;&nbsp;&nbsp;&nbsp;- \*\***Ipsum**\*\* |
 
-### Inline Code
-- `Smarter Inline Code` will __not__ consider punctuation and brackets as delimiters. This means that a cursor anywhere in "object.method" will select the whole term and result in "`object.method`" instead of "`object`.method".
-
-## Commands added
+### Commands added
 - Smarter Bold
 - Smarter Italics
 - Smarter Underscore Bold (`__foobar__`)
 - Smarter Underscore Italics (`_foobar_`)
 - Smarter Comment
-- Smarter Inline Code
+- Smarter Inline Code\*
 - Smarter Highlight
 - Smarter Strikethrough
-- Smarter Markdown Link
+- Smarter Markdown Link\*
 - Smarter Wikilink (Internal Link)
+
+### Smarter Inline Code: Terms instead of Words
+`Smarter Inline Code` will __not__ consider punctuation and brackets as delimiters. This means that a cursor anywhere in "object.method" will select the whole term and result in "`object.method`" instead of "`object`.method".
+
+### Smarter Markdown Link: Auto-Insert URLs
+When you use `Smarter Markdown Link` and have an URL in your clipboard, the URL will automatically get inserted as well. 
 
 ## Setting the Hotkeys
 💡 If you want to replace the default commands from Obsidian, remember to remove their hotkey binding before changing the hotkeys from this plugin. Example for `Smarter Bold`:
@@ -61,8 +68,9 @@ Right now, the plugin is still in beta. It can be installed with the [BRAT Plugi
 This plugin will be available in Obsidian's Community Plugin Browser: `Settings` → `Community Plugins` → `Browse` → Search for *"Smarter Markdown Hotkeys"*
 
 ## Roadmap
-- [ ] Autolink if URL in clipboard
-- [ ] Expand to block instead instead of word when at elast 3 lines are selected.
+- [x] Support for Multi-line selection
+- [x] Auto-insert when URL in clipboard
+- [ ] Expand to block instead instead of word when at least 3 lines are selected.
 - [ ] Smart Code Block (dependent on expand to line)
 - [ ] Smart Heading
 - [ ] Multi-Cursor support

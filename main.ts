@@ -30,9 +30,7 @@ export default class SmarterMDhotkeys extends Plugin {
 		console.log("Smarter MD Hotkeys unloaded.");
 	}
 
-	expandAndWrap(frontMarkup: string, endMarkup: string, editor: Editor): void {
-		const [blen, alen] = [frontMarkup.length, endMarkup.length];
-		const debug = true;
+	async expandAndWrap(frontMarkup: string, endMarkup: string, editor: Editor) {
 
 		// FUNCTIONS
 		//-------------------------------------------------------------------
@@ -270,9 +268,23 @@ export default class SmarterMDhotkeys extends Plugin {
 			}
 		}
 
+		async function insertURLtoMDLink () {
+			const URLregex = /\b((?:[a-z][\w-]+:(?:\/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))/; // eslint-disable-line no-useless-escape
+			const cbText = (await navigator.clipboard.readText()).trim();
+
+			if (URLregex.test(cbText)) return "](" + cbText + ")";
+
+			return endMarkup;
+		}
+
 		// MAIN
 		//-------------------------------------------------------------------
 
+		// auto-insert URL from clipboard
+		if (frontMarkup === "[" && endMarkup === "]()") endMarkup = await insertURLtoMDLink();
+		const [blen, alen] = [frontMarkup.length, endMarkup.length];
+
+		const debug = true;
 		if (debug) {
 			console.log("");
 			console.log("SmarterMD Hotkeys triggered.");
@@ -316,7 +328,7 @@ export default class SmarterMDhotkeys extends Plugin {
 				// Move Pointer to next line
 				pointerOff += line.length + 1; // +1 to account for line break
 				if (markupOutsideSel()) pointerOff-= (blen + alen); // account for removed markup
-				else pointerOff += (blen + alen); // account for applied markup
+				else pointerOff += (blen + alen); // account for added markup
 
 				applyMarkup(preNothingExpPos, ...preExpPositions, "multi");
 

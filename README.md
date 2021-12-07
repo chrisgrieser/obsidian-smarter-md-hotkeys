@@ -50,8 +50,9 @@ Right now, the plugin is still in beta. It can be installed with the [BRAT Plugi
 This plugin will be available in Obsidian's Community Plugin Browser: `Settings` → `Community Plugins` → `Browse` → Search for *"Smarter Markdown Hotkeys"*
 
 ## Roadmap
-- [ ] Smart Code Block
 - [ ] Autolink if URL in clipboard
+- [ ] Expand to block instead instead of word when at elast 3 lines are selected.
+- [ ] Smart Code Block (dependent on expand to line)
 - [ ] Smart Heading
 - [ ] Multi-Cursor support
 - [ ] Submission to the Community Plugin Browser

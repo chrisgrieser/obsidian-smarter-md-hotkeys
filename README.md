@@ -42,7 +42,7 @@ When using the hotkeys, the markup is automatically applied to the whole word(s)
 2. Assign `cmd/ctrl + B` as the hotkey for the command `Smarter Bold`.
 
 ## Specifics for Certain Commands
-- `Smarter Inline Code` will __not__ consider punctuation and brackets as delimiters. This means that a cursor in "object.method" will be selected the whole term instead of "object" alone.
+- `Smarter Inline Code` will __not__ consider punctuation and brackets as delimiters. This means that a cursor anywhere in "object.method" will select the whole term and result in "`object.method`" instead of "`object`.method".
 
 ## Installation
 Right now, the plugin is still in beta. It can be installed with the [BRAT Plugin](https://github.com/TfTHacker/obsidian42-brat).

@@ -275,8 +275,8 @@ export default class SmarterMDhotkeys extends Plugin {
 
 		if (debug) {
 			console.log("");
-			console.log("SmartMD triggered.");
-			console.log("------------------");
+			console.log("SmarterMD Hotkeys triggered.");
+			console.log("----------------------------");
 		}
 
 		// if nothing selected and markup outside, just undo markup

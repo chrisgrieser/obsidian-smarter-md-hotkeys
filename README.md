@@ -27,9 +27,9 @@ When using the hotkeys, the markup is automatically applied to the whole word(s)
 
 ## How it works: Examples
 
-| Cursor `\\|` or `selection` | Result with Normal MD Hotkey                           | Result with Smarter MD Hotkey                                      |
+| Cursor `\|` or `selection` | Result with Normal MD Hotkey                           | Result with Smarter MD Hotkey                                      |
 | --------------------------- | ------------------------------------------------------ | ------------------------------------------------------------------ |
-| foo`\\|`bar                 | foo\*\*\*\*bar                                         | \*\***foobar**\*\*                                                 |
+| foo`\|`bar                 | foo\*\*\*\*bar                                         | \*\***foobar**\*\*                                                 |
 | f`oo`bar                    | f\*\***oo**\*\*bar                                     | \*\***foobar**\*\*                                                 |
 | Lor`em Ips`um               | Lor\*\***em Ips**\*\*um                                | \*\***Lorem Ipsum**\*\*                                            |
 | `- [ ] foobar ^123`         | \*\***- [ ] foobar ^123**\*\*                          | - [ ] \*\***foobar**\*\* <sup>^123</sup>                           |

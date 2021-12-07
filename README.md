@@ -14,10 +14,13 @@ When using the hotkeys, the markup is automatically applied to the whole word(s)
 - [Commands added](#commands-added)
 - [Setting the Hotkeys](#setting-the-hotkeys)
 - [Specifics for Certain Commands](#specifics-for-certain-commands)
-- [Roadmap](#roadmap)
 - [Installation](#installation)
+- [Roadmap](#roadmap)
 - [Contribute](#contribute)
 - [Credits](#credits)
+	- [Thanks](#thanks)
+	- [Donations](#donations)
+	- [About the Developer](#about-the-developer)
 
 <!-- /MarkdownTOC -->
 
@@ -41,17 +44,17 @@ When using the hotkeys, the markup is automatically applied to the whole word(s)
 ## Specifics for Certain Commands
 - `Smarter Inline Code` will __not__ consider punctuation and brackets as delimiters. This means that a cursor in "object.method" will be selected the whole term instead of "object" alone.
 
+## Installation
+Right now, the plugin is still in beta. It can be installed with the [BRAT Plugin](https://github.com/TfTHacker/obsidian42-brat).
+
+This plugin will be available in Obsidian's Community Plugin Browser: `Settings` → `Community Plugins` → `Browse` → Search for *"Smarter Markdown Hotkeys"*
+
 ## Roadmap
 - [ ] Smart Code Block
 - [ ] Autolink if URL in clipboard
 - [ ] Smart Heading
 - [ ] Multi-Cursor support
 - [ ] Submission to the Community Plugin Browser
-
-## Installation
-Right now, the plugin is still in beta. It can be installed with the [BRAT Plugin](https://github.com/TfTHacker/obsidian42-brat).
-
-This plugin will be available in Obsidian's Community Plugin Browser: `Settings` → `Community Plugins` → `Browse` → Search for *"Smarter Markdown Hotkeys"*
 
 ## Contribute
 Please use the `.eslintrc` configuration located in the repository and run eslint before doing a pull request, though. 🙂
@@ -68,12 +71,15 @@ eslint --fix *.ts
 
 ## Credits
 
-Thanks yet again to @SkepticMystic for his support.
+### Thanks
+Thanks yet again to @SkepticMystic for his support!
 
-Donations via [PayPal](https://www.paypal.com/paypalme/ChrisGrieser) or [Ko-Fi](https://ko-fi.com/pseudometa)! 🙏
+### Donations
+- [PayPal](https://www.paypal.com/paypalme/ChrisGrieser)
+- [Ko-Fi](https://ko-fi.com/pseudometa)
 
+### About the Developer
 In my day job, I am a researcher and sociology. In my phD project, I investigate the governance of the app economy and how software ecosystems manage the tension between innovation and compatibility. If you are interested in this subject, feel free to visit [my academic homepage](https://chris-grieser.de/) and get in touch!
-
 - [Discord](https://discord.gg/veuWUTm): `@pseudometa#9546`
 - Twitter: [@pseudo_meta](https://twitter.com/pseudo_meta)
 

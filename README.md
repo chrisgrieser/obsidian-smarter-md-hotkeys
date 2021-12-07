@@ -39,6 +39,8 @@ When using the hotkeys, the markup is automatically applied to the whole word(s)
 | `- [ ] foobar ^123`         | \*\***- [ ] foobar ^123**\*\*                          | - [ ] \*\***foobar**\*\* <sup>^123</sup>                           |
 | - Lor`em`<br>`    - Ips`um  | - Lor\*\***em<br>&nbsp;&nbsp;&nbsp;&nbsp;- Ips**\*\*um | - \*\***Lorem**\*\*<br>&nbsp;&nbsp;&nbsp;&nbsp;- \*\***Ipsum**\*\* |
 
+*Undoing Markup works in an analogous way.*
+
 ### Commands added
 - Smarter Bold
 - Smarter Italics

@@ -11,9 +11,10 @@ When using the hotkeys, the markup is automatically applied to the whole word(s)
 ## Table of Content
 <!-- MarkdownTOC -->
 
+- [How it works: Examples](#how-it-works-examples)
+	- [Inline Code](#inline-code)
 - [Commands added](#commands-added)
 - [Setting the Hotkeys](#setting-the-hotkeys)
-- [Specifics for Certain Commands](#specifics-for-certain-commands)
 - [Installation](#installation)
 - [Roadmap](#roadmap)
 - [Contribute](#contribute)
@@ -23,6 +24,19 @@ When using the hotkeys, the markup is automatically applied to the whole word(s)
 	- [About the Developer](#about-the-developer)
 
 <!-- /MarkdownTOC -->
+
+## How it works: Examples
+
+| Cursor `\\|` or `selection` | Result with Normal MD Hotkey                           | Result with Smarter MD Hotkey                                      |
+| --------------------------- | ------------------------------------------------------ | ------------------------------------------------------------------ |
+| foo`\\|`bar                 | foo\*\*\*\*bar                                         | \*\***foobar**\*\*                                                 |
+| f`oo`bar                    | f\*\***oo**\*\*bar                                     | \*\***foobar**\*\*                                                 |
+| Lor`em Ips`um               | Lor\*\***em Ips**\*\*um                                | \*\***Lorem Ipsum**\*\*                                            |
+| `- [ ] foobar ^123`         | \*\***- [ ] foobar ^123**\*\*                          | - [ ] \*\***foobar**\*\* <sup>^123</sup>                           |
+| - Lor`em`<br>`    - Ips`um  | - Lor\*\***em<br>&nbsp;&nbsp;&nbsp;&nbsp;- Ips**\*\*um | - \*\***Lorem**\*\*<br>&nbsp;&nbsp;&nbsp;&nbsp;- \*\***Ipsum**\*\* |
+
+### Inline Code
+- `Smarter Inline Code` will __not__ consider punctuation and brackets as delimiters. This means that a cursor anywhere in "object.method" will select the whole term and result in "`object.method`" instead of "`object`.method".
 
 ## Commands added
 - Smarter Bold
@@ -40,9 +54,6 @@ When using the hotkeys, the markup is automatically applied to the whole word(s)
 💡 If you want to replace the default commands from Obsidian, remember to remove their hotkey binding before changing the hotkeys from this plugin. Example for `Smarter Bold`:
 1. Remove the hotkey `cmd/ctrl + B`[^1] for the default command `Toggle Bold`.
 2. Assign `cmd/ctrl + B` as the hotkey for the command `Smarter Bold`.
-
-## Specifics for Certain Commands
-- `Smarter Inline Code` will __not__ consider punctuation and brackets as delimiters. This means that a cursor anywhere in "object.method" will select the whole term and result in "`object.method`" instead of "`object`.method".
 
 ## Installation
 Right now, the plugin is still in beta. It can be installed with the [BRAT Plugin](https://github.com/TfTHacker/obsidian42-brat).

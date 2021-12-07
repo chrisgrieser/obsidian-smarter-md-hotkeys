@@ -1,3 +1,13 @@
+- 2021-12-07	+ Smarter Markdown Links now auto-insert URLs form the clipboard
+- 2021-12-07	Update README.md
+- 2021-12-07	added examples to readme
+- 2021-12-07	Update README.md
+- 2021-12-07	Update README.md
+- 2021-12-07	changed credits section
+- 2021-12-07	added roadmap to readme
+- 2021-12-07	remove trash
+- 2021-12-07	Update README.md
+- 2021-12-07	release 0.11.0
 - 2021-12-07	+ add smart multiline capabilities
 - 2021-12-06	partial word includes also includes punctuation now
 - 2021-12-05	refactoring of half of main thread into `applyMarkUpAndReselect`

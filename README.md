@@ -12,7 +12,7 @@ When using the hotkeys, the markup is automatically applied to the whole word(s)
 <!-- MarkdownTOC -->
 
 - [How it works](#how-it-works)
-	- [Examples](#examples)
+	- [Different Scenarios](#different-scenarios)
 	- [Commands added](#commands-added)
 	- [Smarter Inline Code: Terms instead of Words](#smarter-inline-code-terms-instead-of-words)
 	- [Smarter Markdown Link: Auto-Insert URLs](#smarter-markdown-link-auto-insert-urls)
@@ -21,25 +21,23 @@ When using the hotkeys, the markup is automatically applied to the whole word(s)
 - [Roadmap](#roadmap)
 - [Contribute](#contribute)
 - [Credits](#credits)
-	- [Thanks](#thanks)
-	- [Donations](#donations)
-	- [About the Developer](#about-the-developer)
 
 <!-- /MarkdownTOC -->
 
 ## How it works
 
-### Examples
+### Different Scenarios
+`|` is a cursor without selection. `Selection` means that this part of the text is being selected. This table serves as a reference for the precise mechanics of this plugin, for a more intuitive showcase, see the short gif above.
 
-| Cursor `\|` or `selection`  | Result with Normal MD Hotkey                           | Result with Smarter MD Hotkey                                      |
-| --------------------------- | ------------------------------------------------------ | ------------------------------------------------------------------ |
-| foo`\|`bar                  | foo\*\*\*\*bar                                         | \*\***foobar**\*\*                                                 |
-| f`oo`bar                    | f\*\***oo**\*\*bar                                     | \*\***foobar**\*\*                                                 |
-| Lor`em Ips`um               | Lor\*\***em Ips**\*\*um                                | \*\***Lorem Ipsum**\*\*                                            |
-| `- [ ] foobar ^123`         | \*\***- [ ] foobar ^123**\*\*                          | - [ ] \*\***foobar**\*\* <sup>^123</sup>                           |
-| - Lor`em`<br>`    - Ips`um  | - Lor\*\***em<br>&nbsp;&nbsp;&nbsp;&nbsp;- Ips**\*\*um | - \*\***Lorem**\*\*<br>&nbsp;&nbsp;&nbsp;&nbsp;- \*\***Ipsum**\*\* |
-
-*Undoing Markup works in an analogous way.*
+| Before                              | After (Normal MD Hotkey)                               | After (Smarter MD Hotkey)                                          |
+| ----------------------------------- | ------------------------------------------------------ | ------------------------------------------------------------------ |
+| foo`\|`bar                          | foo\*\*\*\*bar                                         | \*\***foobar**\*\*                                                 |
+| f`oo`bar                            | f\*\***oo**\*\*bar                                     | \*\***foobar**\*\*                                                 |
+| Lor`em Ips`um                       | Lor\*\***em Ips**\*\*um                                | \*\***Lorem Ipsum**\*\*                                            |
+| `- [ ] foobar ^123`                 | \*\***- [ ] foobar ^123**\*\*                          | - [ ] \*\***foobar**\*\* <sup>^123</sup>                           |
+| - Lor`em`<br>`    - Ips`um          | - Lor\*\***em<br>&nbsp;&nbsp;&nbsp;&nbsp;- Ips**\*\*um | - \*\***Lorem**\*\*<br>&nbsp;&nbsp;&nbsp;&nbsp;- \*\***Ipsum**\*\* |
+| \*\***foo**`\|`**bar**\*\* (Undo)   | \*\***foo\*\*\*\*bar**\*\*                             | foobar                                                             |
+| \*\***Lor`em Ips`umr**\*\* (Undo)   | \*\***Lor**\*\*em Ips\*\***um**\*\*                    | Lorem Ipsum                                                        |
 
 ### Commands added
 - Smarter Bold
@@ -52,6 +50,8 @@ When using the hotkeys, the markup is automatically applied to the whole word(s)
 - Smarter Strikethrough
 - Smarter Markdown Link\*
 - Smarter Wikilink (Internal Link)
+
+<small>*\* Please see the information below regarding specific information for these commands*</small>
 
 ### Smarter Inline Code: Terms instead of Words
 `Smarter Inline Code` will __not__ consider punctuation and brackets as delimiters. This means that a cursor anywhere in "object.method" will select the whole term and result in "`object.method`" instead of "`object`.method".
@@ -93,14 +93,11 @@ eslint --fix *.ts
 
 ## Credits
 
-### Thanks
 Thanks yet again to @SkepticMystic for his support!
 
-### Donations
-- [PayPal](https://www.paypal.com/paypalme/ChrisGrieser)
-- [Ko-Fi](https://ko-fi.com/pseudometa)
+Donations are welcome via [PayPal](https://www.paypal.com/paypalme/ChrisGrieser) or [Ko-Fi](https://ko-fi.com/pseudometa). 🙏
 
-### About the Developer
+**About the Developer**
 In my day job, I am a researcher and sociology. In my phD project, I investigate the governance of the app economy and how software ecosystems manage the tension between innovation and compatibility. If you are interested in this subject, feel free to visit [my academic homepage](https://chris-grieser.de/) and get in touch!
 - [Discord](https://discord.gg/veuWUTm): `@pseudometa#9546`
 - Twitter: [@pseudo_meta](https://twitter.com/pseudo_meta)

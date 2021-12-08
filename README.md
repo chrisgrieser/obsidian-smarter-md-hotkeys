@@ -29,15 +29,15 @@ When using the hotkeys, the markup is automatically applied to the whole word(s)
 ### Different Scenarios
 `|` is a cursor without selection. `Selection` means that this part of the text is being selected. This table serves as a reference for the precise mechanics of this plugin, for a more intuitive showcase, see the short gif above.
 
-|                                     |  Normal Hotkeys                                        | Smarter Hotkeys                                                    |
-| ----------------------------------- | ------------------------------------------------------ | ------------------------------------------------------------------ |
-| foo`\|`bar                          | foo\*\*\*\*bar                                         | \*\***foobar**\*\*                                                 |
-| f`oo`bar                            | f\*\***oo**\*\*bar                                     | \*\***foobar**\*\*                                                 |
-| Lor`em Ips`um                       | Lor\*\***em Ips**\*\*um                                | \*\***Lorem Ipsum**\*\*                                            |
-| `- [ ] foobar ^123`                 | \*\***- [ ] foobar ^123**\*\*                          | - [ ] \*\***foobar**\*\* <sup>^123</sup>                           |
-| - Lor`em`<br>`    - Ips`um          | - Lor\*\***em<br>&nbsp;&nbsp;&nbsp;&nbsp;- Ips**\*\*um | - \*\***Lorem**\*\*<br>&nbsp;&nbsp;&nbsp;&nbsp;- \*\***Ipsum**\*\* |
-| \*\***foo**`\|`**bar**\*\* *(Undo)* | \*\***foo\*\*\*\*bar**\*\*                             | foobar                                                             |
-| \*\***Lor`em Ips`umr**\*\* *(Undo)* | \*\***Lor**\*\*em Ips\*\***um**\*\*                    | Lorem Ipsum                                                        |
+|                                    |  Normal Hotkeys                                        | Smarter Hotkeys                                                    |
+| ---------------------------------- | ------------------------------------------------------ | ------------------------------------------------------------------ |
+| foo`\|`bar                         | foo\*\*\*\*bar                                         | \*\***foobar**\*\*                                                 |
+| f`oo`bar                           | f\*\***oo**\*\*bar                                     | \*\***foobar**\*\*                                                 |
+| Lor`em Ips`um                      | Lor\*\***em Ips**\*\*um                                | \*\***Lorem Ipsum**\*\*                                            |
+| `- [ ] foobar ^123`                | \*\***- [ ] foobar ^123**\*\*                          | - [ ] \*\***foobar**\*\* <sup>^123</sup>                           |
+| - Lor`em`<br>`    - Ips`um         | - Lor\*\***em<br>&nbsp;&nbsp;&nbsp;&nbsp;- Ips**\*\*um | - \*\***Lorem**\*\*<br>&nbsp;&nbsp;&nbsp;&nbsp;- \*\***Ipsum**\*\* |
+| \*\***foo**`\|`**bar**\*\* *(Undo)*| \*\***foo\*\*\*\*bar**\*\*                             | foobar                                                             |
+| \*\***Lor`em Ips`um**\*\* *(Undo)* | \*\***Lor**\*\*em Ips\*\***um**\*\*                    | Lorem Ipsum                                                        |
 
 ### Commands added
 - Smarter Bold

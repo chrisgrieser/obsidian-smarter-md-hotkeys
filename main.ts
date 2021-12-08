@@ -183,6 +183,13 @@ export default class SmarterMDhotkeys extends Plugin {
 			return [prePartialWordExpAnchor, prePartialWordExpHead, preMultiWordExpAnchor, preMultiWordExpHead];
 		}
 
+		function expandWhenNothingSelected (): EditorPosition {
+			const preExpCursor = editor.getCursor();
+			const { anchor, head } = textUnderCursor(preNothingExpPos);
+			editor.setSelection(anchor, head);
+			return preExpCursor;
+		}
+
 		function applyMarkup (
 			preNothingExpPos_: EditorPosition,
 			prePartialWordExpAnchor_: EditorPosition,
@@ -281,7 +288,7 @@ export default class SmarterMDhotkeys extends Plugin {
 		//-------------------------------------------------------------------
 
 		// auto-insert URL from clipboard
-		if (frontMarkup === "[" && endMarkup === "]()") endMarkup = await insertURLtoMDLink();
+		if (endMarkup === "]()") endMarkup = await insertURLtoMDLink();
 		const [blen, alen] = [frontMarkup.length, endMarkup.length];
 
 		const debug = true;
@@ -292,23 +299,18 @@ export default class SmarterMDhotkeys extends Plugin {
 		}
 
 		// if nothing selected and markup outside, just undo markup
-		if (nothingSelected() && markupOutsideSel()) {
-			const so = startOffset();
-			const eo = endOffset();
-			editor.setSelection(offToPos(so - blen), offToPos(eo + alen));
-			editor.replaceSelection("");
-			editor.setSelection(offToPos(so - blen), offToPos(eo - alen) );
-			return;
-		}
-
-		// Expand Selection to word if no selection
+		// otherwise expand selection to word
 		let preNothingExpPos: EditorPosition;
-		if (nothingSelected() && !markupOutsideSel()) {
-			preNothingExpPos = editor.getCursor();
-			const { anchor, head } = textUnderCursor(preNothingExpPos);
-			editor.setSelection(anchor, head);
+		if (nothingSelected()) {
+			if (markupOutsideSel()) {
+				const o = startOffset();
+				editor.setSelection(offToPos(o - blen), offToPos(o + alen));
+				editor.replaceSelection("");
+				editor.setSelection(offToPos(o - blen), offToPos(o - alen) );
+				return;
+			}
+			if (!markupOutsideSel()) preNothingExpPos = expandWhenNothingSelected();
 		}
-		trimSelection();
 
 		// if selection spans multiple lines, get offsets of
 		// each line and apply markup to each
@@ -319,17 +321,14 @@ export default class SmarterMDhotkeys extends Plugin {
 
 			lines.forEach (line => {
 				console.log("");
-				const lineStartOff = pointerOff;
-				const lineEndOff = pointerOff + line.length;
-
-				editor.setSelection(offToPos(lineStartOff), offToPos(lineEndOff));
-				const preExpPositions = expandToWordBoundary();
+				editor.setSelection(offToPos(pointerOff), offToPos(pointerOff + line.length));
 
 				// Move Pointer to next line
 				pointerOff += line.length + 1; // +1 to account for line break
 				if (markupOutsideSel()) pointerOff-= (blen + alen); // account for removed markup
 				else pointerOff += (blen + alen); // account for added markup
 
+				const preExpPositions = expandToWordBoundary();
 				applyMarkup(preNothingExpPos, ...preExpPositions, "multi");
 
 			});

@@ -26,9 +26,7 @@ export default class SmarterMDhotkeys extends Plugin {
 		console.log("Smarter MD Hotkeys loaded.");
 	}
 
-	async onunload() {
-		console.log("Smarter MD Hotkeys unloaded.");
-	}
+	async onunload() { console.log("Smarter MD Hotkeys unloaded.") }
 
 	async expandAndWrap(frontMarkup: string, endMarkup: string, editor: Editor) {
 
@@ -46,7 +44,7 @@ export default class SmarterMDhotkeys extends Plugin {
 		const nothingSelected = () => !editor.somethingSelected();
 		const multiWordSel = () => editor.getSelection().includes(" ");
 		const multiLineSel = () => editor.getSelection().includes("\n");
-		const partialWordSel = () => (!nothingSelected() && !multiWordSel() && !multiLineSel());
+		const partialWordSel = () => (editor.somethingSelected() && !multiWordSel() && !multiLineSel());
 
 		// Offset Functions
 		const startOffset = () => editor.posToOffset(editor.getCursor("from"));
@@ -138,17 +136,19 @@ export default class SmarterMDhotkeys extends Plugin {
 			log ("after trim", true);
 		}
 
-		function expandToWordBoundary (): [EditorPosition, EditorPosition, EditorPosition, EditorPosition] {
-			let prePartialWordExpAnchor, prePartialWordExpHead;
-
+		function expandToWordBoundary (): [preSelExpAnchor: EditorPosition, preSelExpHead: EditorPosition, expMode: string] {
+			let preSelExpAnchor, preSelExpHead;
 			log ("before Exp to Word", true);
+			let expMode = "none";
 
 			// Expand Selection to word if partial word
 			if (partialWordSel()) {
+				expMode = "Partial Word";
 				log ("One Word Expansion");
-				prePartialWordExpAnchor = editor.getCursor("from");
-				prePartialWordExpHead = editor.getCursor("to");
-				const { anchor, head } = textUnderCursor(prePartialWordExpAnchor);
+
+				preSelExpAnchor = editor.getCursor("from");
+				preSelExpHead = editor.getCursor("to");
+				const { anchor, head } = textUnderCursor(preSelExpAnchor);
 
 				// Fix for punctuation messing up selection due to findAtWord
 				const word = editor.getRange(anchor, head);
@@ -158,18 +158,19 @@ export default class SmarterMDhotkeys extends Plugin {
 			}
 
 			// Expand Selection to word boundaries if multiple words
-			let preMultiWordExpAnchor, preMultiWordExpHead;
 			if (multiWordSel()) {
+				expMode = "Multi Word";
 				log ("Multi-Word Expansion");
-				preMultiWordExpAnchor = editor.getCursor("from");
-				preMultiWordExpHead = editor.getCursor("to");
 
-				const firstWordRange = textUnderCursor(preMultiWordExpAnchor);
+				preSelExpAnchor = editor.getCursor("from");
+				preSelExpHead = editor.getCursor("to");
+
+				const firstWordRange = textUnderCursor(preSelExpAnchor);
 
 				// findAtWord reads to the right, so w/o "-1" the space would be read, not the word
-				preMultiWordExpHead.ch--;
-				const lastWordRange = textUnderCursor(preMultiWordExpHead);
-				preMultiWordExpHead.ch++;
+				preSelExpHead.ch--;
+				const lastWordRange = textUnderCursor(preSelExpHead);
+				preSelExpHead.ch++;
 
 				// Fix for punctuation messing up selection due to findAtWord
 				const lastWord = editor.getRange(lastWordRange.anchor, lastWordRange.head);
@@ -180,23 +181,22 @@ export default class SmarterMDhotkeys extends Plugin {
 
 			log ("after expansion", true);
 			trimSelection();
-			return [prePartialWordExpAnchor, prePartialWordExpHead, preMultiWordExpAnchor, preMultiWordExpHead];
+			return [preSelExpAnchor, preSelExpHead, expMode];
 		}
 
 		function expandWhenNothingSelected (): EditorPosition {
 			const preExpCursor = editor.getCursor();
-			const { anchor, head } = textUnderCursor(preNothingExpPos);
+			const { anchor, head } = textUnderCursor(preExpCursor);
 			editor.setSelection(anchor, head);
 			return preExpCursor;
 		}
 
 		function applyMarkup (
 			preNothingExpPos_: EditorPosition,
-			prePartialWordExpAnchor_: EditorPosition,
-			prePartialWordExpHead_: EditorPosition,
-			preMultiWordExpAnchor_: EditorPosition,
-			preMultiWordExpHead_: EditorPosition,
-			mode: string
+			preSelExpAnchor: EditorPosition,
+			preSelExpHead: EditorPosition,
+			expMode: string,
+			lineMode: string
 		) {
 			// Get properties of new selection
 			const selectedText = editor.getSelection();
@@ -204,7 +204,7 @@ export default class SmarterMDhotkeys extends Plugin {
 			const eo = endOffset();
 
 			// abort if empty line & multi
-			if (nothingSelected() && mode === "multi") return;
+			if (nothingSelected() && lineMode === "multi") return;
 
 			// No selection → just insert markup by itself
 			if (nothingSelected()) {
@@ -216,61 +216,51 @@ export default class SmarterMDhotkeys extends Plugin {
 			}
 
 			// Do Markup
-			if (!markupOutsideSel() && !nothingSelected()) {
+			if (!markupOutsideSel()) {
 				editor.replaceSelection(frontMarkup + selectedText + endMarkup);
 				if (preNothingExpPos_) {
-					const pos = preNothingExpPos_;
-					pos.ch += blen;
-					editor.setCursor(pos);
+					preNothingExpPos_.ch += blen;
+					editor.setCursor(preNothingExpPos_);
 					return;
 				}
 
 				let anchor, head;
-				if (preMultiWordExpAnchor_) {
-					anchor = preMultiWordExpAnchor_;
-					head = preMultiWordExpHead_;
+				if (expMode === "Multi Word" || expMode === "Partial Word") {
+					anchor = preSelExpAnchor;
+					head = preSelExpHead;
 					anchor.ch += blen;
 					head.ch += alen;
-				} else if (prePartialWordExpAnchor_) {
-					anchor = prePartialWordExpAnchor_;
-					head = prePartialWordExpHead_;
-					anchor.ch += blen;
-					head.ch += blen;
-				} else {
+				}
+				if (expMode === "none") {
 					anchor = offToPos(so + blen);
 					head = offToPos(eo + blen);
 				}
-				if (mode === "single") editor.setSelection(anchor, head);
+				if (lineMode === "single") editor.setSelection(anchor, head);
 				return;
 			}
 
 			// Undo Markup (outside selection, inside not necessary as trimmed already)
-			if (markupOutsideSel() && !nothingSelected()) {
+			if (markupOutsideSel()) {
 				editor.setSelection(offToPos(so - blen), offToPos(eo + alen));
 				editor.replaceSelection(selectedText);
 				if (preNothingExpPos_) {
-					const pos = preNothingExpPos_;
-					pos.ch -= blen; // to avoid issues with mutating properties
-					editor.setCursor(pos);
+					preNothingExpPos_.ch -= blen;
+					editor.setCursor(preNothingExpPos_);
 					return;
 				}
 
 				let anchor, head;
-				if (preMultiWordExpAnchor_) {
-					anchor = preMultiWordExpAnchor_;
-					head = preMultiWordExpHead_;
+				if (expMode === "Multi Word" || expMode === "Partial Word") {
+					anchor = preSelExpAnchor;
+					head = preSelExpHead;
 					anchor.ch -= blen;
 					head.ch -= alen;
-				} else if (prePartialWordExpAnchor_) {
-					anchor = prePartialWordExpAnchor_;
-					head = prePartialWordExpHead_;
-					anchor.ch -= blen;
-					head.ch -= alen;
-				} else {
+				}
+				if (expMode === "none") {
 					anchor = offToPos(so - blen);
 					head = offToPos(eo - alen);
 				}
-				if (mode === "single") editor.setSelection(anchor, head);
+				if (lineMode === "single") editor.setSelection(anchor, head);
 				return;
 			}
 		}
@@ -291,6 +281,7 @@ export default class SmarterMDhotkeys extends Plugin {
 		if (endMarkup === "]()") endMarkup = await insertURLtoMDLink();
 		const [blen, alen] = [frontMarkup.length, endMarkup.length];
 
+		// Debug
 		const debug = true;
 		if (debug) {
 			console.log("");
@@ -323,21 +314,21 @@ export default class SmarterMDhotkeys extends Plugin {
 				console.log("");
 				editor.setSelection(offToPos(pointerOff), offToPos(pointerOff + line.length));
 
+				const [preSelExpAnchor, preSelExpHead, expandMode] = expandToWordBoundary();
+
 				// Move Pointer to next line
 				pointerOff += line.length + 1; // +1 to account for line break
 				if (markupOutsideSel()) pointerOff-= (blen + alen); // account for removed markup
 				else pointerOff += (blen + alen); // account for added markup
 
-				const preExpPositions = expandToWordBoundary();
-				applyMarkup(preNothingExpPos, ...preExpPositions, "multi");
-
+				applyMarkup(preNothingExpPos, preSelExpAnchor, preSelExpHead, expandMode, "multi");
 			});
 
 		// single line selection
 		} else {
 			log ("single line");
-			const preExpPositions = expandToWordBoundary();
-			applyMarkup(preNothingExpPos, ...preExpPositions, "single");
+			const [preSelExpAnchor, preSelExpHead, expandMode] = expandToWordBoundary();
+			applyMarkup(preNothingExpPos, preSelExpAnchor, preSelExpHead, expandMode, "single");
 		}
 
 	}

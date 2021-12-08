@@ -27,7 +27,7 @@ When using the hotkeys, the markup is automatically applied to the whole word(s)
 ## How it works
 
 ### Different Scenarios
-`|` is a cursor without selection. `Selection` means that this part of the text is being selected. This table serves as a reference for the precise mechanics of this plugin, for a more intuitive showcase, see the short gif above.
+`|` is a cursor without selection. `Selection` signifies the part of the text being selected. This table serves as a reference for the precise mechanics of this plugin, for a more intuitive showcase, see [the short gif above](#smarter-markdown-hotkeys).
 
 |                                    |  Normal Hotkeys                                        | Smarter Hotkeys                                                    |
 | ---------------------------------- | ------------------------------------------------------ | ------------------------------------------------------------------ |

@@ -29,7 +29,7 @@ When using the hotkeys, the markup is automatically applied to the whole word(s)
 ### Different Scenarios
 `|` is a cursor without selection. `Selection` means that this part of the text is being selected. This table serves as a reference for the precise mechanics of this plugin, for a more intuitive showcase, see the short gif above.
 
-| Before                              | After<br>(Normal MD Hotkey)                            | After<br>(Smarter MD Hotkey)                                       |
+| Before                              | After<br>(Normal Hotkeys)                              | After<br>(Smarter Hotkeys)                                         |
 | ----------------------------------- | ------------------------------------------------------ | ------------------------------------------------------------------ |
 | foo`\|`bar                          | foo\*\*\*\*bar                                         | \*\***foobar**\*\*                                                 |
 | f`oo`bar                            | f\*\***oo**\*\*bar                                     | \*\***foobar**\*\*                                                 |
@@ -51,7 +51,7 @@ When using the hotkeys, the markup is automatically applied to the whole word(s)
 - Smarter Markdown Link\*
 - Smarter Wikilink (Internal Link)
 
-<small>*\* Please see the information below regarding specific information for these commands*</small>
+<sup>*\* Please see the information below regarding specific information for these commands*</sup>
 
 ### Smarter Inline Code: Terms instead of Words
 `Smarter Inline Code` will __not__ consider punctuation and brackets as delimiters. This means that a cursor anywhere in "object.method" will select the whole term and result in "`object.method`" instead of "`object`.method".

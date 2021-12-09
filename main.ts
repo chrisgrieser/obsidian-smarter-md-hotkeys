@@ -60,7 +60,7 @@ export default class SmarterMDhotkeys extends Plugin {
 		}
 
 		// Core Functions
-		function textUnderCursor(ep: EditorPosition): EditorRange {
+		function textUnderCursor(ep: EditorPosition) {
 
 			// Get Word under Cursor
 			if (frontMarkup !== "`") {

@@ -41,7 +41,7 @@ export default class SmarterMDhotkeys extends Plugin {
 			const charsAfter = editor.getRange(offToPos(eo), offToPos(eo + alen));
 			return (charsBefore === frontMarkup && charsAfter === endMarkup);
 		}
-		const nothingSelected = () => !editor.somethingSelected();
+		const noSelection = () => !editor.somethingSelected();
 		const multiWordSel = () => editor.getSelection().includes(" ");
 		const multiLineSel = () => editor.getSelection().includes("\n");
 		const partialWordSel = () => (editor.somethingSelected() && !multiWordSel() && !multiLineSel());
@@ -60,16 +60,17 @@ export default class SmarterMDhotkeys extends Plugin {
 		}
 
 		// Core Functions
-		function textUnderCursor(ep: EditorPosition): {anchor: EditorPosition, head: EditorPosition} {
+		function textUnderCursor(ep: EditorPosition): EditorRange {
 
 			// Get Word under Cursor
-			if (frontMarkup !== "`") {         // eslint-disable-line no-negated-condition
+			if (frontMarkup !== "`") {
 				// https://codemirror.net/doc/manual.html#api_selection
 				if (editor.cm?.findWordAt) return editor.cm.findWordAt(ep);	// CM5
 				if (editor.cm?.state.wordAt) return editor.cm.state.wordAt(editor.posToOffset(ep)); // CM6
+			}
 
 			// Inline-Code: use only space as delimiter
-			} else {
+			if (frontMarkup === "`") {
 				const so = editor.posToOffset(ep);
 				let charAfter, charBefore;
 				let [i, j, endReached, startReached] = [0, 0, false, false];
@@ -86,7 +87,9 @@ export default class SmarterMDhotkeys extends Plugin {
 					if (so+(j-1) === noteLength) endReached = true;
 				}
 
-				return { anchor: offToPos(so - (i-1)), head: offToPos(so + (j-1)) };
+				const startPos = offToPos(so - (i-1));
+				const endPos = offToPos(so + (j-1));
+				return { anchor: startPos, head: endPos };
 			}
 		}
 
@@ -179,15 +182,23 @@ export default class SmarterMDhotkeys extends Plugin {
 			return [preSelExpAnchor, preSelExpHead, expMode];
 		}
 
-		function expandWhenNothingSelected (): EditorPosition {
+		function expandWithNoSel (): EditorPosition {
 			const preExpCursor = editor.getCursor();
 			const { anchor, head } = textUnderCursor(preExpCursor);
 			editor.setSelection(anchor, head);
+			trimSelection();
 			return preExpCursor;
 		}
 
+		function undoWithNoSel () {
+			const o = startOffset();
+			editor.setSelection(offToPos(o - blen), offToPos(o + alen));
+			editor.replaceSelection("");
+			editor.setSelection(offToPos(o - blen), offToPos(o - alen) );
+		}
+
 		function applyMarkup (
-			preNothingExpPos_: EditorPosition,
+			preNoSelPos_: EditorPosition,
 			preSelExpAnchor: EditorPosition,
 			preSelExpHead: EditorPosition,
 			expMode: string,
@@ -199,10 +210,10 @@ export default class SmarterMDhotkeys extends Plugin {
 			const eo = endOffset();
 
 			// abort if empty line & multi
-			if (nothingSelected() && lineMode === "multi") return;
+			if (noSelection() && lineMode === "multi") return;
 
 			// No selection → just insert markup by itself
-			if (nothingSelected()) {
+			if (noSelection()) {
 				editor.replaceSelection(frontMarkup + endMarkup);
 				const cursor = editor.getCursor();
 				cursor.ch -= alen;
@@ -213,9 +224,9 @@ export default class SmarterMDhotkeys extends Plugin {
 			// Do Markup
 			if (!markupOutsideSel()) {
 				editor.replaceSelection(frontMarkup + selectedText + endMarkup);
-				if (preNothingExpPos_) {
-					preNothingExpPos_.ch += blen;
-					editor.setCursor(preNothingExpPos_);
+				if (preNoSelPos_) {
+					preNoSelPos_.ch += blen;
+					editor.setCursor(preNoSelPos_);
 					return;
 				}
 
@@ -238,9 +249,9 @@ export default class SmarterMDhotkeys extends Plugin {
 			if (markupOutsideSel()) {
 				editor.setSelection(offToPos(so - blen), offToPos(eo + alen));
 				editor.replaceSelection(selectedText);
-				if (preNothingExpPos_) {
-					preNothingExpPos_.ch -= blen;
-					editor.setCursor(preNothingExpPos_);
+				if (preNoSelPos_) {
+					preNoSelPos_.ch -= blen;
+					editor.setCursor(preNoSelPos_);
 					return;
 				}
 
@@ -279,24 +290,17 @@ export default class SmarterMDhotkeys extends Plugin {
 
 		// Debug
 		const debug = true;
-		if (debug) {
-			console.log("");
-			console.log("SmarterMD Hotkeys triggered.");
-			console.log("----------------------------");
-		}
+		if (debug) console.log("\nSmarterMD Hotkeys triggered\n----------------------------");
 
 		// if nothing selected and markup outside, just undo markup
 		// otherwise expand selection to word
-		let preNothingExpPos: EditorPosition;
-		if (nothingSelected()) {
+		let preNoSelPos: EditorPosition;
+		if (noSelection()) {
 			if (markupOutsideSel()) {
-				const o = startOffset();
-				editor.setSelection(offToPos(o - blen), offToPos(o + alen));
-				editor.replaceSelection("");
-				editor.setSelection(offToPos(o - blen), offToPos(o - alen) );
+				undoWithNoSel();
 				return;
 			}
-			if (!markupOutsideSel()) preNothingExpPos = expandWhenNothingSelected();
+			preNoSelPos = expandWithNoSel();
 		}
 
 		// if selection spans multiple lines, get offsets of
@@ -317,14 +321,14 @@ export default class SmarterMDhotkeys extends Plugin {
 				if (markupOutsideSel()) pointerOff-= (blen + alen); // account for removed markup
 				else pointerOff += (blen + alen); // account for added markup
 
-				applyMarkup(preNothingExpPos, preSelExpAnchor, preSelExpHead, expandMode, "multi");
+				applyMarkup(preNoSelPos, preSelExpAnchor, preSelExpHead, expandMode, "multi");
 			});
 
 		// single line selection
 		} else {
 			log ("single line");
 			const [preSelExpAnchor, preSelExpHead, expandMode] = expandToWordBoundary();
-			applyMarkup(preNothingExpPos, preSelExpAnchor, preSelExpHead, expandMode, "single");
+			applyMarkup(preNoSelPos, preSelExpAnchor, preSelExpHead, expandMode, "single");
 		}
 
 	}

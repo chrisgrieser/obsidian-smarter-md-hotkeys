@@ -60,21 +60,20 @@ export default class SmarterMDhotkeys extends Plugin {
 		}
 
 		// Core Functions
-		function textUnderCursor(ep: EditorPosition) {
+		function textUnderCursor(ep: EditorPosition): {anchor: EditorPosition, head: EditorPosition} {
 
-			function wordUnderCursor(ep_: EditorPosition) {
+			// Get Word under Cursor
+			if (frontMarkup !== "`") {         // eslint-disable-line no-negated-condition
 				// https://codemirror.net/doc/manual.html#api_selection
 				if (editor.cm?.findWordAt) return editor.cm.findWordAt(ep);	// CM5
 				if (editor.cm?.state.wordAt) return editor.cm.state.wordAt(editor.posToOffset(ep)); // CM6
-			}
 
-			// Expand Selection based on Space as delimiter for Inline-Code
-			function codeUnderCursor(ep_: EditorPosition) {
-				const so = editor.posToOffset(editor.getCursor("from")); // start offset
-
+			// Inline-Code: use only space as delimiter
+			} else {
+				const so = editor.posToOffset(ep);
 				let charAfter, charBefore;
 				let [i, j, endReached, startReached] = [0, 0, false, false];
-				const noteLength = (editor.getValue()).length; // editor.getValue() gets the editor content
+				const noteLength = (editor.getValue()).length;
 
 				while (!/\s/.test(charBefore) && !startReached) {
 					charBefore = editor.getRange(offToPos(so - (i+1)), offToPos(so - i));
@@ -89,10 +88,6 @@ export default class SmarterMDhotkeys extends Plugin {
 
 				return { anchor: offToPos(so - (i-1)), head: offToPos(so + (j-1)) };
 			}
-
-			// depending on command use either word or code under Cursor
-			if (frontMarkup === "`") return codeUnderCursor(ep);
-			return wordUnderCursor(ep);
 		}
 
 		function trimSelection() {
@@ -279,6 +274,7 @@ export default class SmarterMDhotkeys extends Plugin {
 
 		// auto-insert URL from clipboard
 		if (endMarkup === "]()") endMarkup = await insertURLtoMDLink();
+
 		const [blen, alen] = [frontMarkup.length, endMarkup.length];
 
 		// Debug

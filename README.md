@@ -72,11 +72,11 @@ This plugin will be available in Obsidian's Community Plugin Browser: `Settings`
 ## Roadmap
 - [x] Support for Multi-line selection
 - [x] Auto-insert when URL in clipboard
+- [ ] Smart Heading
 - [ ] Expand to block instead instead of word when at least 3 lines are selected.
 - [ ] Smart Code Block (dependent on expand to line)
-- [ ] Smart Heading
-- [ ] Multi-Cursor support
 - [ ] Submission to the Community Plugin Browser
+- [ ] Multi-Cursor support
 
 ## Contribute
 Please use the `.eslintrc` configuration located in the repository and run eslint before doing a pull request, though. 🙂

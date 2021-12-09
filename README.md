@@ -16,6 +16,7 @@ When using the hotkeys, the markup is automatically applied to the whole word(s)
 	- [Commands added](#commands-added)
 	- [Smarter Inline Code: Terms instead of Words](#smarter-inline-code-terms-instead-of-words)
 	- [Smarter Markdown Link: Auto-Insert URLs](#smarter-markdown-link-auto-insert-urls)
+	- [Smarter Undo](#smarter-undo)
 - [Setting the Hotkeys](#setting-the-hotkeys)
 - [Installation](#installation)
 - [Roadmap](#roadmap)
@@ -59,6 +60,9 @@ When using the hotkeys, the markup is automatically applied to the whole word(s)
 ### Smarter Markdown Link: Auto-Insert URLs
 When you use `Smarter Markdown Link` and have an URL in your clipboard, the URL will automatically get inserted as well. 
 
+### Smarter Undo
+Every Command also supports *undoing* markup, by triggering the same hotkey again. (Like normal markdown hotkeys also allow undoing markup that they.)
+
 ## Setting the Hotkeys
 💡 If you want to replace the default commands from Obsidian, remember to remove their hotkey binding before changing the hotkeys from this plugin. Example for `Smarter Bold`:
 1. Remove the hotkey `cmd/ctrl + B`[^1] for the default command `Toggle Bold`.
@@ -70,13 +74,12 @@ Right now, the plugin is still in beta. It can be installed with the [BRAT Plugi
 This plugin will be available in Obsidian's Community Plugin Browser: `Settings` → `Community Plugins` → `Browse` → Search for *"Smarter Markdown Hotkeys"*
 
 ## Roadmap
+- [x] Smart Undo
 - [x] Support for Multi-line selection
 - [x] Auto-insert when URL in clipboard
-- [ ] Smart Heading
 - [ ] Expand to block instead instead of word when at least 3 lines are selected.
 - [ ] Smart Code Block (dependent on expand to line)
 - [ ] Submission to the Community Plugin Browser
-- [ ] Multi-Cursor support
 
 ## Contribute
 Please use the `.eslintrc` configuration located in the repository and run eslint before doing a pull request, though. 🙂

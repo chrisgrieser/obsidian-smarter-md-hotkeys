@@ -273,18 +273,20 @@ export default class SmarterMDhotkeys extends Plugin {
 
 		async function insertURLtoMDLink () {
 			const URLregex = /\b((?:[a-z][\w-]+:(?:\/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))/; // eslint-disable-line no-useless-escape
+			const imageURLregex = /\.(png|jpe?g|gif|tiff?)$/;
 			const cbText = (await navigator.clipboard.readText()).trim();
 
-			if (URLregex.test(cbText)) return "](" + cbText + ")";
+			if (URLregex.test(cbText)) endMarkup = "](" + cbText + ")";
+			if (imageURLregex.test(cbText)) frontMarkup = "![";
 
-			return endMarkup;
+			return [frontMarkup, endMarkup];
 		}
 
 		// MAIN
 		//-------------------------------------------------------------------
 
 		// auto-insert URL from clipboard
-		if (endMarkup === "]()") endMarkup = await insertURLtoMDLink();
+		if (endMarkup === "]()") [frontMarkup, endMarkup] = await insertURLtoMDLink();
 
 		const [blen, alen] = [frontMarkup.length, endMarkup.length];
 

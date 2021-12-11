@@ -8,7 +8,7 @@ When using the hotkeys, the markup is automatically applied to the whole word(s)
 
 <img src="https://i.imgur.com/1Gx5OqA.gif" alt="demo video" width=35%> <img src="https://user-images.githubusercontent.com/73286100/144943354-433d0fec-4f02-4a1c-b5a9-84ca1a57226e.gif" alt="Screen Recording 2021-12-07 at 01 14 40" width=40%>
 
-## Table of Content
+## Table of Contents
 <!-- MarkdownTOC -->
 
 - [How it works](#how-it-works)
@@ -60,8 +60,10 @@ When using the hotkeys, the markup is automatically applied to the whole word(s)
 ### Smarter Markdown Link: Auto-Insert URLs
 When you use `Smarter Markdown Link` and have an URL in your clipboard, the URL will automatically get inserted as well. 
 
+When the URL ends with an image extension[^2] like `.png`, the command will also prepend the `!` for image links.
+
 ### Smarter Undo
-Every Command also supports *undoing* markup, by triggering the same hotkey again. (Like normal markdown hotkeys also allow undoing markup that they.)
+Every Command also supports *undoing* markup, by triggering the same hotkey again. As opposed to normal Markdown Hotkeys, the undoing is applied yet again to the whole word. See the [overview above](#Different%20Scenarios) for specifics.
 
 ## Setting the Hotkeys
 💡 If you want to replace the default commands from Obsidian, remember to remove their hotkey binding before changing the hotkeys from this plugin. Example for `Smarter Bold`:
@@ -74,9 +76,9 @@ Right now, the plugin is still in beta. It can be installed with the [BRAT Plugi
 This plugin will be available in Obsidian's Community Plugin Browser: `Settings` → `Community Plugins` → `Browse` → Search for *"Smarter Markdown Hotkeys"*
 
 ## Roadmap
-- [x] Smart Undo
+- [x] Smarter Undo
 - [x] Support for Multi-line selection
-- [x] Auto-insert when URL in clipboard
+- [x] Auto-insert URL from clipboard
 - [ ] Expand to block instead instead of word when at least 3 lines are selected.
 - [ ] Smart Code Block (dependent on expand to line)
 - [ ] Submission to the Community Plugin Browser
@@ -105,4 +107,7 @@ In my day job, I am a researcher and sociology. In my phD project, I investigate
 - [Discord](https://discord.gg/veuWUTm): `@pseudometa#9546`
 - Twitter: [@pseudo_meta](https://twitter.com/pseudo_meta)
 
+[⬆️ Go Back to Top](#Table-of-Contents)
+
 [^1]: MacOS uses `cmd`, Windows and Linux use `ctrl`.
+[^2]: Currently supported extensions are `.png`, `.jpg`, `.jpeg`, `.gif`, `.tiff`, and `.tif`.

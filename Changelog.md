@@ -1,3 +1,4 @@
+- 2021-12-11	release 0.13.0
 - 2021-12-11	+ auto-insert now URLs also considers image-URLs
 - 2021-12-07	release 0.12.0
 - 2021-12-07	+ Smarter Markdown Links now auto-insert URLs form the clipboard

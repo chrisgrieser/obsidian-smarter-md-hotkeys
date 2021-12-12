@@ -6,7 +6,7 @@ declare module "obsidian" {
 	interface Editor {
 		cm: {
 			findWordAt?: (pos: EditorPosition) => EditorSelection;
-			state?: { wordAt: (offset: number) => EditorSelection };
+			state?: { wordAt: (offset: number) => SelectionRange };
 		};
 	}
 }
@@ -67,14 +67,15 @@ export default class SmarterMDhotkeys extends Plugin {
 				// https://codemirror.net/doc/manual.html#api_selection
 				// https://codemirror.net/6/docs/ref/#state
 				// https://github.com/argenos/nldates-obsidian/blob/e6b95969d7215b9ded2b72c4e319e35bc6022199/src/utils.ts#L16
+				// https://github.com/obsidianmd/obsidian-api/blob/fac5e67f5d83829a4e0126905494c8cbca27765b/obsidian.d.ts#L787
 				log ("Getting Word under Cursor");
 				
 				if (editor.cm instanceof window.CodeMirror) return editor.cm.findWordAt(ep); // CM5
 
-				const word = editor.cm.state.wordAt(editor.posToOffset(ep)); // CM6
-				// const startPos = offToPos(word.from);
-				// const endPos = offToPos(word.to);
-				return { anchor: word.anchor, head: word.head };
+				const word = editor.cm.state.wordAt(editor.posToOffset (ep)); // CM6
+				const startPos = offToPos(word.from);
+				const endPos = offToPos(word.to);
+				return { anchor: startPos, head: endPos };
 			}
 
 			// Inline-Code: use only space as delimiter

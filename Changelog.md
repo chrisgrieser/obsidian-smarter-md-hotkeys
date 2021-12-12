@@ -1,3 +1,4 @@
+- 2021-12-12	release 0.13.1
 - 2021-12-11	release 0.13.0
 - 2021-12-11	+ auto-insert now URLs also considers image-URLs
 - 2021-12-07	release 0.12.0

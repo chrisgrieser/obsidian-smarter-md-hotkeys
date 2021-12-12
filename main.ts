@@ -6,7 +6,7 @@ declare module "obsidian" {
 	interface Editor {
 		cm: {
 			findWordAt?: (pos: EditorPosition) => EditorSelection;
-			state?: { wordAt: (offset: number) => SelectorRange };
+			state?: { wordAt: (offset: number) => { from: number, to: number} };
 		};
 	}
 }
@@ -29,18 +29,18 @@ export default class SmarterMDhotkeys extends Plugin {
 	async onunload() { console.log("Smarter MD Hotkeys unloaded.") }
 
 	async expandAndWrap(frontMarkup: string, endMarkup: string, editor: Editor) {
+		const debug = true;
 
 		// FUNCTIONS
 		//-------------------------------------------------------------------
 
-		// Boolean Functions to check properties of selection
+		// Small Utility Functions
 		const markupOutsideSel = () => {
 			const so = startOffset();
 			const eo = endOffset();
-			const noteLength = (editor.getValue()).length;
 
-			if (offToPos(so - blen) < 0) return false; // beginning of the document
-			if (offToPos(eo - alen) > noteLength) return false; // end of the document
+			if ((so - blen) < 0) return false; // beginning of the document
+			if ((eo - alen) > noteLength()) return false; // end of the document
 
 			const charsBefore = editor.getRange(offToPos(so - blen), offToPos(so));
 			const charsAfter = editor.getRange(offToPos(eo), offToPos(eo + alen));
@@ -48,25 +48,23 @@ export default class SmarterMDhotkeys extends Plugin {
 		};
 		const noSel = () => !editor.somethingSelected();
 		const multiLineSel = () => editor.getSelection().includes("\n");
+		const noteLength = () => (editor.getValue()).length;
 
-		// Offset Functions
 		const startOffset = () => editor.posToOffset(editor.getCursor("from"));
 		const endOffset = () => editor.posToOffset(editor.getCursor("to"));
 		const offToPos = (offset: number) => {
 
 			// prevent error when at the start or beginning of document
 			if (offset < 0) offset = 0;
-			const noteLength = (editor.getValue()).length;
-			if (offset > noteLength) offset = noteLength;
+			if (offset > noteLength()) offset = noteLength();
 
 			return editor.offsetToPos(offset);
 		};
 
-		// Debug Function
 		function log (msg: string, appendSelection?: boolean) {
 			if (!debug) return;
 			let appended = "";
-			if (appendSelection) appended = ": " + editor.getSelection();
+			if (appendSelection) appended = ": \"" + editor.getSelection() + "\"";
 			console.log("- " + msg + appended);
 		}
 
@@ -98,7 +96,6 @@ export default class SmarterMDhotkeys extends Plugin {
 				const so = editor.posToOffset(ep);
 				let charAfter, charBefore;
 				let [i, j, endReached, startReached] = [0, 0, false, false];
-				const noteLength = (editor.getValue()).length;
 
 				while (!/\s/.test(charBefore) && !startReached) {
 					charBefore = editor.getRange(offToPos(so - (i+1)), offToPos(so - i));
@@ -108,7 +105,7 @@ export default class SmarterMDhotkeys extends Plugin {
 				while (!/\s/.test(charAfter) && !endReached) {
 					charAfter = editor.getRange(offToPos(so + j), offToPos(so + j+1));
 					j++;
-					if (so+(j-1) === noteLength) endReached = true;
+					if (so+(j-1) === noteLength()) endReached = true;
 				}
 
 				startPos = offToPos(so - (i-1));
@@ -234,10 +231,7 @@ export default class SmarterMDhotkeys extends Plugin {
 		if (endMarkup === "]()") [frontMarkup, endMarkup] = await insertURLtoMDLink();
 
 		const [blen, alen] = [frontMarkup.length, endMarkup.length];
-
-		// Debug
-		const debug = true;
-		if (debug) console.log("\nSmarterMD Hotkeys triggered\n---");
+		log("\nSmarterMD Hotkeys triggered\n---------------------------");
 
 		// prevent things like triple-click selection from triggering multi-line
 		trimSelection();
@@ -246,6 +240,7 @@ export default class SmarterMDhotkeys extends Plugin {
 			log ("single line");
 			const { anchor: preSelExpAnchor, head: preSelExpHead } = expandToWordBoundary();
 			applyMarkup(preSelExpAnchor, preSelExpHead, "single");
+			return;
 		}
 
 		if (multiLineSel()) {
@@ -266,7 +261,6 @@ export default class SmarterMDhotkeys extends Plugin {
 				else pointerOff += (blen + alen); // account for added markup
 
 				applyMarkup(preSelExpAnchor, preSelExpHead, "multi");
-				return;
 			});
 		}
 

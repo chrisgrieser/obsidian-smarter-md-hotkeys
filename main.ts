@@ -64,12 +64,17 @@ export default class SmarterMDhotkeys extends Plugin {
 
 			// Get Word under Cursor
 			if (frontMarkup !== "`") {
-				log ("Getting Word under Cursor");
 				// https://codemirror.net/doc/manual.html#api_selection
-				if (editor.cm?.findWordAt) return editor.cm.findWordAt(ep);	// CM5
-
 				// https://codemirror.net/6/docs/ref/#state
-				if (editor.cm?.state.wordAt) return editor.cm.state.wordAt(editor.posToOffset(ep)); // CM6
+				// https://github.com/argenos/nldates-obsidian/blob/e6b95969d7215b9ded2b72c4e319e35bc6022199/src/utils.ts#L16
+				log ("Getting Word under Cursor");
+				
+				if (editor.cm instanceof window.CodeMirror) return editor.cm.findWordAt(ep); // CM5
+
+				const word = editor.cm.state.wordAt(editor.posToOffset(ep)); // CM6
+				// const startPos = offToPos(word.from);
+				// const endPos = offToPos(word.to);
+				return { anchor: word.anchor, head: word.head };
 			}
 
 			// Inline-Code: use only space as delimiter

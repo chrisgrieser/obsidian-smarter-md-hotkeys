@@ -6,7 +6,7 @@ declare module "obsidian" {
 	interface Editor {
 		cm: {
 			findWordAt?: (pos: EditorPosition) => EditorSelection;
-			state?: { wordAt: (offset: number) => SelectionRange };
+			state?: { wordAt: (offset: number) => SelectorRange };
 		};
 	}
 }
@@ -34,22 +34,33 @@ export default class SmarterMDhotkeys extends Plugin {
 		//-------------------------------------------------------------------
 
 		// Boolean Functions to check properties of selection
-		function markupOutsideSel() {
+		const markupOutsideSel = () => {
 			const so = startOffset();
 			const eo = endOffset();
+			const noteLength = (editor.getValue()).length;
+
+			if (offToPos(so - blen) < 0) return false; // beginning of the document
+			if (offToPos(eo - alen) > noteLength) return false; // end of the document
+
 			const charsBefore = editor.getRange(offToPos(so - blen), offToPos(so));
 			const charsAfter = editor.getRange(offToPos(eo), offToPos(eo + alen));
 			return (charsBefore === frontMarkup && charsAfter === endMarkup);
-		}
-		const noSelection = () => !editor.somethingSelected();
-		const multiWordSel = () => editor.getSelection().includes(" ");
+		};
+		const noSel = () => !editor.somethingSelected();
 		const multiLineSel = () => editor.getSelection().includes("\n");
-		const partialWordSel = () => (editor.somethingSelected() && !multiWordSel() && !multiLineSel());
 
 		// Offset Functions
 		const startOffset = () => editor.posToOffset(editor.getCursor("from"));
 		const endOffset = () => editor.posToOffset(editor.getCursor("to"));
-		const offToPos = (offset: number) => editor.offsetToPos(offset);
+		const offToPos = (offset: number) => {
+
+			// prevent error when at the start or beginning of document
+			if (offset < 0) offset = 0;
+			const noteLength = (editor.getValue()).length;
+			if (offset > noteLength) offset = noteLength;
+
+			return editor.offsetToPos(offset);
+		};
 
 		// Debug Function
 		function log (msg: string, appendSelection?: boolean) {
@@ -62,20 +73,23 @@ export default class SmarterMDhotkeys extends Plugin {
 		// Core Functions
 		function textUnderCursor(ep: EditorPosition) {
 
-			// Get Word under Cursor
+			// prevent underscores (wrongly counted as words) to be expanded to
+			if (markupOutsideSel() && noSel()) return { anchor: ep, head: ep };
+
+			let endPos, startPos;
 			if (frontMarkup !== "`") {
 				// https://codemirror.net/doc/manual.html#api_selection
 				// https://codemirror.net/6/docs/ref/#state
 				// https://github.com/argenos/nldates-obsidian/blob/e6b95969d7215b9ded2b72c4e319e35bc6022199/src/utils.ts#L16
 				// https://github.com/obsidianmd/obsidian-api/blob/fac5e67f5d83829a4e0126905494c8cbca27765b/obsidian.d.ts#L787
-				log ("Getting Word under Cursor");
 				
 				if (editor.cm instanceof window.CodeMirror) return editor.cm.findWordAt(ep); // CM5
 
 				const word = editor.cm.state.wordAt(editor.posToOffset (ep)); // CM6
-				const startPos = offToPos(word.from);
-				const endPos = offToPos(word.to);
-				return { anchor: startPos, head: endPos };
+				if (!word) return { anchor: ep, head: ep }; // for when there is no word close by
+
+				startPos = offToPos(word.from);
+				endPos = offToPos(word.to);
 			}
 
 			// Inline-Code: use only space as delimiter
@@ -97,10 +111,11 @@ export default class SmarterMDhotkeys extends Plugin {
 					if (so+(j-1) === noteLength) endReached = true;
 				}
 
-				const startPos = offToPos(so - (i-1));
-				const endPos = offToPos(so + (j-1));
-				return { anchor: startPos, head: endPos };
+				startPos = offToPos(so - (i-1));
+				endPos = offToPos(so + (j-1));
 			}
+
+			return { anchor: startPos, head: endPos };
 		}
 
 		function trimSelection() {
@@ -118,8 +133,9 @@ export default class SmarterMDhotkeys extends Plugin {
 					if (selection.startsWith(str)) {
 						selection = selection.slice(str.length);
 						so += str.length;
-					} else
-					{cleanCount++}
+					} else {
+						cleanCount++;
+					}
 
 				});
 				if (cleanCount === trimBefore.length || !selection.length) trimFinished = true;
@@ -144,141 +160,60 @@ export default class SmarterMDhotkeys extends Plugin {
 			log ("after trim", true);
 		}
 
-		function expandToWordBoundary (): [preSelExpAnchor: EditorPosition, preSelExpHead: EditorPosition, expMode: string] {
-			let preSelExpAnchor, preSelExpHead;
+		function expandToWordBoundary () {
+			trimSelection();
 			log ("before Exp to Word", true);
-			let expMode = "none";
+			const preSelExpAnchor = editor.getCursor("from");
+			const preSelExpHead = editor.getCursor("to");
 
-			// Expand Selection to word if partial word
-			if (partialWordSel()) {
-				expMode = "Partial Word";
-				log ("One Word Expansion");
+			const firstWordRange = textUnderCursor(preSelExpAnchor);
 
-				preSelExpAnchor = editor.getCursor("from");
-				preSelExpHead = editor.getCursor("to");
-				const { anchor, head } = textUnderCursor(preSelExpAnchor);
+			// findAtWord reads to the right, so w/o "-1" the space would be read, not the word
+			preSelExpHead.ch--;
+			const lastWordRange = textUnderCursor(preSelExpHead);
+			preSelExpHead.ch++;
 
-				// Fix for punctuation messing up selection due to findAtWord
-				const word = editor.getRange(anchor, head);
-				if (/^[.,;:\-–—]/.test(word)) head.ch = anchor.ch + 1;
-
-				editor.setSelection(anchor, head);
-			}
-
-			// Expand Selection to word boundaries if multiple words
-			if (multiWordSel()) {
-				expMode = "Multi Word";
-				log ("Multi-Word Expansion");
-
-				preSelExpAnchor = editor.getCursor("from");
-				preSelExpHead = editor.getCursor("to");
-
-				const firstWordRange = textUnderCursor(preSelExpAnchor);
-
-				// findAtWord reads to the right, so w/o "-1" the space would be read, not the word
+			// Fix for punctuation messing up selection due to findAtWord
+			const lastWord = editor.getRange(lastWordRange.anchor, lastWordRange.head);
+			if (/^[.,;:\-–—]/.test(lastWord)) {
+				lastWordRange.head.ch = lastWordRange.anchor.ch + 1;
 				preSelExpHead.ch--;
-				const lastWordRange = textUnderCursor(preSelExpHead);
-				preSelExpHead.ch++;
-
-				// Fix for punctuation messing up selection due to findAtWord
-				const lastWord = editor.getRange(lastWordRange.anchor, lastWordRange.head);
-				if (/^[.,;:\-–—]/.test(lastWord)) lastWordRange.head.ch = lastWordRange.anchor.ch + 1;
-
-				editor.setSelection(firstWordRange.anchor, lastWordRange.head);
 			}
+
+			editor.setSelection(firstWordRange.anchor, lastWordRange.head);
 
 			log ("after expansion", true);
 			trimSelection();
-			return [preSelExpAnchor, preSelExpHead, expMode];
+			return { anchor: preSelExpAnchor, head: preSelExpHead };
 		}
 
-		function expandWithNoSel (): EditorPosition {
-			const preExpCursor = editor.getCursor();
-			const { anchor, head } = textUnderCursor(preExpCursor);
-			editor.setSelection(anchor, head);
-			trimSelection();
-			return preExpCursor;
-		}
-
-		function undoWithNoSel () {
-			const o = startOffset();
-			editor.setSelection(offToPos(o - blen), offToPos(o + alen));
-			editor.replaceSelection("");
-			editor.setSelection(offToPos(o - blen), offToPos(o - alen) );
-		}
-
-		function applyMarkup (
-			preNoSelPos_: EditorPosition,
-			preSelExpAnchor: EditorPosition,
-			preSelExpHead: EditorPosition,
-			expMode: string,
-			lineMode: string
-		) {
-			// Get properties of new selection
+		function applyMarkup (preSelExpAnchor: EditorPosition, preSelExpHead: EditorPosition, lineMode: string ) {
 			const selectedText = editor.getSelection();
 			const so = startOffset();
 			const eo = endOffset();
+			const anchor = preSelExpAnchor;
+			const head = preSelExpHead;
 
-			// abort if empty line & multi
-			if (noSelection() && lineMode === "multi") return;
-
-			// No selection → just insert markup by itself
-			if (noSelection()) {
-				editor.replaceSelection(frontMarkup + endMarkup);
-				const cursor = editor.getCursor();
-				cursor.ch -= alen;
-				editor.setCursor(cursor);
-				return;
-			}
+			// abort if empty line & multi, since no markup on empty line in between desired
+			if (noSel() && lineMode === "multi") return;
 
 			// Do Markup
 			if (!markupOutsideSel()) {
 				editor.replaceSelection(frontMarkup + selectedText + endMarkup);
-				if (preNoSelPos_) {
-					preNoSelPos_.ch += blen;
-					editor.setCursor(preNoSelPos_);
-					return;
-				}
-
-				let anchor, head;
-				if (expMode === "Multi Word" || expMode === "Partial Word") {
-					anchor = preSelExpAnchor;
-					head = preSelExpHead;
-					anchor.ch += blen;
-					head.ch += alen;
-				}
-				if (expMode === "none") {
-					anchor = offToPos(so + blen);
-					head = offToPos(eo + blen);
-				}
-				if (lineMode === "single") editor.setSelection(anchor, head);
-				return;
+				anchor.ch += blen;
+				head.ch += alen;
 			}
 
 			// Undo Markup (outside selection, inside not necessary as trimmed already)
 			if (markupOutsideSel()) {
 				editor.setSelection(offToPos(so - blen), offToPos(eo + alen));
 				editor.replaceSelection(selectedText);
-				if (preNoSelPos_) {
-					preNoSelPos_.ch -= blen;
-					editor.setCursor(preNoSelPos_);
-					return;
-				}
-
-				let anchor, head;
-				if (expMode === "Multi Word" || expMode === "Partial Word") {
-					anchor = preSelExpAnchor;
-					head = preSelExpHead;
-					anchor.ch -= blen;
-					head.ch -= alen;
-				}
-				if (expMode === "none") {
-					anchor = offToPos(so - blen);
-					head = offToPos(eo - alen);
-				}
-				if (lineMode === "single") editor.setSelection(anchor, head);
-				return;
+				anchor.ch -= blen;
+				head.ch -= alen;
 			}
+
+			if (lineMode === "single") editor.setSelection(anchor, head);
+			return;
 		}
 
 		async function insertURLtoMDLink () {
@@ -302,45 +237,37 @@ export default class SmarterMDhotkeys extends Plugin {
 
 		// Debug
 		const debug = true;
-		if (debug) console.log("\nSmarterMD Hotkeys triggered\n----------------------------");
+		if (debug) console.log("\nSmarterMD Hotkeys triggered\n---");
 
-		// if nothing selected and markup outside, just undo markup
-		// otherwise expand selection to word
-		let preNoSelPos: EditorPosition;
-		if (noSelection()) {
-			if (markupOutsideSel()) {
-				undoWithNoSel();
-				return;
-			}
-			preNoSelPos = expandWithNoSel();
+		// prevent things like triple-click selection from triggering multi-line
+		trimSelection();
+
+		if (!multiLineSel()) {
+			log ("single line");
+			const { anchor: preSelExpAnchor, head: preSelExpHead } = expandToWordBoundary();
+			applyMarkup(preSelExpAnchor, preSelExpHead, "single");
 		}
 
-		// if selection spans multiple lines, get offsets of
-		// each line and apply markup to each
 		if (multiLineSel()) {
 			let pointerOff = startOffset();
 			const lines = editor.getSelection().split("\n");
 			log ("lines: " + lines.length.toString());
 
+			// get offsets of each line and apply markup to each
 			lines.forEach (line => {
 				console.log("");
 				editor.setSelection(offToPos(pointerOff), offToPos(pointerOff + line.length));
 
-				const [preSelExpAnchor, preSelExpHead, expandMode] = expandToWordBoundary();
+				const { anchor: preSelExpAnchor, head: preSelExpHead } = expandToWordBoundary();
 
 				// Move Pointer to next line
 				pointerOff += line.length + 1; // +1 to account for line break
 				if (markupOutsideSel()) pointerOff-= (blen + alen); // account for removed markup
 				else pointerOff += (blen + alen); // account for added markup
 
-				applyMarkup(preNoSelPos, preSelExpAnchor, preSelExpHead, expandMode, "multi");
+				applyMarkup(preSelExpAnchor, preSelExpHead, "multi");
+				return;
 			});
-
-		// single line selection
-		} else {
-			log ("single line");
-			const [preSelExpAnchor, preSelExpHead, expandMode] = expandToWordBoundary();
-			applyMarkup(preNoSelPos, preSelExpAnchor, preSelExpHead, expandMode, "single");
 		}
 
 	}

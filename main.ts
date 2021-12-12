@@ -2,11 +2,11 @@ import { COMMANDS } from "const";
 import { Editor, EditorPosition, Plugin } from "obsidian";
 
 declare module "obsidian" {
-	// add type safety of the undocumented method
+	// add type safety for the undocumented method
 	interface Editor {
 		cm: {
-			state?: { wordAt: (offset: number) => EditorSelection };
 			findWordAt?: (pos: EditorPosition) => EditorSelection;
+			state?: { wordAt: (offset: number) => EditorSelection };
 		};
 	}
 }
@@ -64,13 +64,17 @@ export default class SmarterMDhotkeys extends Plugin {
 
 			// Get Word under Cursor
 			if (frontMarkup !== "`") {
+				log ("Getting Word under Cursor");
 				// https://codemirror.net/doc/manual.html#api_selection
 				if (editor.cm?.findWordAt) return editor.cm.findWordAt(ep);	// CM5
+
+				// https://codemirror.net/6/docs/ref/#state
 				if (editor.cm?.state.wordAt) return editor.cm.state.wordAt(editor.posToOffset(ep)); // CM6
 			}
 
 			// Inline-Code: use only space as delimiter
 			if (frontMarkup === "`") {
+				log ("Getting Code under Cursor");
 				const so = editor.posToOffset(ep);
 				let charAfter, charBefore;
 				let [i, j, endReached, startReached] = [0, 0, false, false];

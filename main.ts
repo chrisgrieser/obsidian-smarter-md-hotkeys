@@ -1,6 +1,5 @@
 import { COMMANDS } from "const";
 import { Editor, EditorPosition, Plugin } from "obsidian";
-
 declare module "obsidian" {
 	// add type safety for the undocumented method
 	interface Editor {
@@ -116,7 +115,21 @@ export default class SmarterMDhotkeys extends Plugin {
 		}
 
 		function trimSelection() {
-			const trimBefore = ["- [ ] ", "- [x] ", "- ", " ", "\n", "\t", frontMarkup];
+			const trimBefore = [
+				"###### ",
+				"##### ",
+				"#### ",
+				"### ",
+				"## ",
+				"# ",
+				"- [ ] ",
+				"- [x] ",
+				"- ",
+				" ",
+				"\n",
+				"\t",
+				frontMarkup
+			];
 			const trimAfter = [" ", "\n", "\t", endMarkup];
 			let selection = editor.getSelection();
 			let so = startOffset();

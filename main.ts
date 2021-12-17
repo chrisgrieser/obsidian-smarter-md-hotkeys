@@ -239,12 +239,11 @@ export default class SmarterMDhotkeys extends Plugin {
 
 		// MAIN
 		//-------------------------------------------------------------------
+		log("\nSmarterMD Hotkeys triggered\n---------------------------");
+		const [blen, alen] = [frontMarkup.length, endMarkup.length];
 
 		// auto-insert URL from clipboard
 		if (endMarkup === "]()") [frontMarkup, endMarkup] = await insertURLtoMDLink();
-
-		const [blen, alen] = [frontMarkup.length, endMarkup.length];
-		log("\nSmarterMD Hotkeys triggered\n---------------------------");
 
 		// prevent things like triple-click selection from triggering multi-line
 		trimSelection();

@@ -69,7 +69,7 @@ export const COMMANDS: {
 
 	{
 		id: "smarter-md-link",
-		name: "Smarter Markdown Link",
+		name: "Smarter Markdown Link/Image",
 		before: "[",
 		after: "]()",
 	}

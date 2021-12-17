@@ -211,8 +211,7 @@ export default class SmarterMDhotkeys extends Plugin {
 			if (!markupOutsideSel()) {
 				editor.replaceSelection(frontMarkup + selectedText + endMarkup);
 				anchor.ch += blen;
-				head.ch += alen;
-				if (alen > 6) head.ch -= (alen - 3); // account for URL added
+				head.ch += blen;
 			}
 
 			// Undo Markup (outside selection, inside not necessary as trimmed already)
@@ -231,19 +230,22 @@ export default class SmarterMDhotkeys extends Plugin {
 			const imageURLregex = /\.(png|jpe?g|gif|tiff?)$/;
 			const cbText = (await navigator.clipboard.readText()).trim();
 
-			if (URLregex.test(cbText)) endMarkup = "](" + cbText + ")";
-			if (imageURLregex.test(cbText)) frontMarkup = "![";
-
-			return [frontMarkup, endMarkup];
+			let frontMarkup_ = frontMarkup;
+			let endMarkup_ = endMarkup;
+			if (URLregex.test(cbText)) {
+				endMarkup_ = "](" + cbText + ")";
+				if (imageURLregex.test(cbText)) frontMarkup_ = "![";
+			}
+			return [frontMarkup_, endMarkup_];
 		}
 
 		// MAIN
 		//-------------------------------------------------------------------
 		log("\nSmarterMD Hotkeys triggered\n---------------------------");
-		const [blen, alen] = [frontMarkup.length, endMarkup.length];
 
 		// auto-insert URL from clipboard
 		if (endMarkup === "]()") [frontMarkup, endMarkup] = await insertURLtoMDLink();
+		const [blen, alen] = [frontMarkup.length, endMarkup.length];
 
 		// prevent things like triple-click selection from triggering multi-line
 		trimSelection();

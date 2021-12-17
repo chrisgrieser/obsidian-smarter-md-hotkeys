@@ -212,6 +212,7 @@ export default class SmarterMDhotkeys extends Plugin {
 				editor.replaceSelection(frontMarkup + selectedText + endMarkup);
 				anchor.ch += blen;
 				head.ch += alen;
+				if (alen > 6) head.ch -= (alen - 3); // account for URL added
 			}
 
 			// Undo Markup (outside selection, inside not necessary as trimmed already)
@@ -223,7 +224,6 @@ export default class SmarterMDhotkeys extends Plugin {
 			}
 
 			if (lineMode === "single") editor.setSelection(anchor, head);
-			return;
 		}
 
 		async function insertURLtoMDLink () {

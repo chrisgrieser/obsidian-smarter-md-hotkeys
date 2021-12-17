@@ -219,7 +219,7 @@ export default class SmarterMDhotkeys extends Plugin {
 				editor.setSelection(offToPos(so - blen), offToPos(eo + alen));
 				editor.replaceSelection(selectedText);
 				anchor.ch -= blen;
-				head.ch -= alen;
+				head.ch -= blen;
 			}
 
 			if (lineMode === "single") editor.setSelection(anchor, head);

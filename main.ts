@@ -115,7 +115,7 @@ export default class SmarterMDhotkeys extends Plugin {
 		}
 
 		function trimSelection() {
-			const trimBefore = [
+			let trimBefore = [
 				"###### ",
 				"##### ",
 				"#### ",
@@ -131,6 +131,9 @@ export default class SmarterMDhotkeys extends Plugin {
 				frontMarkup
 			];
 			const trimAfter = [" ", "\n", "\t", endMarkup];
+
+			if (frontMarkup === "%%") trimBefore = [frontMarkup];
+
 			let selection = editor.getSelection();
 			let so = startOffset();
 			log ("before trim", true);

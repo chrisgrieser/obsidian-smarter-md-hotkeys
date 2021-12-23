@@ -171,8 +171,9 @@ export default class SmarterMDhotkeys extends Plugin {
 		}
 
 		function expandToWordBoundary () {
+			const originalSel = editor.getSelection();
 			trimSelection();
-			log ("before Exp to Word", true);
+			log ("before expandToWordBoundary", true);
 			const preSelExpAnchor = editor.getCursor("from");
 			const preSelExpHead = editor.getCursor("to");
 
@@ -183,16 +184,20 @@ export default class SmarterMDhotkeys extends Plugin {
 			const lastWordRange = textUnderCursor(preSelExpHead);
 			preSelExpHead.ch++;
 
-			// Fix for punctuation messing up selection due to findAtWord
+			// Fixes for punctuation messing up selection due to findAtWord
 			const lastWord = editor.getRange(lastWordRange.anchor, lastWordRange.head);
 			if (/^[.,;:\-–—]/.test(lastWord)) {
 				lastWordRange.head.ch = lastWordRange.anchor.ch + 1;
 				preSelExpHead.ch--;
 			}
+			if (/[\])}]/.test(originalSel.slice(-1))) {
+				lastWordRange.head.ch++;
+			}
+
 
 			editor.setSelection(firstWordRange.anchor, lastWordRange.head);
 
-			log ("after expansion", true);
+			log ("after expandToWordBoundary", true);
 			trimSelection();
 			return { anchor: preSelExpAnchor, head: preSelExpHead };
 		}

@@ -34,17 +34,20 @@ export default class SmarterMDhotkeys extends Plugin {
 		//-------------------------------------------------------------------
 
 		// Small Utility Functions
-		const markupOutsideSel = () => {
+		function isOutsideSel (bef:string, aft:string) {
 			const so = startOffset();
 			const eo = endOffset();
 
-			if ((so - blen) < 0) return false; // beginning of the document
-			if ((eo - alen) > noteLength()) return false; // end of the document
+			if ((so - bef.length) < 0) return false; // beginning of the document
+			if ((eo - aft.length) > noteLength()) return false; // end of the document
 
-			const charsBefore = editor.getRange(offToPos(so - blen), offToPos(so));
-			const charsAfter = editor.getRange(offToPos(eo), offToPos(eo + alen));
-			return (charsBefore === frontMarkup && charsAfter === endMarkup);
-		};
+			const charsBefore = editor.getRange(offToPos(so - bef.length), offToPos(so));
+			const charsAfter = editor.getRange(offToPos(eo), offToPos(eo + aft.length));
+			return (charsBefore === bef && charsAfter === aft);
+		}
+
+		const markupOutsideSel = () => isOutsideSel (frontMarkup, endMarkup);
+
 		const noSel = () => !editor.somethingSelected();
 		const multiLineSel = () => editor.getSelection().includes("\n");
 		const noteLength = () => (editor.getValue()).length;
@@ -68,7 +71,7 @@ export default class SmarterMDhotkeys extends Plugin {
 		}
 
 		// Core Functions
-		function textUnderCursor(ep: EditorPosition) {
+		function textUnderCursor (ep: EditorPosition) {
 
 			// prevent underscores (wrongly counted as words) to be expanded to
 			if (markupOutsideSel() && noSel()) return { anchor: ep, head: ep };
@@ -169,6 +172,7 @@ export default class SmarterMDhotkeys extends Plugin {
 			const blockID = selection.match(/ \^\w+$/);
 			if (blockID) selection = selection.slice(0, -blockID[0].length);
 
+
 			editor.setSelection(offToPos(so), offToPos(so + selection.length));
 			log ("after trim", true);
 		}
@@ -187,20 +191,28 @@ export default class SmarterMDhotkeys extends Plugin {
 			const lastWordRange = textUnderCursor(preSelExpHead);
 			preSelExpHead.ch++;
 
-			// Fixes for punctuation messing up selection due to findAtWord
+			log ("after expandToWordBoundary, before punctuation fix", true);
+			
+			// Fix for punctuation messing up selection due to findAtWord
 			const lastWord = editor.getRange(lastWordRange.anchor, lastWordRange.head);
 			if (/^[.,;:\-–—]/.test(lastWord)) {
 				lastWordRange.head.ch = lastWordRange.anchor.ch + 1;
 				preSelExpHead.ch--;
 			}
-			if (/[\])}]/.test(originalSel.slice(-1))) {
-				lastWordRange.head.ch++;
-			}
 
+			// keep some punctuation inside selection
+			if (/[\])}"']/.test(originalSel.slice(-1))) lastWordRange.head.ch++;
 
 			editor.setSelection(firstWordRange.anchor, lastWordRange.head);
 
-			log ("after expandToWordBoundary", true);
+			// include quotation marks, if they are at both ends of selection
+			if (isOutsideSel ("\"", "\"") || isOutsideSel ("'", "'")) {
+				firstWordRange.anchor.ch--;
+				lastWordRange.head.ch++;
+				editor.setSelection(firstWordRange.anchor, lastWordRange.head);
+			}
+
+			log ("after punctuation fix", true);
 			trimSelection();
 			return { anchor: preSelExpAnchor, head: preSelExpHead };
 		}

@@ -1,27 +1,89 @@
+- 2021-12-27	
+- 2021-12-27	release 0.13.10
+- 2021-12-27	includes quotation marks when at both ends of markup
+- 2021-12-23	do not trim when applying comments
+- 2021-12-23	improved punctuation recognition of the last word
 - 2021-12-17	release 0.13.9
+- 2021-12-17	renamed "Smarter Markdown Link" to include Images
+- 2021-12-17	fix for resetting selection after undoing url markup
 - 2021-12-17	release 0.13.8
+- 2021-12-17	now getting it right
 - 2021-12-17	release 0.13.7
+- 2021-12-17	fix re-selection after url insertion
 - 2021-12-17	release 0.13.6
+- 2021-12-17	account for URL being added when re-selecting
 - 2021-12-14	release 0.13.5
+- 2021-12-14	implemented #8
+- 2021-12-12	minor cleanup
 - 2021-12-12	release 0.13.4
 - 2021-12-12	release 0.13.3
+- 2021-12-12	probably fix #7
+- 2021-12-12	live preview info added to issue template
 - 2021-12-12	release 0.13.2
 - 2021-12-12	release 0.13.1
+- 2021-12-12	fix for CM6's 'wordAt'
+- 2021-12-12	added soem more debugging
 - 2021-12-11	release 0.13.0
-- 2021-12-11	+ auto-insert now URLs also considers image-URLs
+- 2021-12-11	auto-insert now URLs also considers image-URLs
+- 2021-12-09	refactored `textUnderCursor`
+- 2021-12-08	improved readme
+- 2021-12-08	refactor nothing-selected
 - 2021-12-07	release 0.12.0
-- 2021-12-07	+ Smarter Markdown Links now auto-insert URLs form the clipboard
+- 2021-12-07	Smarter Markdown Links now auto-insert URLs form the clipboard
+- 2021-12-07	added examples to readme
+- 2021-12-07	changed credits section
+- 2021-12-07	added roadmap to readme
+- 2021-12-07	remove trash
 - 2021-12-07	release 0.11.0
-- 2021-12-07	+ add smart multiline capabilities
+- 2021-12-07	add smart multiline capabilities
+- 2021-12-06	partial word includes also includes punctuation now
+- 2021-12-03	add changelog button
 - 2021-12-02	release 0.10.0
 - 2021-12-02	release 0.9.15
+- 2021-12-02	hotfix for Obsidian freezing
 - 2021-12-02	release 0.9.14
+- 2021-11-28	update readme, eslinting
+- 2021-11-25	eslint config
+- 2021-11-25	added eslintrc config
 - 2021-11-24	release 0.9.13
+- 2021-11-24	fix inserting markup by itself when there is no selection
 - 2021-11-24	release 0.9.12
+- 2021-11-24	fix undos and adding space after trim by including markup into characters to be trimmed
 - 2021-11-24	release 0.9.11
+- 2021-11-24	fix: codeUnderWord now uses linebreaks, tabs, and document start/end as delimiters as well
+- 2021-11-23	fixed changelog
+- 2021-11-23	add changelog
+- 2021-11-23	improved speed of manifest retrieval by using local manifest
+- 2021-11-23	version bump to 0.9.10
+- 2021-11-23	smarter inline code delimits based on spaces, not words (#6)
+- 2021-11-21	version bump to 0.9.9
+- 2021-11-21	Merge pull request #5 from SkepticMystic/master
+- 2021-11-21	refactor: :truck: Change from sample name
+- 2021-11-21	release workflow
+- 2021-11-21	update versions.json
+- 2021-11-20	release
 - 2021-11-20	release 0.9.8
+- 2021-11-20	fix for punctuation or space at end of multi-word-selection (#2)
 - 2021-11-20	release 0.9.7
+- 2021-11-20	adress first part of #3
 - 2021-11-20	release 0.9.6
+- 2021-11-20	fix #2
 - 2021-11-20	release 0.9.5
+- 2021-11-20	fix release.yml
 - 2021-11-20	release 0.9.4
+- 2021-11-20	fix release.yml
 - 2021-11-20	release 0.9.3
+- 2021-11-20	trim function (fixes #1)
+- 2021-11-20	removed wrong yaml-file
+- 2021-11-20	add release workflow
+- 2021-11-19	pseudo-trim selection before applying markdown
+- 2021-11-19	issue templates
+- 2021-11-19	added demo gif
+- 2021-11-19	fix shield.io links
+- 2021-11-19	fix underscore with multiword and moving selections
+- 2021-11-19	first working version
+- 2021-11-19	expand selection to word
+- 2021-11-19	funding + license
+- 2021-11-19	initial setup (part 2)
+- 2021-11-19	initial setup
+- 2021-11-19	Initial commit

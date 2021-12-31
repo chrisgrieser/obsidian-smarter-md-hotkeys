@@ -81,7 +81,7 @@ When more than one line is selected, the `Smarter Comment` commands will expand 
 - Smarter Round Brackets
 - Smarter Square Brackets
 
-While strictly speaking quotation marks and brackets are not a form of markup, I found it extremely useful to be able to set them in the same smart way, so there is also a command for that 🙂
+While strictly speaking quotation marks and brackets are not a form of markup, I found it extremely useful to be able to set them in the same smart way, so there is also a command for that. 🙂
 
 ## Setting the Hotkeys
 💡 If you want to replace the default commands from Obsidian, remember to remove their hotkey binding before changing the hotkeys from this plugin. Example for `Smarter Bold`:

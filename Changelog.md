@@ -1,4 +1,6 @@
-- 2021-12-27	
+- 2021-12-31	release 0.13.11
+- 2021-12-31	remove various punctuation fixes not needed with CM6 anymore
+- 2021-12-27	improved changelog routine
 - 2021-12-27	release 0.13.10
 - 2021-12-27	includes quotation marks when at both ends of markup
 - 2021-12-23	do not trim when applying comments

@@ -1,4 +1,4 @@
-# Smarter Markdown Hotkeys
+# 🧠 Smarter Markdown Hotkeys
 
 ![](https://img.shields.io/github/downloads/chrisgrieser/obsidian-smarter-md-hotkeys/total?label=Total%20Downloads&style=plastic) ![](https://img.shields.io/github/v/release/chrisgrieser/obsidian-smarter-md-hotkeys?label=Latest%20Release&style=plastic) [![](https://img.shields.io/badge/changelog-click%20here-FFE800?style=plastic)](Changelog.md)
 
@@ -16,11 +16,11 @@ When using the hotkeys, the markup is automatically applied to the whole word(s)
 - [How it works](#how-it-works)
 	- [Different Scenarios](#different-scenarios)
 	- [Markup Commands added](#markup-commands-added)
-	- [Smarter Code \(Inline/Fenced\)](#smarter-code-inlinefenced)
-	- [Smarter Markdown Link: Auto-Insert URLs](#smarter-markdown-link-auto-insert-urls)
+	- [Smarter Inline/Fenced Code](#smarter-inlinefenced-code)
+	- [Smarter Markdown/Image Link](#smarter-markdownimage-link)
 	- [Smarter Undo](#smarter-undo)
-	- [Smarter \(HTML\) Comment](#smarter-html-comment)
-	- [Smarter Punctuation Commands added](#smarter-punctuation-commands-added)
+	- [Smarter Comment](#smarter-comment)
+	- [Smarter Punctuation Commands](#smarter-punctuation-commands)
 - [Setting the Hotkeys](#setting-the-hotkeys)
 - [Installation](#installation)
 - [Roadmap](#roadmap)
@@ -52,46 +52,46 @@ When using the hotkeys, the markup is automatically applied to the whole word(s)
 - Smarter Underscore Italics (`_foobar_`)
 - Smarter Comment\*
 - Smarter HTML Comment\*
-- Smarter Code (Inline/Fenced)\*
+- Smarter Inline/Fenced Code\*
 - Smarter Highlight
 - Smarter Strikethrough
-- Smarter Markdown Link\*
+- Smarter Markdown/Image Link\*
 - Smarter Wikilink (Internal Link)
-- Smarter Quotation Marks\*
 
 <sup>*\* Please see the information below regarding specific information for these commands*</sup>
 
-### Smarter Code (Inline/Fenced)
+### Smarter Inline/Fenced Code
 - __Terms instead of Words:__ `Smarter Code` will *not* consider punctuation and brackets as delimiters. This means that a cursor anywhere in "object.method" will select the whole term and result in "`object.method`" instead of "`object`.method".
 - __Automatic Switch to Fenced Code Syntax__: When more than one line is selected, the `Smarter Code` will  wrap the selected lines in fenced code syntax instead. Furthermore, the cursor to moved to the beginning of the fenced code block to you can conveniently enter the code language.
 
-### Smarter Markdown Link: Auto-Insert URLs
-When you use `Smarter Markdown Link` and have an URL in your clipboard, the URL will automatically get inserted as well. 
-
-When the URL ends with an image extension[^2] like `.png`, the command will also prepend the `!` for image links.
+### Smarter Markdown/Image Link
+- __Auto-Insert URLs__: When you use `Smarter Markdown Link` and have an URL in your clipboard, the URL will automatically get inserted as well. 
+- __Automatic Switch to Image Syntax__ When the URL ends with an image extension like `.png`[^2], the command will also prepend the `!` for image links.
 
 ### Smarter Undo
 Every Command also supports *undoing* markup, by triggering the same hotkey again. As opposed to normal Markdown Hotkeys, the undoing is applied yet again to the whole word. See the [overview above](#Different%20Scenarios) for specifics.
 
-### Smarter (HTML) Comment
+### Smarter Comment
 When more than one line is selected, the `Smarter Comment` commands will expand the selection to the whole blocks and than wrap all of them together into the comment syntax. 
 
-### Smarter Punctuation Commands added
+### Smarter Punctuation Commands
+While strictly speaking quotation marks and brackets are not a form of markup, I found it extremely useful to be able to set them in the same smart way, so there the following commands have been added for convenience as well 🙂
+
 - Smarter Quotation Marks
 - Smarter Round Brackets
 - Smarter Square Brackets
 
-While strictly speaking quotation marks and brackets are not a form of markup, I found it extremely useful to be able to set them in the same smart way, so there is also a command for that. 🙂
-
 ## Setting the Hotkeys
-💡 If you want to replace the default commands from Obsidian, remember to remove their hotkey binding before changing the hotkeys from this plugin. Example for `Smarter Bold`:
+If you want to replace the default commands from Obsidian, remember to remove their hotkey binding before changing the hotkeys from this plugin. Example for `Smarter Bold`:
 1. Remove the hotkey `cmd/ctrl + B`[^1] for the default command `Toggle Bold`.
 2. Assign `cmd/ctrl + B` as the hotkey for the command `Smarter Bold`.
+
+💡 For the smarter punctuation commands, you can also set them to a hotkey with shift, for example `shift + 2` for the Smarter Quotation Marks. Curiously, Obsidian accepts this, so you can work purely with smarter punctuation, if you want to. (At the cost of losing the ability to type punctuation normally.)
 
 ## Installation
 Right now, the plugin is still in beta. It can be installed with the [BRAT Plugin](https://github.com/TfTHacker/obsidian42-brat).
 
-This plugin will be available in Obsidian's Community Plugin Browser: `Settings` → `Community Plugins` → `Browse` → Search for *"Smarter Markdown Hotkeys"*
+When published, the plugin will be available in Obsidian's Community Plugin Browser via: `Settings` → `Community Plugins` → `Browse` → Search for *"Smarter Markdown Hotkeys"*
 
 ## Roadmap
 - [x] Smarter Undo
@@ -99,8 +99,8 @@ This plugin will be available in Obsidian's Community Plugin Browser: `Settings`
 - [x] Auto-insert URL from clipboard
 - [x] Smart Code Block & Comments
 - [ ] Multi-Cursor Support
-- [ ] Expand to line instead of word when at least 3 lines are selected.
 - [ ] Submission to the Community Plugin Browser
+- [ ] Expand to line instead of word [when at least 3 lines are selected](https://github.com/chrisgrieser/obsidian-smarter-md-hotkeys/issues/3#issuecomment-987669194).
 
 ## Contribute
 Please use the `.eslintrc` configuration located in the repository and run eslint before doing a pull request, though. 🙂

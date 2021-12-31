@@ -33,7 +33,7 @@ export default class SmarterMDhotkeys extends Plugin {
 		// FUNCTIONS
 		//-------------------------------------------------------------------
 
-		// Small Utility Functions
+		// Utility Functions
 		function isOutsideSel (bef:string, aft:string) {
 			const so = startOffset();
 			const eo = endOffset();
@@ -47,6 +47,7 @@ export default class SmarterMDhotkeys extends Plugin {
 		}
 
 		const markupOutsideSel = () => isOutsideSel (frontMarkup, endMarkup);
+		const multiLineMarkup = () => (frontMarkup === "`" || frontMarkup === "%%" || frontMarkup === "<!--");
 
 		const noSel = () => !editor.somethingSelected();
 		const multiLineSel = () => editor.getSelection().includes("\n");
@@ -230,6 +231,36 @@ export default class SmarterMDhotkeys extends Plugin {
 			if (lineMode === "single") editor.setSelection(anchor, head);
 		}
 
+		function wrapMultiLine() {
+			const selAnchor = editor.getCursor("from");
+			const selHead = editor.getCursor("to");
+
+			// switch to fenced code instead of inline code
+			if (frontMarkup === "`") {
+				frontMarkup = "```";
+				endMarkup = "```";
+			}
+
+			// front
+			selAnchor.ch = 0; // start of line
+			editor.setSelection(selAnchor);
+			editor.replaceSelection(frontMarkup + "\n");
+
+			// end
+			selHead.ch = 0;
+			selHead.line = selHead.line + 2; // 1 frontMarkup line + 1 to move endMarkup below selection
+			editor.setSelection(selHead);
+			editor.replaceSelection(endMarkup + "\n");
+
+			// position cursor for fenced code for convenient language definition
+			if (frontMarkup === "```") {
+				const languageDefPos = selAnchor;
+				languageDefPos.ch = 3;
+				editor.setSelection(languageDefPos);
+			}
+
+		}
+
 		async function insertURLtoMDLink () {
 			const URLregex = /\b((?:[a-z][\w-]+:(?:\/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))/; // eslint-disable-line no-useless-escape
 			const imageURLregex = /\.(png|jpe?g|gif|tiff?)$/;
@@ -262,12 +293,18 @@ export default class SmarterMDhotkeys extends Plugin {
 			return;
 		}
 
-		if (multiLineSel()) {
+		if (multiLineSel() && multiLineMarkup()) {
+			log ("Multiline Wrap");
+			wrapMultiLine();
+			return;
+		}
+
+		if (multiLineSel() && !multiLineMarkup()) {
 			let pointerOff = startOffset();
 			const lines = editor.getSelection().split("\n");
 			log ("lines: " + lines.length.toString());
 
-			// get offsets of each line and apply markup to each
+			// get offsets for each line and apply markup to each
 			lines.forEach (line => {
 				console.log("");
 				editor.setSelection(offToPos(pointerOff), offToPos(pointerOff + line.length));

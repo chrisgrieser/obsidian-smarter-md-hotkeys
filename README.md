@@ -6,7 +6,7 @@
 
 When using the hotkeys, the markup is automatically applied to the whole word(s) under the cursor. As long as you prefer to write `*laziness*` instead of `lazi**ness`, this plugin saves you the time of selecting text.
 
-ℹ️ Works better in the new editor (`Legacy Editor` turned off).
+ℹ️ The plugin works slightly better in the new editor than in the Legacy editor.[^3]
 
 <img src="https://i.imgur.com/1Gx5OqA.gif" alt="demo video" width=35%> <img src="https://user-images.githubusercontent.com/73286100/144943354-433d0fec-4f02-4a1c-b5a9-84ca1a57226e.gif" alt="Screen Recording 2021-12-07 at 01 14 40" width=40%>
 
@@ -15,10 +15,12 @@ When using the hotkeys, the markup is automatically applied to the whole word(s)
 
 - [How it works](#how-it-works)
 	- [Different Scenarios](#different-scenarios)
-	- [Commands added](#commands-added)
-	- [Smarter Inline Code: Terms instead of Words](#smarter-inline-code-terms-instead-of-words)
+	- [Markup Commands added](#markup-commands-added)
+	- [Smarter Code \(Inline/Fenced\)](#smarter-code-inlinefenced)
 	- [Smarter Markdown Link: Auto-Insert URLs](#smarter-markdown-link-auto-insert-urls)
 	- [Smarter Undo](#smarter-undo)
+	- [Smarter \(HTML\) Comment](#smarter-html-comment)
+	- [Smarter Punctuation Commands added](#smarter-punctuation-commands-added)
 - [Setting the Hotkeys](#setting-the-hotkeys)
 - [Installation](#installation)
 - [Roadmap](#roadmap)
@@ -43,22 +45,25 @@ When using the hotkeys, the markup is automatically applied to the whole word(s)
 | \*\***foo**`\|`**bar**\*\* *(Undo)*| \*\***foo\*\*\*\*bar**\*\*                             | foobar                                                             |
 | \*\***Lor`em Ips`um**\*\* *(Undo)* | \*\***Lor**\*\*em Ips\*\***um**\*\*                    | Lorem Ipsum                                                        |
 
-### Commands added
+### Markup Commands added
 - Smarter Bold
 - Smarter Italics
 - Smarter Underscore Bold (`__foobar__`)
 - Smarter Underscore Italics (`_foobar_`)
-- Smarter Comment
-- Smarter Inline Code\*
+- Smarter Comment\*
+- Smarter HTML Comment\*
+- Smarter Code (Inline/Fenced)\*
 - Smarter Highlight
 - Smarter Strikethrough
 - Smarter Markdown Link\*
 - Smarter Wikilink (Internal Link)
+- Smarter Quotation Marks\*
 
 <sup>*\* Please see the information below regarding specific information for these commands*</sup>
 
-### Smarter Inline Code: Terms instead of Words
-`Smarter Inline Code` will __not__ consider punctuation and brackets as delimiters. This means that a cursor anywhere in "object.method" will select the whole term and result in "`object.method`" instead of "`object`.method".
+### Smarter Code (Inline/Fenced)
+- __Terms instead of Words:__ `Smarter Code` will *not* consider punctuation and brackets as delimiters. This means that a cursor anywhere in "object.method" will select the whole term and result in "`object.method`" instead of "`object`.method".
+- __Automatic Switch to Fenced Code Syntax__: When more than one line is selected, the `Smarter Code` will  wrap the selected lines in fenced code syntax instead. Furthermore, the cursor to moved to the beginning of the fenced code block to you can conveniently enter the code language.
 
 ### Smarter Markdown Link: Auto-Insert URLs
 When you use `Smarter Markdown Link` and have an URL in your clipboard, the URL will automatically get inserted as well. 
@@ -67,6 +72,16 @@ When the URL ends with an image extension[^2] like `.png`, the command will also
 
 ### Smarter Undo
 Every Command also supports *undoing* markup, by triggering the same hotkey again. As opposed to normal Markdown Hotkeys, the undoing is applied yet again to the whole word. See the [overview above](#Different%20Scenarios) for specifics.
+
+### Smarter (HTML) Comment
+When more than one line is selected, the `Smarter Comment` commands will expand the selection to the whole blocks and than wrap all of them together into the comment syntax. 
+
+### Smarter Punctuation Commands added
+- Smarter Quotation Marks
+- Smarter Round Brackets
+- Smarter Square Brackets
+
+While strictly speaking quotation marks and brackets are not a form of markup, I found it extremely useful to be able to set them in the same smart way, so there is also a command for that 🙂
 
 ## Setting the Hotkeys
 💡 If you want to replace the default commands from Obsidian, remember to remove their hotkey binding before changing the hotkeys from this plugin. Example for `Smarter Bold`:
@@ -113,5 +128,6 @@ In my day job, I am a researcher in sociology. In my PhD project, I investigate 
 
 [⬆️ Go Back to Top](#Table-of-Contents)
 
+[^3]: This is due to an improved API for finding words in CodeMirror 6.
 [^1]: macOS uses `cmd`, Windows and Linux use `ctrl`.
 [^2]: Currently supported extensions are `.png`, `.jpg`, `.jpeg`, `.gif`, `.tiff`, and `.tif`.

@@ -86,5 +86,19 @@ export const COMMANDS: {
 		name: "Smarter Quotation Mark",
 		before: "\"",
 		after: "\"",
+	},
+
+	{
+		id: "smarter-round-brackets",
+		name: "Smarter Round Brackets",
+		before: "(",
+		after: ")",
+	},
+	
+	{
+		id: "smarter-square-brackets",
+		name: "Smarter Square Brackets",
+		before: "]",
+		after: "[",
 	}
 ];

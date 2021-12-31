@@ -67,7 +67,8 @@ export default class SmarterMDhotkeys extends Plugin {
 			if (!debug) return;
 			let appended = "";
 			if (appendSelection) appended = ": \"" + editor.getSelection() + "\"";
-			console.log("- " + msg + appended);
+			if (!msg.startsWith("\n")) msg = "- " + msg;
+			console.log(msg + appended);
 		}
 
 		// Core Functions

@@ -6,6 +6,8 @@
 
 When using the hotkeys, the markup is automatically applied to the whole word(s) under the cursor. As long as you prefer to write `*laziness*` instead of `lazi**ness`, this plugin saves you the time of selecting text.
 
+ℹ️ Works better in the new editor (`Legacy Editor` turned off).
+
 <img src="https://i.imgur.com/1Gx5OqA.gif" alt="demo video" width=35%> <img src="https://user-images.githubusercontent.com/73286100/144943354-433d0fec-4f02-4a1c-b5a9-84ca1a57226e.gif" alt="Screen Recording 2021-12-07 at 01 14 40" width=40%>
 
 ## Table of Contents
@@ -80,8 +82,9 @@ This plugin will be available in Obsidian's Community Plugin Browser: `Settings`
 - [x] Smarter Undo
 - [x] Support for Multi-line selection
 - [x] Auto-insert URL from clipboard
-- [ ] Expand to block instead instead of word when at least 3 lines are selected.
-- [ ] Smart Code Block (dependent on expand to line)
+- [x] Smart Code Block & Comments
+- [ ] Multi-Cursor Support
+- [ ] Expand to line instead of word when at least 3 lines are selected.
 - [ ] Submission to the Community Plugin Browser
 
 ## Contribute
@@ -99,16 +102,16 @@ eslint --fix *.ts
 
 ## Credits
 
-Thanks yet again to @SkepticMystic for his support!
+Thanks to @SkepticMystic for his support!
 
 Donations are welcome via [PayPal](https://www.paypal.com/paypalme/ChrisGrieser) or [Ko-Fi](https://ko-fi.com/pseudometa). 🙏
 
-**About the Developer**
-In my day job, I am a researcher and sociology. In my phD project, I investigate the governance of the app economy and how software ecosystems manage the tension between innovation and compatibility. If you are interested in this subject, feel free to visit [my academic homepage](https://chris-grieser.de/) and get in touch!
+**About me**
+In my day job, I am a researcher in sociology. In my PhD project, I investigate the governance of the app economy and how software ecosystems manage the tension between innovation and compatibility. If you are interested in this subject, feel free to visit [my academic homepage](https://chris-grieser.de/) and get in touch!
 - [Discord](https://discord.gg/veuWUTm): `@pseudometa#9546`
 - Twitter: [@pseudo_meta](https://twitter.com/pseudo_meta)
 
 [⬆️ Go Back to Top](#Table-of-Contents)
 
-[^1]: MacOS uses `cmd`, Windows and Linux use `ctrl`.
+[^1]: macOS uses `cmd`, Windows and Linux use `ctrl`.
 [^2]: Currently supported extensions are `.png`, `.jpg`, `.jpeg`, `.gif`, `.tiff`, and `.tif`.

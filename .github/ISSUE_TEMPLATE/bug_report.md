@@ -25,3 +25,4 @@ It is extremely helpful to know whether the issue occurred due to Obsidian's new
 
 **Checklist**
 - [ ] I have updated to the latest version of the plugin. 
+- [ ] In case my issue involves the inclusion/exclusion of punctuation, I have checked that the issue still occurs with the new editor (turning off `Legacy Editor`). 

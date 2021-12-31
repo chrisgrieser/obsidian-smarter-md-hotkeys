@@ -40,8 +40,15 @@ export const COMMANDS: {
 	},
 
 	{
+		id: "smarter-html-comments",
+		name: "Smarter HTML Comments",
+		before: "<!--",
+		after: "-->",
+	},
+
+	{
 		id: "smarter-inline-code",
-		name: "Smarter Inline Code",
+		name: "Smarter Code (Inline/Fenced)",
 		before: "`",
 		after: "`",
 	},
@@ -72,5 +79,12 @@ export const COMMANDS: {
 		name: "Smarter Markdown Link/Image",
 		before: "[",
 		after: "]()",
+	},
+
+	{
+		id: "smarter-quotation-marks",
+		name: "Smarter Quotation Mark",
+		before: "\"",
+		after: "\"",
 	}
 ];

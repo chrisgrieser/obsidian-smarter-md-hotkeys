@@ -185,23 +185,7 @@ export default class SmarterMDhotkeys extends Plugin {
 			const preSelExpHead = editor.getCursor("to");
 
 			const firstWordRange = textUnderCursor(preSelExpAnchor);
-
-			// findAtWord reads to the right, so w/o "-1" the space would be read, not the word
-			preSelExpHead.ch--;
 			const lastWordRange = textUnderCursor(preSelExpHead);
-			preSelExpHead.ch++;
-
-			log ("after expandToWordBoundary, before punctuation fix", true);
-			
-			// Fix for punctuation messing up selection due to findAtWord
-			const lastWord = editor.getRange(lastWordRange.anchor, lastWordRange.head);
-			if (/^[.,;:\-–—]/.test(lastWord)) {
-				lastWordRange.head.ch = lastWordRange.anchor.ch + 1;
-				preSelExpHead.ch--;
-			}
-
-			// keep some punctuation inside selection
-			if (/[\])}"']/.test(originalSel.slice(-1))) lastWordRange.head.ch++;
 
 			editor.setSelection(firstWordRange.anchor, lastWordRange.head);
 

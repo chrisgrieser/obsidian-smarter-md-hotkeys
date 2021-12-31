@@ -13,14 +13,13 @@ When using the hotkeys, the markup is automatically applied to the whole word(s)
 ## Table of Contents
 <!-- MarkdownTOC -->
 
-- [How it works](#how-it-works)
-	- [Different Scenarios](#different-scenarios)
-	- [Markup Commands added](#markup-commands-added)
-	- [Smarter Inline/Fenced Code](#smarter-inlinefenced-code)
+- [Markup Commands added](#markup-commands-added)
+- [Command-Specific Details](#command-specific-details)
 	- [Smarter Markdown/Image Link](#smarter-markdownimage-link)
-	- [Smarter Undo](#smarter-undo)
+	- [Smarter Inline/Fenced Code](#smarter-inlinefenced-code)
 	- [Smarter Comment](#smarter-comment)
-	- [Smarter Punctuation Commands](#smarter-punctuation-commands)
+- [Smarter Punctuation Commands](#smarter-punctuation-commands)
+- [How it works in detail](#how-it-works-in-detail)
 - [Setting the Hotkeys](#setting-the-hotkeys)
 - [Installation](#installation)
 - [Roadmap](#roadmap)
@@ -29,23 +28,7 @@ When using the hotkeys, the markup is automatically applied to the whole word(s)
 
 <!-- /MarkdownTOC -->
 
-## How it works
-
-### Different Scenarios
-`|` is a cursor without selection. `Selection` signifies the part of the text being selected. This table serves as a reference for the precise mechanics of this plugin, for a more intuitive showcase, see [the short gif above](#smarter-markdown-hotkeys).
-
-|                                    |  Normal Hotkeys                                        | Smarter Hotkeys                                                    |
-| ---------------------------------- | ------------------------------------------------------ | ------------------------------------------------------------------ |
-| foo`\|`bar                         | foo\*\*\*\*bar                                         | \*\***foobar**\*\*                                                 |
-| f`oo`bar                           | f\*\***oo**\*\*bar                                     | \*\***foobar**\*\*                                                 |
-| Lor`em Ips`um                      | Lor\*\***em Ips**\*\*um                                | \*\***Lorem Ipsum**\*\*                                            |
-| `- [ ] foobar ^123`                | \*\***- [ ] foobar ^123**\*\*                          | - [ ] \*\***foobar**\*\* <sup>^123</sup>                           |
-| `## foobar-heading`                | ==**## Lorem Ipsum**==                                 | ## ==**Lorem Ipsum**==                                             |
-| - Lor`em`<br>`    - Ips`um         | - Lor\*\***em<br>&nbsp;&nbsp;&nbsp;&nbsp;- Ips**\*\*um | - \*\***Lorem**\*\*<br>&nbsp;&nbsp;&nbsp;&nbsp;- \*\***Ipsum**\*\* |
-| \*\***foo**`\|`**bar**\*\* *(Undo)*| \*\***foo\*\*\*\*bar**\*\*                             | foobar                                                             |
-| \*\***Lor`em Ips`um**\*\* *(Undo)* | \*\***Lor**\*\*em Ips\*\***um**\*\*                    | Lorem Ipsum                                                        |
-
-### Markup Commands added
+## Markup Commands added
 - Smarter Bold
 - Smarter Italics
 - Smarter Underscore Bold (`__foobar__`)
@@ -58,28 +41,44 @@ When using the hotkeys, the markup is automatically applied to the whole word(s)
 - Smarter Markdown/Image Link\*
 - Smarter Wikilink (Internal Link)
 
-<sup>*\* Please see the information below regarding specific information for these commands*</sup>
+All commands also support *undoing* markup by triggering the same hotkey again. 
 
-### Smarter Inline/Fenced Code
-- __Terms instead of Words:__ `Smarter Code` will *not* consider punctuation and brackets as delimiters. This means that a cursor anywhere in "object.method" will select the whole term and result in "`object.method`" instead of "`object`.method".
-- __Automatic Switch to Fenced Code Syntax__: When more than one line is selected, the `Smarter Code` will  wrap the selected lines in fenced code syntax instead. Furthermore, the cursor to moved to the beginning of the fenced code block to you can conveniently enter the code language.
+## Command-Specific Details
+The following commands work slightly differently than the others.
 
 ### Smarter Markdown/Image Link
 - __Auto-Insert URLs__: When you use `Smarter Markdown Link` and have an URL in your clipboard, the URL will automatically get inserted as well. 
 - __Automatic Switch to Image Syntax__ When the URL ends with an image extension like `.png`[^2], the command will also prepend the `!` for image links.
 
-### Smarter Undo
-Every Command also supports *undoing* markup, by triggering the same hotkey again. As opposed to normal Markdown Hotkeys, the undoing is applied yet again to the whole word. See the [overview above](#Different%20Scenarios) for specifics.
+### Smarter Inline/Fenced Code
+- __Terms instead of Words:__ `Smarter Code` will *not* consider punctuation or brackets as delimiters. This means that a cursor anywhere in "object.method" will select the whole term and result in "`object.method`" instead of "`object`.method".
+- __Automatic Switch to Fenced Code Syntax__: When more than one line is selected, the `Smarter Code` will wrap the selected lines in fenced code syntax instead. Furthermore, the cursor to moved to the beginning of the fenced code block to you can conveniently enter the code language.
+
+![](smarter-fenced-code.gif)
 
 ### Smarter Comment
 When more than one line is selected, the `Smarter Comment` commands will expand the selection to the whole blocks and than wrap all of them together into the comment syntax. 
 
-### Smarter Punctuation Commands
-While strictly speaking quotation marks and brackets are not a form of markup, I found it extremely useful to be able to set them in the same smart way, so there the following commands have been added for convenience as well 🙂
+## Smarter Punctuation Commands
+While strictly speaking quotation marks and brackets are not a form of markup, I found it quite useful to be able to set them in the very same smart way.Therefore, the following commands have been added as well:
 
 - Smarter Quotation Marks
 - Smarter Round Brackets
 - Smarter Square Brackets
+
+## How it works in detail
+`|` is a cursor without selection. `Selection` signifies the part of the text being selected. This table serves as a reference for the precise mechanics of this plugin.
+
+|                                    |  Normal Hotkeys                                        | Smarter Hotkeys                                                    |
+| ---------------------------------- | ------------------------------------------------------ | ------------------------------------------------------------------ |
+| foo`\|`bar                         | foo\*\*\*\*bar                                         | \*\***foobar**\*\*                                                 |
+| f`oo`bar                           | f\*\***oo**\*\*bar                                     | \*\***foobar**\*\*                                                 |
+| Lor`em Ips`um                      | Lor\*\***em Ips**\*\*um                                | \*\***Lorem Ipsum**\*\*                                            |
+| `- [ ] foobar ^123`                | \*\***- [ ] foobar ^123**\*\*                          | - [ ] \*\***foobar**\*\* <sup>^123</sup>                           |
+| `## foobar-heading`                | ==**## Lorem Ipsum**==                                 | ## ==**Lorem Ipsum**==                                             |
+| - Lor`em`<br>`    - Ips`um         | - Lor\*\***em<br>&nbsp;&nbsp;&nbsp;&nbsp;- Ips**\*\*um | - \*\***Lorem**\*\*<br>&nbsp;&nbsp;&nbsp;&nbsp;- \*\***Ipsum**\*\* |
+| \*\***foo**`\|`**bar**\*\* *(Undo)*| \*\***foo\*\*\*\*bar**\*\*                             | foobar                                                             |
+| \*\***Lor`em Ips`um**\*\* *(Undo)* | \*\***Lor**\*\*em Ips\*\***um**\*\*                    | Lorem Ipsum                                                        |
 
 ## Setting the Hotkeys
 If you want to replace the default commands from Obsidian, remember to remove their hotkey binding before changing the hotkeys from this plugin. Example for `Smarter Bold`:
@@ -99,8 +98,8 @@ When published, the plugin will be available in Obsidian's Community Plugin Brow
 - [x] Auto-insert URL from clipboard
 - [x] Smart Code Block & Comments
 - [ ] Multi-Cursor Support
+- [ ] Create nicer Demo Videos
 - [ ] Submission to the Community Plugin Browser
-- [ ] Expand to line instead of word [when at least 3 lines are selected](https://github.com/chrisgrieser/obsidian-smarter-md-hotkeys/issues/3#issuecomment-987669194).
 
 ## Contribute
 Please use the `.eslintrc` configuration located in the repository and run eslint before doing a pull request, though. 🙂

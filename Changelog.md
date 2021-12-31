@@ -1,3 +1,7 @@
+- 2021-12-31	release 0.14.0
+- 2021-12-31	added smart brackets + updated documentation
+- 2021-12-31	added additional commands and info on new editor
+- 2021-12-31	minor fix log function
 - 2021-12-31	release 0.13.11
 - 2021-12-31	remove various punctuation fixes not needed with CM6 anymore
 - 2021-12-27	improved changelog routine

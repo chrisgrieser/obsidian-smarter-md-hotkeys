@@ -1,3 +1,5 @@
+- 2022-01-01	release 1.1.0
+- 2022-01-01	update readme
 - 2022-01-01	release 1.0.0
 - 2022-01-01	new feature: multi cursor support 🎉
 - 2021-12-31	restructured readme

@@ -55,7 +55,7 @@ export default class SmarterMDhotkeys extends Plugin {
 
 			const prevLineContent = editor.getLine(anchor.line - 1);
 			const followLineContent = editor.getLine(head.line + 1);
-			return (prevLineContent.startsWith(frontMarkup) && followLineContent.startsWith(endMarkup))
+			return (prevLineContent.startsWith(frontMarkup) && followLineContent.startsWith(endMarkup));
 		}
 
 		const noSel = () => !editor.somethingSelected();
@@ -286,7 +286,7 @@ export default class SmarterMDhotkeys extends Plugin {
 			if (!markupOutsideMultiline(selAnchor, selHead)) {
 				editor.setSelection(selAnchor);
 				editor.replaceSelection(frontMarkup + "\n");
-				selHead.line++; //extra line to account for shift from inserting frontMarkup
+				selHead.line++; // extra line to account for shift from inserting frontMarkup
 				editor.setSelection(selHead);
 				editor.replaceSelection("\n" + endMarkup);
 

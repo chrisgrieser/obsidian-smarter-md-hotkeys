@@ -2,11 +2,7 @@
 
 ![](https://img.shields.io/github/downloads/chrisgrieser/obsidian-smarter-md-hotkeys/total?label=Total%20Downloads&style=plastic) ![](https://img.shields.io/github/v/release/chrisgrieser/obsidian-smarter-md-hotkeys?label=Latest%20Release&style=plastic) [![](https://img.shields.io/badge/changelog-click%20here-FFE800?style=plastic)](Changelog.md)
 
-[Obsidian](https://obsidian.md/) plugin that adds Markdown hotkeys that automatically select words before applying markup.
-
-When using the hotkeys, the markup is automatically applied to the whole word(s) under the cursor. As long as you prefer to write `*laziness*` instead of `lazi**ness`, this plugin saves you the time of selecting text.
-
-ℹ️ The plugin works slightly better in the new editor than in the Legacy editor.[^3]
+A plugin for [Obsidian](https://obsidian.md/) providing hotkeys that automatically select words and lines before applying markup. Supports multiple cursors as well.
 
 <img src="https://i.imgur.com/1Gx5OqA.gif" alt="demo video" width=35%> <img src="https://user-images.githubusercontent.com/73286100/144943354-433d0fec-4f02-4a1c-b5a9-84ca1a57226e.gif" alt="Screen Recording 2021-12-07 at 01 14 40" width=40%>
 
@@ -40,10 +36,10 @@ When using the hotkeys, the markup is automatically applied to the whole word(s)
 - Smarter Markdown/Image Link\*
 - Smarter Wikilink (Internal Link)
 
-All commands also support multiple cursors and *undoing* markup by triggering the same hotkey again. 
+All commands also support multiple cursors and undoing markup by triggering the same hotkey again. 
 
 ## Command-Specific Details
-The following commands work slightly differently than the others.
+The following commands have some special features:
 
 ### Smarter Markdown/Image Link
 - __Auto-Insert URLs__: When you use `Smarter Markdown Link` and have an URL in your clipboard, the URL will automatically get inserted as well. 
@@ -92,7 +88,7 @@ Right now, the plugin is still in beta. It can be installed with the [BRAT Plugi
 When published, the plugin will be available in Obsidian's Community Plugin Browser via: `Settings` → `Community Plugins` → `Browse` → Search for *"Smarter Markdown Hotkeys"*
 
 ## Contribute
-Please use the `.eslintrc` configuration located in the repository and run eslint before doing a pull request, and *please* do not use `prettier`. 🙂
+Please use the `.eslintrc` configuration located in the repository and run eslint before doing a pull request, and please do *not* use `prettier`. 🙂
 
 ```shell
 # Run eslint fixing most common mistakes

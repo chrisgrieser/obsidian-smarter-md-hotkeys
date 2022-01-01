@@ -3,7 +3,7 @@
 	"name": "Smarter Markdown Hotkeys",
 	"version": "1.1.0",
 	"minAppVersion": "0.12.0",
-	"description": "Markdown hotkeys that automatically select words before applying markup.",
+	"description": "Hotkeys that automatically select words and lines before applying markup. Supports multiple cursors as well.",
 	"author": "pseudometa",
 	"authorUrl": "https://chris-grieser.de/",
 	"isDesktopOnly": false

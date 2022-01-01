@@ -30,9 +30,13 @@ export default class SmarterMDhotkeys extends Plugin {
 	async expandAndWrap(frontMarkup: string, endMarkup: string, editor: Editor) {
 		const debug = true;
 
+		interface contentChange {
+			line: number;
+			shift: number;
+		}
+
 		// FUNCTIONS
 		//-------------------------------------------------------------------
-
 		// Utility Functions
 		function isOutsideSel (bef:string, aft:string) {
 			const so = startOffset();
@@ -203,6 +207,22 @@ export default class SmarterMDhotkeys extends Plugin {
 			return { anchor: preSelExpAnchor, head: preSelExpHead };
 		}
 
+		function contentChangeCalc (anchor: EditorPosition, head: EditorPosition, blen_: number, alen_: number) {
+			if (anchor.line === head.line) {
+				contentChangeList.push( { line: anchor.line, shift: (blen_ + alen_) } );
+			} else {
+				contentChangeList.push ( { line: anchor.line, shift: blen_ } );
+				contentChangeList.push ( { line: head.line, shift: alen_ } );
+			}
+		}
+
+		function recalibratePos (pos: EditorPosition) {
+			contentChangeList.forEach (change => {
+				if (pos.line === change.line) pos.ch += change.shift;
+			});
+			return pos;
+		}
+
 		function applyMarkup (preSelExpAnchor: EditorPosition, preSelExpHead: EditorPosition, lineMode: string ) {
 			const selectedText = editor.getSelection();
 			const so = startOffset();
@@ -216,6 +236,7 @@ export default class SmarterMDhotkeys extends Plugin {
 			// Do Markup
 			if (!markupOutsideSel()) {
 				editor.replaceSelection(frontMarkup + selectedText + endMarkup);
+				contentChangeCalc(anchor, head, blen, alen);
 				anchor.ch += blen;
 				head.ch += blen;
 			}
@@ -224,6 +245,7 @@ export default class SmarterMDhotkeys extends Plugin {
 			if (markupOutsideSel()) {
 				editor.setSelection(offToPos(so - blen), offToPos(eo + alen));
 				editor.replaceSelection(selectedText);
+				contentChangeCalc(anchor, head, -blen, -alen);
 				anchor.ch -= blen;
 				head.ch -= blen;
 			}
@@ -258,7 +280,6 @@ export default class SmarterMDhotkeys extends Plugin {
 				languageDefPos.ch = 3;
 				editor.setSelection(languageDefPos);
 			}
-
 		}
 
 		async function insertURLtoMDLink () {
@@ -275,50 +296,67 @@ export default class SmarterMDhotkeys extends Plugin {
 			return [frontMarkup_, endMarkup_];
 		}
 
+
 		// MAIN
 		//-------------------------------------------------------------------
 		log("\nSmarterMD Hotkeys triggered\n---------------------------");
 
-		// auto-insert URL from clipboard
 		if (endMarkup === "]()") [frontMarkup, endMarkup] = await insertURLtoMDLink();
 		const [blen, alen] = [frontMarkup.length, endMarkup.length];
 
-		// prevent things like triple-click selection from triggering multi-line
-		trimSelection();
+		// saves the amount of position shift for each line
+		// used to calculate correct positions for multi-cursor
+		const contentChangeList: contentChange[] = [];
+		const allCursors = editor.listSelections();
 
-		if (!multiLineSel()) {
-			log ("single line");
-			const { anchor: preSelExpAnchor, head: preSelExpHead } = expandToWordBoundary();
-			applyMarkup(preSelExpAnchor, preSelExpHead, "single");
-			return;
-		}
+		// sets markup for each cursor/selection
+		allCursors.forEach(sel => {
 
-		if (multiLineSel() && multiLineMarkup()) {
-			log ("Multiline Wrap");
-			wrapMultiLine();
-			return;
-		}
+			// account for shifts in Editor Positions due to applying markup to previous cursors
+			sel.anchor = recalibratePos (sel.anchor);
+			sel.head = recalibratePos (sel.head);
 
-		if (multiLineSel() && !multiLineMarkup()) {
-			let pointerOff = startOffset();
-			const lines = editor.getSelection().split("\n");
-			log ("lines: " + lines.length.toString());
+			editor.setSelection(sel.anchor, sel.head); // set the selection to the one current cursor
+			trimSelection(); // prevent things like triple-click selection from triggering multi-line
 
-			// get offsets for each line and apply markup to each
-			lines.forEach (line => {
-				console.log("");
-				editor.setSelection(offToPos(pointerOff), offToPos(pointerOff + line.length));
-
+			// wrap single line selection
+			if (!multiLineSel()) {
+				log ("single line");
 				const { anchor: preSelExpAnchor, head: preSelExpHead } = expandToWordBoundary();
+				applyMarkup(preSelExpAnchor, preSelExpHead, "single");
+				return;
+			}
 
-				// Move Pointer to next line
-				pointerOff += line.length + 1; // +1 to account for line break
-				if (markupOutsideSel()) pointerOff-= (blen + alen); // account for removed markup
-				else pointerOff += (blen + alen); // account for added markup
+			// Wrap multi line selection
+			if (multiLineSel() && multiLineMarkup()) {
+				log ("Multiline Wrap");
+				wrapMultiLine();
+				return;
+			}
 
-				applyMarkup(preSelExpAnchor, preSelExpHead, "multi");
-			});
-		}
+			// Wrap *each* line selection
+			if (multiLineSel() && !multiLineMarkup()) {
+				let pointerOff = startOffset();
+				const lines = editor.getSelection().split("\n");
+				log ("lines: " + lines.length.toString());
+
+				// get offsets for each line and apply markup to each
+				lines.forEach (line => {
+					console.log("");
+					editor.setSelection(offToPos(pointerOff), offToPos(pointerOff + line.length));
+
+					const { anchor: preSelExpAnchor, head: preSelExpHead } = expandToWordBoundary();
+
+					// Move Pointer to next line
+					pointerOff += line.length + 1; // +1 to account for line break
+					if (markupOutsideSel()) pointerOff-= (blen + alen); // account for removed markup
+					else pointerOff += (blen + alen); // account for added markup
+
+					applyMarkup(preSelExpAnchor, preSelExpHead, "multi");
+				});
+			}
+		});
+
 
 	}
 }

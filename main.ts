@@ -29,15 +29,13 @@ export default class SmarterMDhotkeys extends Plugin {
 
 	async expandAndWrap(frontMarkup: string, endMarkup: string, editor: Editor) {
 		const debug = true;
-
 		interface contentChange {
 			line: number;
 			shift: number;
 		}
 
-		// FUNCTIONS
-		//-------------------------------------------------------------------
 		// Utility Functions
+		//-------------------------------------------------------------------
 		function isOutsideSel (bef:string, aft:string) {
 			const so = startOffset();
 			const eo = endOffset();
@@ -49,9 +47,16 @@ export default class SmarterMDhotkeys extends Plugin {
 			const charsAfter = editor.getRange(offToPos(eo), offToPos(eo + aft.length));
 			return (charsBefore === bef && charsAfter === aft);
 		}
-
-		const markupOutsideSel = () => isOutsideSel (frontMarkup, endMarkup);
 		const multiLineMarkup = () => (frontMarkup === "`" || frontMarkup === "%%" || frontMarkup === "<!--");
+		const markupOutsideSel = () => isOutsideSel (frontMarkup, endMarkup);
+		function markupOutsideMultiline (anchor: EditorPosition, head: EditorPosition) {
+			if (anchor.line === 0) return false;
+			if (head.line === editor.lastLine()) return false;
+
+			const prevLineContent = editor.getLine(anchor.line - 1);
+			const followLineContent = editor.getLine(head.line + 1);
+			return (prevLineContent.startsWith(frontMarkup) && followLineContent.startsWith(endMarkup))
+		}
 
 		const noSel = () => !editor.somethingSelected();
 		const multiLineSel = () => editor.getSelection().includes("\n");
@@ -68,6 +73,19 @@ export default class SmarterMDhotkeys extends Plugin {
 			return editor.offsetToPos(offset);
 		};
 
+		function deleteLine (lineNo: number) {
+			// there is no 'next line' when cursor is on the last line
+			if (lineNo < editor.lastLine()) {
+				const lineStart = { line: lineNo, ch: 0 };
+				const nextLineStart = { line: lineNo + 1, ch: 0 };
+				editor.replaceRange("", lineStart, nextLineStart);
+			} else {
+				const previousLineEnd = { line: lineNo - 1, ch: editor.getLine(lineNo).length };
+				const lineEnd = { line: lineNo, ch: editor.getLine(lineNo).length };
+				editor.replaceRange("", previousLineEnd, lineEnd);
+			}
+		}
+
 		function log (msg: string, appendSelection?: boolean) {
 			if (!debug) return;
 			let appended = "";
@@ -77,6 +95,7 @@ export default class SmarterMDhotkeys extends Plugin {
 		}
 
 		// Core Functions
+		//-------------------------------------------------------------------
 		function textUnderCursor (ep: EditorPosition) {
 
 			// prevent underscores (wrongly counted as words) to be expanded to
@@ -88,7 +107,7 @@ export default class SmarterMDhotkeys extends Plugin {
 				// https://codemirror.net/6/docs/ref/#state
 				// https://github.com/argenos/nldates-obsidian/blob/e6b95969d7215b9ded2b72c4e319e35bc6022199/src/utils.ts#L16
 				// https://github.com/obsidianmd/obsidian-api/blob/fac5e67f5d83829a4e0126905494c8cbca27765b/obsidian.d.ts#L787
-				
+
 				if (editor.cm instanceof window.CodeMirror) return editor.cm.findWordAt(ep); // CM5
 
 				const word = editor.cm.state.wordAt(editor.posToOffset (ep)); // CM6
@@ -207,15 +226,6 @@ export default class SmarterMDhotkeys extends Plugin {
 			return { anchor: preSelExpAnchor, head: preSelExpHead };
 		}
 
-		function contentChangeCalc (anchor: EditorPosition, head: EditorPosition, blen_: number, alen_: number) {
-			if (anchor.line === head.line) {
-				contentChangeList.push( { line: anchor.line, shift: (blen_ + alen_) } );
-			} else {
-				contentChangeList.push ( { line: anchor.line, shift: blen_ } );
-				contentChangeList.push ( { line: head.line, shift: alen_ } );
-			}
-		}
-
 		function recalibratePos (pos: EditorPosition) {
 			contentChangeList.forEach (change => {
 				if (pos.line === change.line) pos.ch += change.shift;
@@ -236,7 +246,10 @@ export default class SmarterMDhotkeys extends Plugin {
 			// Do Markup
 			if (!markupOutsideSel()) {
 				editor.replaceSelection(frontMarkup + selectedText + endMarkup);
-				contentChangeCalc(anchor, head, blen, alen);
+				contentChangeList.push(
+					{ line: anchor.line, shift: blen },
+					{ line: head.line, shift: alen }
+				);
 				anchor.ch += blen;
 				head.ch += blen;
 			}
@@ -245,7 +258,10 @@ export default class SmarterMDhotkeys extends Plugin {
 			if (markupOutsideSel()) {
 				editor.setSelection(offToPos(so - blen), offToPos(eo + alen));
 				editor.replaceSelection(selectedText);
-				contentChangeCalc(anchor, head, -blen, -alen);
+				contentChangeList.push(
+					{ line: anchor.line, shift: -blen },
+					{ line: head.line, shift: -alen }
+				);
 				anchor.ch -= blen;
 				head.ch -= blen;
 			}
@@ -255,30 +271,37 @@ export default class SmarterMDhotkeys extends Plugin {
 
 		function wrapMultiLine() {
 			const selAnchor = editor.getCursor("from");
+			selAnchor.ch = 0;
 			const selHead = editor.getCursor("to");
+			selHead.ch = editor.getLine(selHead.line).length;
 
-			// switch to fenced code instead of inline code
-			if (frontMarkup === "`") {
+			if (frontMarkup === "`") { // switch to fenced code instead of inline code
 				frontMarkup = "```";
 				endMarkup = "```";
+				alen = 3;
+				blen = 3;
 			}
 
-			// front
-			selAnchor.ch = 0; // start of line
-			editor.setSelection(selAnchor);
-			editor.replaceSelection(frontMarkup + "\n");
+			// do Markup
+			if (!markupOutsideMultiline(selAnchor, selHead)) {
+				editor.setSelection(selAnchor);
+				editor.replaceSelection(frontMarkup + "\n");
+				selHead.line++; //extra line to account for shift from inserting frontMarkup
+				editor.setSelection(selHead);
+				editor.replaceSelection("\n" + endMarkup);
 
-			// end
-			selHead.ch = 0;
-			selHead.line = selHead.line + 2; // 1 frontMarkup line + 1 to move endMarkup below selection
-			editor.setSelection(selHead);
-			editor.replaceSelection(endMarkup + "\n");
+				// when fenced code, position cursor for language definition
+				if (frontMarkup === "```") {
+					const languageDefPos = selAnchor;
+					languageDefPos.ch = 3;
+					editor.setSelection(languageDefPos);
+				}
+			}
 
-			// position cursor for fenced code for convenient language definition
-			if (frontMarkup === "```") {
-				const languageDefPos = selAnchor;
-				languageDefPos.ch = 3;
-				editor.setSelection(languageDefPos);
+			// undo Markup
+			if (markupOutsideMultiline(selAnchor, selHead)) {
+				deleteLine(selAnchor.line - 1);
+				deleteLine(selHead.line + 1);
 			}
 		}
 
@@ -302,7 +325,7 @@ export default class SmarterMDhotkeys extends Plugin {
 		log("\nSmarterMD Hotkeys triggered\n---------------------------");
 
 		if (endMarkup === "]()") [frontMarkup, endMarkup] = await insertURLtoMDLink();
-		const [blen, alen] = [frontMarkup.length, endMarkup.length];
+		let [blen, alen] = [frontMarkup.length, endMarkup.length];
 
 		// saves the amount of position shift for each line
 		// used to calculate correct positions for multi-cursor

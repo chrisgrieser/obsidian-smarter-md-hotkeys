@@ -1,3 +1,7 @@
+- 2022-01-01	release 1.0.0
+- 2022-01-01	new feature: multi cursor support 🎉
+- 2021-12-31	restructured readme
+- 2021-12-31	improvements to documentation
 - 2021-12-31	release 0.14.0
 - 2021-12-31	added smart brackets + updated documentation
 - 2021-12-31	added additional commands and info on new editor

@@ -22,7 +22,6 @@ When using the hotkeys, the markup is automatically applied to the whole word(s)
 - [How it works in detail](#how-it-works-in-detail)
 - [Setting the Hotkeys](#setting-the-hotkeys)
 - [Installation](#installation)
-- [Roadmap](#roadmap)
 - [Contribute](#contribute)
 - [Credits](#credits)
 
@@ -41,7 +40,7 @@ When using the hotkeys, the markup is automatically applied to the whole word(s)
 - Smarter Markdown/Image Link\*
 - Smarter Wikilink (Internal Link)
 
-All commands also support *undoing* markup by triggering the same hotkey again. 
+All commands also support multiple cursors and *undoing* markup by triggering the same hotkey again. 
 
 ## Command-Specific Details
 The following commands work slightly differently than the others.
@@ -92,17 +91,8 @@ Right now, the plugin is still in beta. It can be installed with the [BRAT Plugi
 
 When published, the plugin will be available in Obsidian's Community Plugin Browser via: `Settings` → `Community Plugins` → `Browse` → Search for *"Smarter Markdown Hotkeys"*
 
-## Roadmap
-- [x] Smarter Undo
-- [x] Support for Multi-line selection
-- [x] Auto-insert URL from clipboard
-- [x] Smart Code Block & Comments
-- [ ] Multi-Cursor Support
-- [ ] Create nicer Demo Videos
-- [ ] Submission to the Community Plugin Browser
-
 ## Contribute
-Please use the `.eslintrc` configuration located in the repository and run eslint before doing a pull request, though. 🙂
+Please use the `.eslintrc` configuration located in the repository and run eslint before doing a pull request, and *please* do not use `prettier`. 🙂
 
 ```shell
 # Run eslint fixing most common mistakes

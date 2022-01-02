@@ -4,7 +4,7 @@
 
 A plugin for [Obsidian](https://obsidian.md/) providing hotkeys that automatically select words and lines before applying markup. Supports multiple cursors as well.
 
-<img src="https://i.imgur.com/1Gx5OqA.gif" alt="demo video" width=35%> <img src="https://user-images.githubusercontent.com/73286100/144943354-433d0fec-4f02-4a1c-b5a9-84ca1a57226e.gif" alt="Screen Recording 2021-12-07 at 01 14 40" width=40%>
+![Demo Video](demo/demo.gif)
 
 ## Table of Contents
 <!-- MarkdownTOC -->

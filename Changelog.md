@@ -1,3 +1,6 @@
+- 2022-01-02	release 1.1.1
+- 2022-01-02	adding demo video
+- 2022-01-01	updated plugin description
 - 2022-01-01	release 1.1.0
 - 2022-01-01	update readme
 - 2022-01-01	release 1.0.0

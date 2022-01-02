@@ -2,7 +2,7 @@
 
 ![](https://img.shields.io/github/downloads/chrisgrieser/obsidian-smarter-md-hotkeys/total?label=Total%20Downloads&style=plastic) ![](https://img.shields.io/github/v/release/chrisgrieser/obsidian-smarter-md-hotkeys?label=Latest%20Release&style=plastic) [![](https://img.shields.io/badge/changelog-click%20here-FFE800?style=plastic)](Changelog.md)
 
-A plugin for [Obsidian](https://obsidian.md/) providing hotkeys that automatically select words and lines before applying markup. Supports multiple cursors as well.
+A plugin for [Obsidian](https://obsidian.md/) providing hotkeys that select words and lines in a smart way before applying markup. Multiple cursors are supported as well.
 
 ![Demo Video](demo/demo.gif)
 

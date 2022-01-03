@@ -49,8 +49,6 @@ The following commands have some special features:
 - __Terms instead of Words:__ `Smarter Code` will *not* consider punctuation or brackets as delimiters. This means that a cursor anywhere in "object.method" will select the whole term and result in "`object.method`" instead of "`object`.method".
 - __Automatic Switch to Fenced Code Syntax__: When more than one line is selected, the `Smarter Code` will wrap the selected lines in fenced code syntax instead. Furthermore, the cursor to moved to the beginning of the fenced code block to you can conveniently enter the code language.
 
-![](demo/smarter-fenced-code.gif)
-
 ### Smarter Comment
 When more than one line is selected, the `Smarter Comment` commands will expand the selection to the whole blocks and than wrap all of them together into the comment syntax. 
 

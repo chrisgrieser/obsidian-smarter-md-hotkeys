@@ -57,7 +57,7 @@ When more than one line is selected, the `Smarter Comment` commands will expand 
 When turning text into a wikilink, `Smarter Wikilinks` will automatically trigger the suggester afterwards.
 
 ## Smarter Punctuation Commands
-While strictly speaking quotation marks and brackets are not a form of markup, I found it quite useful to be able to set them in the very same smart way.Therefore, the following commands have been added as well:
+While strictly speaking quotation marks and brackets are not a form of markup, I found it quite useful to be able to set them in the same way. Therefore, the following commands have been added as well:
 
 - Smarter Quotation Marks
 - Smarter Round Brackets

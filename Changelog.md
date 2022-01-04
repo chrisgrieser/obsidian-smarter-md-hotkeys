@@ -1,3 +1,10 @@
+- 2022-01-04	release 1.1.2
+- 2022-01-04	turned off debugging log for public release
+- 2022-01-04	added readme.html to gitignore
+- 2022-01-04	updated readme
+- 2022-01-04	update readme
+- 2022-01-02	created smaller demo gif
+- 2022-01-02	min obsi version bump + better phrased description
 - 2022-01-02	release 1.1.1
 - 2022-01-02	adding demo video
 - 2022-01-01	updated plugin description

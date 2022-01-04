@@ -14,6 +14,7 @@ A plugin for [Obsidian](https://obsidian.md/) providing hotkeys that select word
 	- [Smarter Markdown/Image Link](#smarter-markdownimage-link)
 	- [Smarter Inline/Fenced Code](#smarter-inlinefenced-code)
 	- [Smarter Comment](#smarter-comment)
+	- [Smarter Wikilink](#smarter-wikilink)
 - [Smarter Punctuation Commands](#smarter-punctuation-commands)
 - [How it works in detail](#how-it-works-in-detail)
 - [Setting the Hotkeys](#setting-the-hotkeys)
@@ -36,21 +37,24 @@ A plugin for [Obsidian](https://obsidian.md/) providing hotkeys that select word
 - Smarter Markdown/Image Link\*
 - Smarter Wikilink (Internal Link)
 
-All commands also support multiple cursors and undoing markup by triggering the same hotkey again. 
+All commands also support __multiple cursors__ and __undoing markup__ by triggering the same hotkey. 
 
 ## Command-Specific Details
 The following commands have some special features:
 
 ### Smarter Markdown/Image Link
 - __Auto-Insert URLs__: When you use `Smarter Markdown Link` and have an URL in your clipboard, the URL will automatically get inserted as well. 
-- __Automatic Switch to Image Syntax__ When the URL ends with an image extension like `.png`[^2], the command will also prepend the `!` for image links.
+- __Automatic Switch to Image Syntax__ When the URL in the clipboard ends with an image extension like `.png`,[^2] the command will also prepend the `!` for image links.
 
 ### Smarter Inline/Fenced Code
 - __Terms instead of Words:__ `Smarter Code` will *not* consider punctuation or brackets as delimiters. This means that a cursor anywhere in "object.method" will select the whole term and result in "`object.method`" instead of "`object`.method".
-- __Automatic Switch to Fenced Code Syntax__: When more than one line is selected, the `Smarter Code` will wrap the selected lines in fenced code syntax instead. Furthermore, the cursor to moved to the beginning of the fenced code block to you can conveniently enter the code language.
+- __Automatic Switch to Fenced Code Syntax__: When more than one line is selected, `Smarter Code` will wrap the selected lines in fenced code syntax instead. Furthermore, the cursor is to moved to the beginning of the fenced code block so you can conveniently enter the code language.
 
 ### Smarter Comment
 When more than one line is selected, the `Smarter Comment` commands will expand the selection to the whole blocks and than wrap all of them together into the comment syntax. 
+
+### Smarter Wikilink
+When turning text into a wikilink, `Smarter Wikilinks` will automatically trigger the suggester afterwards.
 
 ## Smarter Punctuation Commands
 While strictly speaking quotation marks and brackets are not a form of markup, I found it quite useful to be able to set them in the very same smart way.Therefore, the following commands have been added as well:
@@ -106,4 +110,4 @@ In my day job, I am a researcher in sociology. In my PhD project, I investigate 
 [⬆️ Go Back to Top](#Table-of-Contents)
 
 [^1]: macOS uses `cmd`, Windows and Linux use `ctrl`.
-[^2]: Currently supported extensions are `.png`, `.jpg`, `.jpeg`, `.gif`, `.tiff`, and `.tif`.
+[^2]: Currently supported extensions are `.png`, `.jpg`, `.jpeg`, `.gif`, `.tiff`, and `.tif`. If you regularly use other image extensions, please open an issue and I'll add them.

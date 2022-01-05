@@ -98,7 +98,7 @@ export const COMMANDS: {
 	{
 		id: "smarter-square-brackets",
 		name: "Smarter Square Brackets",
-		before: "]",
-		after: "[",
+		before: "[",
+		after: "]",
 	}
 ];

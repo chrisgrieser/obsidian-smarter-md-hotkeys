@@ -48,6 +48,8 @@ git log --pretty=format:"- %ad%x09%s" --date=short | grep -Ev "minor$" | grep -E
 # push the manifest and versions JSONs
 git add -A
 git commit -m "release $nextVersion"
+
+git pull
 git push
 
 # trigger the release action

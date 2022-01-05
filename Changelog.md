@@ -1,3 +1,6 @@
+- 2022-01-05	release 1.1.3
+- 2022-01-05	Merge pull request #11 from Civilianpig/patch-1
+- 2022-01-05	Square Brackets
 - 2022-01-04	release 1.1.2
 - 2022-01-04	turned off debugging log for public release
 - 2022-01-04	added readme.html to gitignore

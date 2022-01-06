@@ -48,13 +48,13 @@ The following commands have some special features:
 
 ### Smarter Inline/Fenced Code
 - __Terms instead of Words:__ `Smarter Code` will *not* consider punctuation or brackets as delimiters. This means that a cursor anywhere in "object.method" will select the whole term and result in "`object.method`" instead of "`object`.method".
-- __Automatic Switch to Fenced Code Syntax__: When more than one line is selected, `Smarter Code` will wrap the selected lines in fenced code syntax instead. Furthermore, the cursor is to moved to the beginning of the fenced code block so you can conveniently enter the code language.
+- __Automatic Switch to Fenced Code Syntax__: When more than one line is selected, `Smarter Code` will wrap the selected lines in fenced code syntax instead. Furthermore, the cursor is moved to the beginning of the fenced code block so you can conveniently enter the code language.
 
 ### Smarter Comment
-When more than one line is selected, the `Smarter Comment` commands will expand the selection to the whole blocks and than wrap all of them together into the comment syntax. 
+- __Automatic Switch to Blocks__: When more than one line is selected, the `Smarter Comment` commands will expand the selection to whole blocks and than wrap all of them together into the comment syntax. 
 
 ### Smarter Wikilink
-When turning text into a wikilink, `Smarter Wikilinks` will automatically trigger the suggester afterwards.
+- __Auto-Suggest__:When turning text into a wikilink, `Smarter Wikilinks` will automatically trigger the suggester afterwards.
 
 ## Smarter Punctuation Commands
 While strictly speaking quotation marks and brackets are not a form of markup, I found it quite useful to be able to set them in the same way. Therefore, the following commands have been added as well:
@@ -82,7 +82,7 @@ If you want to replace the default commands from Obsidian, remember to remove th
 1. Remove the hotkey `cmd/ctrl + B`[^1] for the default command `Toggle Bold`.
 2. Assign `cmd/ctrl + B` as the hotkey for the command `Smarter Bold`.
 
-💡 For the smarter punctuation commands, you can also use a hotkey with `shift` like for example `shift + 2` for Smarter Quotation Marks. Curiously, Obsidian accepts such hotkeys, so you can work purely with smarter punctuation, if you want to. (At the cost of losing the ability to type punctuation normally.)
+💡 For the smarter punctuation commands, you can also use a hotkey with `shift` like for example `shift + 2` for Smarter Quotation Marks. Curiously, Obsidian accepts such hotkeys, so you can basically "overwrite" normal punctuation typing if you want to. (However, note that this comes at the cost of losing the ability to type punctuation normally.)
 
 ## Installation
 The plugin is available in Obsidian's Community Plugin Browser via: `Settings` → `Community Plugins` → `Browse` → Search for *"Smarter Markdown Hotkeys"*

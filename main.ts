@@ -47,7 +47,7 @@ export default class SmarterMDhotkeys extends Plugin {
 			const charsAfter = editor.getRange(offToPos(eo), offToPos(eo + aft.length));
 			return (charsBefore === bef && charsAfter === aft);
 		}
-		const multiLineMarkup = () => (frontMarkup === "`" || frontMarkup === "%%" || frontMarkup === "<!--");
+		const multiLineMarkup = () => (["`", "%%", "<!--"].includes(frontMarkup));
 		const markupOutsideSel = () => isOutsideSel (frontMarkup, endMarkup);
 		function markupOutsideMultiline (anchor: EditorPosition, head: EditorPosition) {
 			if (anchor.line === 0) return false;
@@ -159,9 +159,12 @@ export default class SmarterMDhotkeys extends Plugin {
 				"\t",
 				frontMarkup
 			];
-			const trimAfter = [" ", "\n", "\t", endMarkup];
+			let trimAfter = [" ", "\n", "\t", endMarkup];
 
-			if (frontMarkup === "%%") trimBefore = [frontMarkup];
+			if (frontMarkup === "%%" || frontMarkup === "<!--") {
+				trimBefore = [frontMarkup];
+				trimAfter = [endMarkup];
+			}
 
 			let selection = editor.getSelection();
 			let so = startOffset();
@@ -204,7 +207,6 @@ export default class SmarterMDhotkeys extends Plugin {
 		}
 
 		function expandToWordBoundary () {
-			const originalSel = editor.getSelection();
 			trimSelection();
 			log ("before expandToWordBoundary", true);
 			const preSelExpAnchor = editor.getCursor("from");
@@ -351,14 +353,14 @@ export default class SmarterMDhotkeys extends Plugin {
 				return;
 			}
 
-			// Wrap multi line selection
+			// Wrap multi-line selection
 			if (multiLineSel() && multiLineMarkup()) {
 				log ("Multiline Wrap");
 				wrapMultiLine();
 				return;
 			}
 
-			// Wrap *each* line selection
+			// Wrap *each* line of multi-line selection
 			if (multiLineSel() && !multiLineMarkup()) {
 				let pointerOff = startOffset();
 				const lines = editor.getSelection().split("\n");

@@ -100,5 +100,12 @@ export const COMMANDS: {
 		name: "Smarter Square Brackets",
 		before: "[",
 		after: "]",
+	},
+
+	{
+		id: "smarter-delete",
+		name: "Smarter Delete",
+		before: "delete",
+		after: "",
 	}
 ];

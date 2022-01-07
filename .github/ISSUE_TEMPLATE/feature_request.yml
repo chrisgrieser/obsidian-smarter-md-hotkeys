@@ -1,0 +1,35 @@
+name: Feature request
+description: Suggest an idea
+title: "Feature Request: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: feature-requested
+    attributes:
+      label: Feature Requested
+      description: A clear and concise description of the feature.
+    validations:
+      required: true
+  - type: textarea
+    id: screenshot
+    attributes:
+      label: Relevant Screenshot
+      description: If applicable, add screenshots or a screen recording to help explain the request.
+  - type: checkboxes
+    id: editor
+    attributes:
+      label: Which editor are you using?
+      description: If you are using the Legacy Editor, please be aware thare are some smaller issues with punctuations at the border of a word. Due to the Legacy Editor being deprecated, it is unfortunately not worth the effort to code fixes for that.
+      options:
+        - label: New Editor
+        - label: Legacy Editor
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: I have checked that there isn't [another hotkey plugin](https://publish.obsidian.md/hub/02+-+Community+Expansions/02.01+Plugins+by+Category/Plugins+that+add+or+manage+hotkeys) that does what I want.
+          required: true
+        - label: The feature would be useful to more users than just me.
+          required: true
+

@@ -153,6 +153,7 @@ export default class SmarterMDhotkeys extends Plugin {
 				"- [ ] ",
 				"- [x] ",
 				"- ",
+				"> ",
 				" ",
 				"\n",
 				"\t",

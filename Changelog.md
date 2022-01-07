@@ -1,3 +1,6 @@
+- 2022-01-07	release 1.2.0
+- 2022-01-07	✨new command: smarter delete (#10)
+- 2022-01-07	switched to issue forms
 - 2022-01-07	release 1.1.4
 - 2022-01-07	exclude blockquote syntax from markup
 - 2022-01-05	release 1.1.3

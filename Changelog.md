@@ -1,3 +1,5 @@
+- 2022-01-07	release 1.1.4
+- 2022-01-07	exclude blockquote syntax from markup
 - 2022-01-05	release 1.1.3
 - 2022-01-05	Merge pull request #11 from Civilianpig/patch-1
 - 2022-01-05	Square Brackets

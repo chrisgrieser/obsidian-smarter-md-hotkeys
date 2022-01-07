@@ -15,7 +15,7 @@ A plugin for [Obsidian](https://obsidian.md/) providing hotkeys that select word
 	- [Smarter Inline/Fenced Code](#smarter-inlinefenced-code)
 	- [Smarter Comment](#smarter-comment)
 	- [Smarter Wikilink](#smarter-wikilink)
-- [Smarter Punctuation Commands](#smarter-punctuation-commands)
+- [Smarter Punctuation & Delete Commands](#smarter-punctuation--delete-commands)
 - [How it works in detail](#how-it-works-in-detail)
 - [Setting the Hotkeys](#setting-the-hotkeys)
 - [Installation](#installation)
@@ -56,12 +56,13 @@ The following commands have some special features:
 ### Smarter Wikilink
 - __Auto-Suggest__:When turning text into a wikilink, `Smarter Wikilinks` will automatically trigger the suggester afterwards.
 
-## Smarter Punctuation Commands
-While strictly speaking quotation marks and brackets are not a form of markup, I found it quite useful to be able to set them in the same way. Therefore, the following commands have been added as well:
+## Smarter Punctuation & Delete Commands
+While strictly speaking quotation marks and brackets are not a form of markup, I found it quite useful to be able to set them in the same way. Similarly, it is useful to delete text in a smart way, too. Therefore, the following commands have been added as well:
 
 - Smarter Quotation Marks
 - Smarter Round Brackets
 - Smarter Square Brackets
+- Smarter Delete
 
 ## How it works in detail
 `|` is a cursor without selection. `Selection` signifies the part of the text being selected. This table serves as a reference for the precise mechanics of this plugin.

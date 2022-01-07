@@ -28,7 +28,7 @@ export default class SmarterMDhotkeys extends Plugin {
 	async onunload() { console.log("Smarter MD Hotkeys unloaded.") }
 
 	async expandAndWrap(frontMarkup: string, endMarkup: string, editor: Editor) {
-		const debug = false;
+		const debug = true;
 		interface contentChange {
 			line: number;
 			shift: number;
@@ -47,6 +47,16 @@ export default class SmarterMDhotkeys extends Plugin {
 			const charsAfter = editor.getRange(offToPos(eo), offToPos(eo + aft.length));
 			return (charsBefore === bef && charsAfter === aft);
 		}
+
+		function isInFrontSel (bef:string) {
+			const so = startOffset();
+
+			if ((so - bef.length) < 0) return false; // beginning of the document
+
+			const charsBefore = editor.getRange(offToPos(so - bef.length), offToPos(so));
+			return (charsBefore === bef);
+		}
+
 		const multiLineMarkup = () => (["`", "%%", "<!--"].includes(frontMarkup));
 		const markupOutsideSel = () => isOutsideSel (frontMarkup, endMarkup);
 		function markupOutsideMultiline (anchor: EditorPosition, head: EditorPosition) {
@@ -156,14 +166,17 @@ export default class SmarterMDhotkeys extends Plugin {
 				"> ",
 				" ",
 				"\n",
-				"\t",
-				frontMarkup
+				"\t"
 			];
-			let trimAfter = [" ", "\n", "\t", endMarkup];
+			let trimAfter = [" ", "\n", "\t"];
 
-			if (frontMarkup === "%%" || frontMarkup === "<!--") {
+			// modify what to trim based on command
+			if (multiLineMarkup()) {
 				trimBefore = [frontMarkup];
 				trimAfter = [endMarkup];
+			} else if (frontMarkup !== "delete") {
+				trimBefore.push(frontMarkup);
+				trimAfter.push(endMarkup);
 			}
 
 			let selection = editor.getSelection();
@@ -236,12 +249,10 @@ export default class SmarterMDhotkeys extends Plugin {
 			return pos;
 		}
 
-		function applyMarkup (preSelExpAnchor: EditorPosition, preSelExpHead: EditorPosition, lineMode: string ) {
+		function applyMarkup (preAnchor: EditorPosition, preHead: EditorPosition, lineMode: string ) {
 			const selectedText = editor.getSelection();
 			const so = startOffset();
 			const eo = endOffset();
-			const anchor = preSelExpAnchor;
-			const head = preSelExpHead;
 
 			// abort if empty line & multi, since no markup on empty line in between desired
 			if (noSel() && lineMode === "multi") return;
@@ -250,11 +261,11 @@ export default class SmarterMDhotkeys extends Plugin {
 			if (!markupOutsideSel()) {
 				editor.replaceSelection(frontMarkup + selectedText + endMarkup);
 				contentChangeList.push(
-					{ line: anchor.line, shift: blen },
-					{ line: head.line, shift: alen }
+					{ line: preAnchor.line, shift: blen },
+					{ line: preHead.line, shift: alen }
 				);
-				anchor.ch += blen;
-				head.ch += blen;
+				preAnchor.ch += blen;
+				preHead.ch += blen;
 			}
 
 			// Undo Markup (outside selection, inside not necessary as trimmed already)
@@ -262,14 +273,14 @@ export default class SmarterMDhotkeys extends Plugin {
 				editor.setSelection(offToPos(so - blen), offToPos(eo + alen));
 				editor.replaceSelection(selectedText);
 				contentChangeList.push(
-					{ line: anchor.line, shift: -blen },
-					{ line: head.line, shift: -alen }
+					{ line: preAnchor.line, shift: -blen },
+					{ line: preHead.line, shift: -alen }
 				);
-				anchor.ch -= blen;
-				head.ch -= blen;
+				preAnchor.ch -= blen;
+				preHead.ch -= blen;
 			}
 
-			if (lineMode === "single") editor.setSelection(anchor, head);
+			if (lineMode === "single") editor.setSelection(preAnchor, preHead);
 		}
 
 		function wrapMultiLine() {
@@ -322,6 +333,25 @@ export default class SmarterMDhotkeys extends Plugin {
 			return [frontMarkup_, endMarkup_];
 		}
 
+		function	smartDelete() {
+			// also delete hashtags (= word is a tag)
+			if (isInFrontSel("#")) {
+				const anchor = editor.getCursor("from");
+				const head = editor.getCursor("to");
+				if (anchor.ch) anchor.ch --; // do not apply to first line position
+				editor.setSelection (anchor, head);
+			}
+			// expand selection to prevent double spaces after deletion
+			if (isInFrontSel(" ")) {
+				const anchor = editor.getCursor("from");
+				const head = editor.getCursor("to");
+				if (anchor.ch) anchor.ch--;
+				editor.setSelection (anchor, head);
+			}
+
+			// delete
+			editor.replaceSelection ("");
+		}
 
 		// MAIN
 		//-------------------------------------------------------------------
@@ -341,27 +371,30 @@ export default class SmarterMDhotkeys extends Plugin {
 			// account for shifts in Editor Positions due to applying markup to previous cursors
 			sel.anchor = recalibratePos (sel.anchor);
 			sel.head = recalibratePos (sel.head);
+			editor.setSelection(sel.anchor, sel.head);
 
-			editor.setSelection(sel.anchor, sel.head); // set the selection to the one current cursor
-			trimSelection(); // prevent things like triple-click selection from triggering multi-line
+			// prevent things like triple-click selection from triggering multi-line
+			trimSelection();
+
+			// run smart delete instead
+			if (frontMarkup === "delete") {
+				log ("Smart Delete");
+				expandToWordBoundary();
+				smartDelete();
 
 			// wrap single line selection
-			if (!multiLineSel()) {
+			} else if (!multiLineSel()) {
 				log ("single line");
 				const { anchor: preSelExpAnchor, head: preSelExpHead } = expandToWordBoundary();
 				applyMarkup(preSelExpAnchor, preSelExpHead, "single");
-				return;
-			}
 
 			// Wrap multi-line selection
-			if (multiLineSel() && multiLineMarkup()) {
+			} else if (multiLineSel() && multiLineMarkup()) {
 				log ("Multiline Wrap");
 				wrapMultiLine();
-				return;
-			}
 
 			// Wrap *each* line of multi-line selection
-			if (multiLineSel() && !multiLineMarkup()) {
+			} else if (multiLineSel() && !multiLineMarkup()) {
 				let pointerOff = startOffset();
 				const lines = editor.getSelection().split("\n");
 				log ("lines: " + lines.length.toString());

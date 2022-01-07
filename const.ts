@@ -69,7 +69,7 @@ export const COMMANDS: {
 
 	{
 		id: "smarter-wikilink",
-		name: "Smarter wikilink (internal link)",
+		name: "Smarter Wikilink (Internal Link)",
 		before: "[[",
 		after: "]]",
 	},

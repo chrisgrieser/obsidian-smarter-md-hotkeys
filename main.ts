@@ -1,4 +1,4 @@
-import { COMMANDS } from "const";
+import { COMMANDS, TRIMBEFORE, TRIMAFTER, DEBUGGING, IMAGEEXTENSIONS } from "const";
 import { Editor, EditorPosition, Plugin } from "obsidian";
 declare module "obsidian" {
 	// add type safety for the undocumented method
@@ -28,7 +28,6 @@ export default class SmarterMDhotkeys extends Plugin {
 	async onunload() { console.log("Smarter MD Hotkeys unloaded.") }
 
 	async expandAndWrap(frontMarkup: string, endMarkup: string, editor: Editor) {
-		const debug = false;
 		interface contentChange {
 			line: number;
 			shift: number;
@@ -97,7 +96,7 @@ export default class SmarterMDhotkeys extends Plugin {
 		}
 
 		function log (msg: string, appendSelection?: boolean) {
-			if (!debug) return;
+			if (!DEBUGGING) return;
 			let appended = "";
 			if (appendSelection) appended = ": \"" + editor.getSelection() + "\"";
 			if (!msg.startsWith("\n")) msg = "- " + msg;
@@ -153,22 +152,8 @@ export default class SmarterMDhotkeys extends Plugin {
 		}
 
 		function trimSelection() {
-			let trimBefore = [
-				"###### ",
-				"##### ",
-				"#### ",
-				"### ",
-				"## ",
-				"# ",
-				"- [ ] ",
-				"- [x] ",
-				"- ",
-				">",
-				" ",
-				"\n",
-				"\t"
-			];
-			let trimAfter = [" ", "\n", "\t"];
+			let trimAfter = TRIMAFTER;
+			let trimBefore = TRIMBEFORE;
 
 			// modify what to trim based on command
 			if (multiLineMarkup()) {
@@ -321,14 +306,14 @@ export default class SmarterMDhotkeys extends Plugin {
 
 		async function insertURLtoMDLink () {
 			const URLregex = /\b((?:[a-z][\w-]+:(?:\/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))/; // eslint-disable-line no-useless-escape
-			const imageURLregex = /\.(png|jpe?g|gif|tiff?)$/;
 			const cbText = (await navigator.clipboard.readText()).trim();
 
 			let frontMarkup_ = frontMarkup;
 			let endMarkup_ = endMarkup;
 			if (URLregex.test(cbText)) {
 				endMarkup_ = "](" + cbText + ")";
-				if (imageURLregex.test(cbText)) frontMarkup_ = "![";
+				const urlExtension = cbText.split(".").pop();
+				if (IMAGEEXTENSIONS.includes(urlExtension)) frontMarkup_ = "![";
 			}
 			return [frontMarkup_, endMarkup_];
 		}

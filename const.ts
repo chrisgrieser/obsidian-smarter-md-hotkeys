@@ -1,3 +1,5 @@
+export const DEBUGGING = false;
+
 export const COMMANDS: {
 	id: string;
 	name: string;
@@ -108,4 +110,35 @@ export const COMMANDS: {
 		before: "delete",
 		after: "",
 	}
+];
+
+export const TRIMBEFORE = [
+	"###### ",
+	"##### ",
+	"#### ",
+	"### ",
+	"## ",
+	"# ",
+	"- [ ] ",
+	"- [x] ",
+	"- ",
+	">",
+	" ",
+	"\n",
+	"\t"
+];
+
+export const TRIMAFTER = [
+	" ",
+	"\n",
+	"\t"
+];
+
+// without leading dot
+export const IMAGEEXTENSIONS = [
+	"png",
+	"jpg",
+	"jpeg",
+	"gif",
+	"tiff"
 ];

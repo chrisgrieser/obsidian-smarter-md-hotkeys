@@ -28,7 +28,7 @@ export default class SmarterMDhotkeys extends Plugin {
 	async onunload() { console.log("Smarter MD Hotkeys unloaded.") }
 
 	async expandAndWrap(frontMarkup: string, endMarkup: string, editor: Editor) {
-		const debug = true;
+		const debug = false;
 		interface contentChange {
 			line: number;
 			shift: number;
@@ -163,7 +163,7 @@ export default class SmarterMDhotkeys extends Plugin {
 				"- [ ] ",
 				"- [x] ",
 				"- ",
-				"> ",
+				">",
 				" ",
 				"\n",
 				"\t"

@@ -1,3 +1,5 @@
+- 2022-01-08	release 1.2.1
+- 2022-01-08	exclude blockquotes without leading space from markup, too (@kometenstaub)
 - 2022-01-07	release 1.2.0
 - 2022-01-07	✨new command: smarter delete (#10)
 - 2022-01-07	switched to issue forms

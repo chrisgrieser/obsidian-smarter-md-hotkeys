@@ -102,7 +102,7 @@ Thanks to @SkepticMystic for his support!
 Donations are welcome via [PayPal](https://www.paypal.com/paypalme/ChrisGrieser) or [Ko-Fi](https://ko-fi.com/pseudometa). 🙏
 
 **About me**
-In my day job, I am a researcher in sociology. In my PhD project, I investigate the governance of the app economy and how software ecosystems manage the tension between innovation and compatibility. If you are interested in this subject, feel free to visit [my academic homepage](https://chris-grieser.de/) and get in touch!
+In my day job, I am a sociologist studying the social mechanisms underlying the digital economy. For my PhD project, I investigate the governance of the app economy and how software ecosystems manage the tension between innovation and compatibility. If you are interested in this subject, feel free to visit [my academic homepage](https://chris-grieser.de/) and get in touch.
 - [Discord](https://discord.gg/veuWUTm): `@pseudometa#9546`
 - Twitter: [@pseudo_meta](https://twitter.com/pseudo_meta)
 
@@ -111,4 +111,4 @@ In my day job, I am a researcher in sociology. In my PhD project, I investigate 
 [⬆️ Go Back to Top](#Table-of-Contents)
 
 [^1]: macOS uses `cmd`, Windows and Linux use `ctrl`.
-[^2]: Currently supported extensions are `.png`, `.jpg`, `.jpeg`, `.gif`, `.tiff`, and `.tif`. If you regularly use other image extensions, please open an issue and I'll add them.
+[^2]: The [supported image extensions are listed here](const.ts#L138). If you use other image extensions, please open an issue and I'll add them, or make a PR.

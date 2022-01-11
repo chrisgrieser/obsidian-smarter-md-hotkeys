@@ -134,7 +134,13 @@ export const TRIMAFTER = [
 	"\t"
 ];
 
-// without leading dot
+export const EXPANDWHENOUTSIDE = [
+	["#", ""],
+	["[[", "]]"],
+	["\"", "\""],
+	["'", "'"]
+];
+
 export const IMAGEEXTENSIONS = [
 	"png",
 	"jpg",
@@ -142,3 +148,4 @@ export const IMAGEEXTENSIONS = [
 	"gif",
 	"tiff"
 ];
+

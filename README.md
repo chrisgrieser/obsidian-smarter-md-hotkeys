@@ -111,4 +111,4 @@ In my day job, I am a sociologist studying the social mechanisms underlying the 
 [⬆️ Go Back to Top](#Table-of-Contents)
 
 [^1]: macOS uses `cmd`, Windows and Linux use `ctrl`.
-[^2]: The supported image extensions are [listed here](const.ts#L138). If you use other feel free to add them by opening a PR; alternatively you can also open an issue and I'll add them.
+[^2]: The supported image extensions are [listed here](const.ts#L144). If you use other feel free to add them by opening a PR; alternatively you can also open an issue and I'll add them.

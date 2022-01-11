@@ -1,4 +1,4 @@
-import { COMMANDS, TRIMBEFORE, TRIMAFTER, DEBUGGING, IMAGEEXTENSIONS } from "const";
+import { COMMANDS, TRIMBEFORE, TRIMAFTER, DEBUGGING, IMAGEEXTENSIONS, EXPANDWHENOUTSIDE } from "const";
 import { Editor, EditorPosition, Plugin } from "obsidian";
 declare module "obsidian" {
 	// add type safety for the undocumented method
@@ -45,15 +45,6 @@ export default class SmarterMDhotkeys extends Plugin {
 			const charsBefore = editor.getRange(offToPos(so - bef.length), offToPos(so));
 			const charsAfter = editor.getRange(offToPos(eo), offToPos(eo + aft.length));
 			return (charsBefore === bef && charsAfter === aft);
-		}
-
-		function isInFrontSel (bef:string) {
-			const so = startOffset();
-
-			if ((so - bef.length) < 0) return false; // beginning of the document
-
-			const charsBefore = editor.getRange(offToPos(so - bef.length), offToPos(so));
-			return (charsBefore === bef);
 		}
 
 		const multiLineMarkup = () => (["`", "%%", "<!--"].includes(frontMarkup));
@@ -206,6 +197,8 @@ export default class SmarterMDhotkeys extends Plugin {
 		function expandSelection () {
 			trimSelection();
 			log ("before expandSelection", true);
+
+			// expand to word
 			const preSelExpAnchor = editor.getCursor("from");
 			const preSelExpHead = editor.getCursor("to");
 
@@ -214,19 +207,14 @@ export default class SmarterMDhotkeys extends Plugin {
 
 			editor.setSelection(firstWordRange.anchor, lastWordRange.head);
 
-			// include quotation marks, if they are at both ends of selection
-			if (isOutsideSel ("\"", "\"") || isOutsideSel ("'", "'")) {
-				firstWordRange.anchor.ch--;
-				lastWordRange.head.ch++;
-				editor.setSelection(firstWordRange.anchor, lastWordRange.head);
-			}
-
-			// include quotation marks, if they are at both ends of selection
-			if (isOutsideSel ("[[", "]]")) {
-				firstWordRange.anchor.ch -= 2;
-				lastWordRange.head.ch += 2;
-				editor.setSelection(firstWordRange.anchor, lastWordRange.head);
-			}
+			const expandWhenOutside = EXPANDWHENOUTSIDE;
+			expandWhenOutside.forEach(pair => {
+				if (isOutsideSel (pair[0], pair[1])) {
+					firstWordRange.anchor.ch -= pair[0].length;
+					lastWordRange.head.ch += pair[1].length;
+					editor.setSelection(firstWordRange.anchor, lastWordRange.head);
+				}
+			});
 
 			log ("after expandSelection", true);
 			trimSelection();
@@ -326,14 +314,14 @@ export default class SmarterMDhotkeys extends Plugin {
 
 		function	smartDelete() {
 			// also delete hashtags (= word is a tag)
-			if (isInFrontSel("#")) {
+			if (isOutsideSel("#", "")) {
 				const anchor = editor.getCursor("from");
 				const head = editor.getCursor("to");
 				if (anchor.ch) anchor.ch --; // do not apply to first line position
 				editor.setSelection (anchor, head);
 			}
 			// expand selection to prevent double spaces after deletion
-			if (isInFrontSel(" ")) {
+			if (isOutsideSel(" ", "")) {
 				const anchor = editor.getCursor("from");
 				const head = editor.getCursor("to");
 				if (anchor.ch) anchor.ch--;

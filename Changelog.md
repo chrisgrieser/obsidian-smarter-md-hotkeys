@@ -1,3 +1,6 @@
+- 2022-01-11	release 1.3.1
+- 2022-01-11	Merge pull request #19 from Aaron-Bopp/more-wrapping-symbols
+- 2022-01-11	add parenthesis, brackets, and dollar sign
 - 2022-01-11	release 1.3.0
 - 2022-01-11	improved readme
 - 2022-01-11	fixed undoing multi-line wrapping commands not deleting the proper line

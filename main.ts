@@ -109,6 +109,8 @@ export default class SmarterMDhotkeys extends Plugin {
 				// https://github.com/argenos/nldates-obsidian/blob/e6b95969d7215b9ded2b72c4e319e35bc6022199/src/utils.ts#L16
 				// https://github.com/obsidianmd/obsidian-api/blob/fac5e67f5d83829a4e0126905494c8cbca27765b/obsidian.d.ts#L787
 
+				if (editor.cm instanceof window.CodeMirror) return editor.cm.findWordAt(ep); // CM5
+				
 				// get text around cursor
 				const currentPosition = editor.posToOffset(ep);
 				const textBeforeCursor = editor.cm.state.sliceDoc(currentPosition - 1000, currentPosition);
@@ -127,7 +129,6 @@ export default class SmarterMDhotkeys extends Plugin {
 					startPos = offToPos(currentPosition - inDollarAmount[0].length);
 					endPos = offToPos(currentPosition + textAfterCursor.match(/^[\d\.\,]*/)[0].length);
 				} else {
-					if (editor.cm instanceof window.CodeMirror) return editor.cm.findWordAt(ep); // CM5
 	
 					const word = editor.cm.state.wordAt(editor.posToOffset (ep)); // CM6
 					if (!word) return { anchor: ep, head: ep }; // for when there is no word close by

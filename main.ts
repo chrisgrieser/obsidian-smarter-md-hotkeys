@@ -111,15 +111,17 @@ export default class SmarterMDhotkeys extends Plugin {
 
 				// get text around cursor
 				const currentPosition = editor.posToOffset(ep);
-				const textBeforeCursor = editor.cm.state.sliceDoc(currentPosition - 100, currentPosition);
-				const textAfterCursor = editor.cm.state.sliceDoc(currentPosition, currentPosition + 100);
-				
-				const allowedInTags = new RegExp(/[\w\/\_\-]*/);
+				const textBeforeCursor = editor.cm.state.sliceDoc(currentPosition - 1000, currentPosition);
+				const textAfterCursor = editor.cm.state.sliceDoc(currentPosition, currentPosition + 1000);
 
 				const inTag = textBeforeCursor.match(/#[\w\/\_\-]*$/)
+				const inLink = textBeforeCursor.match( /\[\[[^\[\]]*$/)
 				if (inTag) {
 					startPos = offToPos(currentPosition - inTag[0].length);
 					endPos = offToPos(currentPosition + textAfterCursor.match(/^[\w\/\_\-]*/)[0].length);
+				} else if (inLink) {
+					startPos = offToPos(currentPosition - inLink[0].length);
+					endPos = offToPos(currentPosition + textAfterCursor.match(/^[^\[\]]*\]\]/)[0].length);
 				} else {
 					if (editor.cm instanceof window.CodeMirror) return editor.cm.findWordAt(ep); // CM5
 	

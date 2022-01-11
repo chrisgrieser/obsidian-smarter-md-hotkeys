@@ -15,6 +15,7 @@ A plugin for [Obsidian](https://obsidian.md/) providing hotkeys that select word
 	- [Smarter Inline/Fenced Code](#smarter-inlinefenced-code)
 	- [Smarter Comment](#smarter-comment)
 	- [Smarter Wikilink](#smarter-wikilink)
+	- [Smarter Mathjax](#smarter-mathjax)
 - [Smarter Punctuation & Delete Commands](#smarter-punctuation--delete-commands)
 - [How it works in detail](#how-it-works-in-detail)
 - [Setting the Hotkeys](#setting-the-hotkeys)
@@ -36,6 +37,7 @@ A plugin for [Obsidian](https://obsidian.md/) providing hotkeys that select word
 - Smarter Strikethrough
 - Smarter Markdown/Image Link\*
 - Smarter Wikilink (Internal Link)
+- Smarter Mathjax
 
 All commands also support __multiple cursors__ and __undoing markup__ by triggering the same hotkey. 
 
@@ -48,13 +50,16 @@ The following commands have some special features:
 
 ### Smarter Inline/Fenced Code
 - __Terms instead of Words:__ `Smarter Code` will *not* consider punctuation or brackets as delimiters. This means that a cursor anywhere in "object.method" will select the whole term and result in "`object.method`" instead of "`object`.method".
-- __Automatic Switch to Fenced Code Syntax__: When more than one line is selected, `Smarter Code` will wrap the selected lines in fenced code syntax instead. Furthermore, the cursor is moved to the beginning of the fenced code block so you can conveniently enter the code language.
+- __Automatic Switch to Fenced Code Syntax__: When more than one line is selected, `Smarter Code` will wrap the selected lines in [fenced code syntax](https://help.obsidian.md/How+to/Format+your+notes#Code+blocks) instead. Furthermore, the cursor is moved to the beginning of the fenced code block so you can conveniently enter the code language.
 
 ### Smarter Comment
-- __Automatic Switch to Blocks__: When more than one line is selected, the `Smarter Comment` commands will expand the selection to whole blocks and than wrap all of them together into the comment syntax. 
+- __Automatic Switch to Block Comments__: When more than one line is selected, the `Smarter Comment` commands will expand the selection to whole blocks and than [wrap all of them together](https://help.obsidian.md/How+to/Format+your+notes#Comments) into the comment syntax. 
 
 ### Smarter Wikilink
 - __Auto-Suggest__:When turning text into a wikilink, `Smarter Wikilinks` will automatically trigger the suggester afterwards.
+
+### Smarter Mathjax
+- __Automatic Switch to Blocks__: When more than one line is selected, the `Smarter MathJax` command will also [expand the selection to whole blocks](https://help.obsidian.md/How+to/Format+your+notes#Math) and switch from `$` to `$$`. (I do not use Mathjax myself, so feel free to open an issue when the Mathjax command can be improved somehow.)
 
 ## Smarter Punctuation & Delete Commands
 While strictly speaking quotation marks and brackets are not a form of markup, I found it quite useful to be able to set them in the same way. Similarly, it is useful to delete text in a smart way, too. Therefore, the following commands have been added as well:

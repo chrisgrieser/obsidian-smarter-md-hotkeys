@@ -47,7 +47,7 @@ export default class SmarterMDhotkeys extends Plugin {
 			return (charsBefore === bef && charsAfter === aft);
 		}
 
-		const multiLineMarkup = () => (["`", "%%", "<!--"].includes(frontMarkup));
+		const multiLineMarkup = () => (["`", "%%", "<!--", "$"].includes(frontMarkup));
 		const markupOutsideSel = () => isOutsideSel (frontMarkup, endMarkup);
 		function markupOutsideMultiline (anchor: EditorPosition, head: EditorPosition) {
 			if (anchor.line === 0) return false;
@@ -273,6 +273,12 @@ export default class SmarterMDhotkeys extends Plugin {
 				endMarkup = "```";
 				alen = 3;
 				blen = 3;
+			}
+			else if (frontMarkup === "$") { // switch to block mathjax syntax instead of inline mathjax
+				frontMarkup = "$$";
+				endMarkup = "$$";
+				alen = 2;
+				blen = 2;
 			}
 
 			// do Markup

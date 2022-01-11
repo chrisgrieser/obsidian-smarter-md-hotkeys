@@ -1,3 +1,8 @@
+- 2022-01-11	release 1.3.0
+- 2022-01-11	improved readme
+- 2022-01-11	fixed undoing multi-line wrapping commands not deleting the proper line
+- 2022-01-11	include euro-symbol
+- 2022-01-11	🔢 new hotkey: Smarter Mathjax
 - 2022-01-11	release 1.2.3
 - 2022-01-11	release 1.2.2
 - 2022-01-11	fix #11

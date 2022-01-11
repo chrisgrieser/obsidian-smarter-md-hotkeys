@@ -116,12 +116,16 @@ export default class SmarterMDhotkeys extends Plugin {
 
 				const inTag = textBeforeCursor.match(/#[\w\/\_\-]*$/)
 				const inLink = textBeforeCursor.match( /\[\[[^\[\]]*$/)
+				const inDollarAmount = textBeforeCursor.match( /\$[\d\.\,]*$/)
 				if (inTag) {
 					startPos = offToPos(currentPosition - inTag[0].length);
 					endPos = offToPos(currentPosition + textAfterCursor.match(/^[\w\/\_\-]*/)[0].length);
 				} else if (inLink) {
 					startPos = offToPos(currentPosition - inLink[0].length);
 					endPos = offToPos(currentPosition + textAfterCursor.match(/^[^\[\]]*\]\]/)[0].length);
+				} else if (inDollarAmount) {
+					startPos = offToPos(currentPosition - inDollarAmount[0].length);
+					endPos = offToPos(currentPosition + textAfterCursor.match(/^[\d\.\,]*/)[0].length);
 				} else {
 					if (editor.cm instanceof window.CodeMirror) return editor.cm.findWordAt(ep); // CM5
 	

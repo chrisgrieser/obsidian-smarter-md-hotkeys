@@ -5,7 +5,8 @@ declare module "obsidian" {
 	interface Editor {
 		cm: {
 			findWordAt?: (pos: EditorPosition) => EditorSelection;
-			state?: { wordAt: (offset: number) => { from: number, to: number} };
+			state?: { wordAt: (offset: number) => { from: number, to: number},
+					sliceDoc: (from?: number, to?: number) => string };
 		};
 	}
 }
@@ -108,13 +109,27 @@ export default class SmarterMDhotkeys extends Plugin {
 				// https://github.com/argenos/nldates-obsidian/blob/e6b95969d7215b9ded2b72c4e319e35bc6022199/src/utils.ts#L16
 				// https://github.com/obsidianmd/obsidian-api/blob/fac5e67f5d83829a4e0126905494c8cbca27765b/obsidian.d.ts#L787
 
-				if (editor.cm instanceof window.CodeMirror) return editor.cm.findWordAt(ep); // CM5
+				// get text around cursor
+				const currentPosition = editor.posToOffset(ep);
+				const textBeforeCursor = editor.cm.state.sliceDoc(currentPosition - 100, currentPosition);
+				const textAfterCursor = editor.cm.state.sliceDoc(currentPosition, currentPosition + 100);
+				
+				const allowedInTags = new RegExp(/[\w\/\_\-]*/);
 
-				const word = editor.cm.state.wordAt(editor.posToOffset (ep)); // CM6
-				if (!word) return { anchor: ep, head: ep }; // for when there is no word close by
+				const inTag = textBeforeCursor.match("#" + allowedInTags.source + "$")
+				if (inTag) {
+					startPos = offToPos(currentPosition - inTag[0].length);
+					endPos = offToPos(currentPosition + textAfterCursor.match("^" + allowedInTags.source)[0].length);
+				} else {
+					if (editor.cm instanceof window.CodeMirror) return editor.cm.findWordAt(ep); // CM5
+	
+					const word = editor.cm.state.wordAt(editor.posToOffset (ep)); // CM6
+					if (!word) return { anchor: ep, head: ep }; // for when there is no word close by
+	
+					startPos = offToPos(word.from);
+					endPos = offToPos(word.to);
+				}
 
-				startPos = offToPos(word.from);
-				endPos = offToPos(word.to);
 			}
 
 			// Inline-Code: use only space as delimiter

@@ -297,7 +297,7 @@ export default class SmarterMDhotkeys extends Plugin {
 				}
 			}
 
-			// undo Markup
+			// undo Block Markup
 			if (markupOutsideMultiline(selAnchor, selHead)) {
 				deleteLine(selAnchor.line - 1);
 				deleteLine(selHead.line + 1);

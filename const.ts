@@ -145,7 +145,8 @@ export const EXPANDWHENOUTSIDE = [
 	["#", ""],
 	["[[", "]]"],
 	["\"", "\""],
-	["'", "'"]
+	["'", "'"],
+	["", "€"]
 ];
 
 export const IMAGEEXTENSIONS = [

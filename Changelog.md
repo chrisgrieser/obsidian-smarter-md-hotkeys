@@ -1,3 +1,5 @@
+- 2022-01-11	release 1.2.2
+- 2022-01-11	fix #11
 - 2022-01-08	release 1.2.1
 - 2022-01-08	exclude blockquotes without leading space from markup, too (@kometenstaub)
 - 2022-01-07	release 1.2.0

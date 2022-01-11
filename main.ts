@@ -116,10 +116,10 @@ export default class SmarterMDhotkeys extends Plugin {
 				
 				const allowedInTags = new RegExp(/[\w\/\_\-]*/);
 
-				const inTag = textBeforeCursor.match("#" + allowedInTags.source + "$")
+				const inTag = textBeforeCursor.match(/#[\w\/\_\-]*$/)
 				if (inTag) {
 					startPos = offToPos(currentPosition - inTag[0].length);
-					endPos = offToPos(currentPosition + textAfterCursor.match("^" + allowedInTags.source)[0].length);
+					endPos = offToPos(currentPosition + textAfterCursor.match(/^[\w\/\_\-]*/)[0].length);
 				} else {
 					if (editor.cm instanceof window.CodeMirror) return editor.cm.findWordAt(ep); // CM5
 	

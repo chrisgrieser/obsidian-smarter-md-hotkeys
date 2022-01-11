@@ -199,14 +199,13 @@ export default class SmarterMDhotkeys extends Plugin {
 			const blockID = selection.match(/ \^\w+$/);
 			if (blockID) selection = selection.slice(0, -blockID[0].length);
 
-
 			editor.setSelection(offToPos(so), offToPos(so + selection.length));
 			log ("after trim", true);
 		}
 
-		function expandToWordBoundary () {
+		function expandSelection () {
 			trimSelection();
-			log ("before expandToWordBoundary", true);
+			log ("before expandSelection", true);
 			const preSelExpAnchor = editor.getCursor("from");
 			const preSelExpHead = editor.getCursor("to");
 
@@ -222,7 +221,14 @@ export default class SmarterMDhotkeys extends Plugin {
 				editor.setSelection(firstWordRange.anchor, lastWordRange.head);
 			}
 
-			log ("after punctuation fix", true);
+			// include quotation marks, if they are at both ends of selection
+			if (isOutsideSel ("[[", "]]")) {
+				firstWordRange.anchor.ch -= 2;
+				lastWordRange.head.ch += 2;
+				editor.setSelection(firstWordRange.anchor, lastWordRange.head);
+			}
+
+			log ("after expandSelection", true);
 			trimSelection();
 			return { anchor: preSelExpAnchor, head: preSelExpHead };
 		}
@@ -364,13 +370,13 @@ export default class SmarterMDhotkeys extends Plugin {
 			// run smart delete instead
 			if (frontMarkup === "delete") {
 				log ("Smart Delete");
-				expandToWordBoundary();
+				expandSelection();
 				smartDelete();
 
 			// wrap single line selection
 			} else if (!multiLineSel()) {
 				log ("single line");
-				const { anchor: preSelExpAnchor, head: preSelExpHead } = expandToWordBoundary();
+				const { anchor: preSelExpAnchor, head: preSelExpHead } = expandSelection();
 				applyMarkup(preSelExpAnchor, preSelExpHead, "single");
 
 			// Wrap multi-line selection
@@ -389,7 +395,7 @@ export default class SmarterMDhotkeys extends Plugin {
 					console.log("");
 					editor.setSelection(offToPos(pointerOff), offToPos(pointerOff + line.length));
 
-					const { anchor: preSelExpAnchor, head: preSelExpHead } = expandToWordBoundary();
+					const { anchor: preSelExpAnchor, head: preSelExpHead } = expandSelection();
 
 					// Move Pointer to next line
 					pointerOff += line.length + 1; // +1 to account for line break

@@ -41,7 +41,7 @@ A plugin for [Obsidian](https://obsidian.md/) providing hotkeys that select word
 
 All commands also support __multiple cursors__, smart __inclusion/exclusion of special characters__, and __undoing markup__ by triggering the same hotkey. 
 
-The four commands marked with `*` __wrap whole blocks__ instead of wrapping each line when the hotkey is triggered on a multi-line selection. They also switch to the appropriate syntax, for example from inline code syntax to fenced code syntax. See below for details.
+\* These commands _wrap whole blocks_ instead of wrapping each line when the hotkey is triggered on a multi-line selection. They also switch to the appropriate syntax, for example from inline code syntax to fenced code syntax. (See below for details.)
 
 ## Command-Specific Details
 The following commands have some special features:
@@ -58,7 +58,7 @@ The following commands have some special features:
 - __Automatic Switch to Block Comments__: When more than one line is selected, the `Smarter Comment` commands will expand the selection to whole blocks and than [wrap all of them together](https://help.obsidian.md/How+to/Format+your+notes#Comments) into the comment syntax. 
 
 ### Smarter Wikilink
-- __Auto-Suggest__: When turning text into a wikilink, `Smarter Wikilinks` will automatically trigger the suggester afterwards.
+- __Auto-Suggest__: When turning text into a wikilink, `Smarter Wikilinks` will trigger the suggester afterwards.
 
 ### Smarter Mathjax
 - __Automatic Switch to Blocks__: When more than one line is selected, the `Smarter MathJax` command will also [expand the selection to whole blocks](https://help.obsidian.md/How+to/Format+your+notes#Math) and switch from `$` to `$$`. (I do not use Mathjax myself, so feel free to open an issue when the Mathjax command can be improved somehow.)
@@ -85,7 +85,7 @@ While strictly speaking quotation marks and brackets are not a form of markup, I
 | \*\***foo**`\|`**bar**\*\* *(Undo)*| \*\***foo\*\*\*\*bar**\*\*                             | foobar                                                             |
 | \*\***Lor`em Ips`um**\*\* *(Undo)* | \*\***Lor**\*\*em Ips\*\***um**\*\*                    | Lorem Ipsum                                                        |
 
-You can take a look which characters exactly are included or excluded by taking a look at the [`const.ts` file](const.ts#L144).
+You can take a look which characters exactly are included or excluded by taking a look at the [`const.ts`](const.ts#L144).
 
 ## Setting the Hotkeys
 If you want to replace the default commands from Obsidian, remember to remove their hotkey binding before changing the hotkeys from this plugin. Example for `Smarter Bold`:
@@ -116,8 +116,6 @@ Donations are welcome via [PayPal](https://www.paypal.com/paypalme/ChrisGrieser)
 In my day job, I am a sociologist studying the social mechanisms underlying the digital economy. For my PhD project, I investigate the governance of the app economy and how software ecosystems manage the tension between innovation and compatibility. If you are interested in this subject, feel free to visit [my academic homepage](https://chris-grieser.de/) and get in touch.
 - [Discord](https://discord.gg/veuWUTm): `@pseudometa#9546`
 - Twitter: [@pseudo_meta](https://twitter.com/pseudo_meta)
-
----
 
 [⬆️ Go Back to Top](#Table-of-Contents)
 

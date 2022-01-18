@@ -1,3 +1,5 @@
+- 2022-01-18	release 1.3.2
+- 2022-01-18	implement #20
 - 2022-01-11	release 1.3.1
 - 2022-01-11	Merge pull request #19 from Aaron-Bopp/more-wrapping-symbols
 - 2022-01-11	add parenthesis, brackets, and dollar sign

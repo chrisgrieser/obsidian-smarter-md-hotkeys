@@ -206,7 +206,10 @@ export default class SmarterMDhotkeys extends Plugin {
 			const lastWordRange = textUnderCursor(preSelExpHead);
 
 			editor.setSelection(firstWordRange.anchor, lastWordRange.head);
+			log ("after expandSelection", true);
+			trimSelection();
 
+			// has to come after trimming to include things like bracket
 			const expandWhenOutside = EXPANDWHENOUTSIDE;
 			expandWhenOutside.forEach(pair => {
 				if (isOutsideSel (pair[0], pair[1])) {
@@ -216,8 +219,6 @@ export default class SmarterMDhotkeys extends Plugin {
 				}
 			});
 
-			log ("after expandSelection", true);
-			trimSelection();
 			return { anchor: preSelExpAnchor, head: preSelExpHead };
 		}
 

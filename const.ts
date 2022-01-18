@@ -120,6 +120,9 @@ export const COMMANDS: {
 ];
 
 export const TRIMBEFORE = [
+	"\"",
+	"(",
+	"[",
 	"###### ",
 	"##### ",
 	"#### ",
@@ -136,9 +139,12 @@ export const TRIMBEFORE = [
 ];
 
 export const TRIMAFTER = [
-	" ",
+	"\"",
+	")",
+	"]",
 	"\n",
-	"\t"
+	"\t",
+	" "
 ];
 
 export const EXPANDWHENOUTSIDE = [

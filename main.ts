@@ -118,7 +118,7 @@ export default class SmarterMDhotkeys extends Plugin {
 			}
 
 			// Inline-Code: use only space as delimiter
-			if (frontMarkup === "`") {
+			if (frontMarkup === "`" || frontMarkup === "$") {
 				log ("Getting Code under Cursor");
 				const so = editor.posToOffset(ep);
 				let charAfter, charBefore;
@@ -367,20 +367,21 @@ export default class SmarterMDhotkeys extends Plugin {
 				log ("Smart Delete");
 				expandSelection();
 				smartDelete();
+			}
 
 			// wrap single line selection
-			} else if (!multiLineSel()) {
+			else if (!multiLineSel()) {
 				log ("single line");
 				const { anchor: preSelExpAnchor, head: preSelExpHead } = expandSelection();
 				applyMarkup(preSelExpAnchor, preSelExpHead, "single");
-
+			}
 			// Wrap multi-line selection
-			} else if (multiLineSel() && multiLineMarkup()) {
+			else if (multiLineSel() && multiLineMarkup()) {
 				log ("Multiline Wrap");
 				wrapMultiLine();
-
+			}
 			// Wrap *each* line of multi-line selection
-			} else if (multiLineSel() && !multiLineMarkup()) {
+			else if (multiLineSel() && !multiLineMarkup()) {
 				let pointerOff = startOffset();
 				const lines = editor.getSelection().split("\n");
 				log ("lines: " + lines.length.toString());

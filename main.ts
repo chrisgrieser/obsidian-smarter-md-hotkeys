@@ -150,7 +150,7 @@ export default class SmarterMDhotkeys extends Plugin {
 			if (multiLineMarkup()) {
 				trimBefore = [frontMarkup];
 				trimAfter = [endMarkup];
-			} else if (frontMarkup !== "delete") {
+			} else if (endMarkup) { // check needed to ensure no special commands are added
 				trimBefore.push(frontMarkup);
 				trimAfter.push(endMarkup);
 			}
@@ -332,6 +332,14 @@ export default class SmarterMDhotkeys extends Plugin {
 			editor.replaceSelection ("");
 		}
 
+		function	smartUpperLowerCase(preAnchor: EditorPosition, preHead: EditorPosition) {
+			let newText = editor.getSelection();
+			if (newText.toUpperCase() === newText) newText = newText.toLowerCase();
+			else newText = newText.toUpperCase();
+			editor.replaceSelection (newText);
+			editor.setSelection(preAnchor, preHead);
+		}
+
 		// MAIN
 		//-------------------------------------------------------------------
 		log("\nSmarterMD Hotkeys triggered\n---------------------------");
@@ -360,6 +368,11 @@ export default class SmarterMDhotkeys extends Plugin {
 				log ("Smart Delete");
 				expandSelection();
 				smartDelete();
+			}
+			else if (frontMarkup === "upper-lower") {
+				log ("Smart Upper/Lower Case");
+				const { anchor: preSelExpAnchor, head: preSelExpHead } = expandSelection();
+				smartUpperLowerCase(preSelExpAnchor, preSelExpHead);
 			}
 
 			// wrap single line selection

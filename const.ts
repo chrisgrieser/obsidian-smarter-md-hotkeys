@@ -101,8 +101,17 @@ export const COMMANDS: {
 		name: "Smarter Delete",
 		before: "delete",
 		after: "",
+	},
+	{
+		id: "smarter-upper-lower",
+		name: "Smarter Upper/Lower Case",
+		before: "upper-lower",
+		after: "",
 	}
 ];
+
+// leave "after" key empty for special commands that actually insert text
+// so trimSelection does not apply trimming to them
 
 export const TRIMBEFORE = [
 	"\"",

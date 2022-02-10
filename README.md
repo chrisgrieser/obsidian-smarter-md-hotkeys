@@ -17,6 +17,7 @@ A plugin for [Obsidian](https://obsidian.md/) providing hotkeys that select word
 	- [Smarter Wikilink](#smarter-wikilink)
 	- [Smarter Mathjax](#smarter-mathjax)
 - [Smarter Punctuation & Delete Commands](#smarter-punctuation--delete-commands)
+- [Smarter Upper/Lower Case](#smarter-upperlower-case)
 - [How it works in detail](#how-it-works-in-detail)
 - [Setting the Hotkeys](#setting-the-hotkeys)
 - [Installation](#installation)
@@ -71,6 +72,11 @@ While strictly speaking quotation marks and brackets are not a form of markup, I
 - Smarter Round Brackets
 - Smarter Square Brackets
 - Smarter Delete
+
+## Smarter Upper/Lower Case
+The same logic can also be applied to case switching commands. However, instead of having a smart upper case and a smart lower case command, both are merged into one command: The text will normally be upper cased, except when the text is already fully upper cased, in which case it will be lower cased. (For most cases making lower casing an undo of upper casing.)
+
+- Smarter Upper/Lower Case
 
 ## How it works in detail
 `|` is a cursor without selection. `Selection` signifies the part of the text being selected. This table serves as a reference for the precise mechanics of this plugin.

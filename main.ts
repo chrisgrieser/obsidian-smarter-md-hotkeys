@@ -320,18 +320,11 @@ export default class SmarterMDhotkeys extends Plugin {
 		}
 
 		function	smartDelete() {
-			// also delete hashtags (= word is a tag)
-			if (isOutsideSel("#", "")) {
-				const anchor = editor.getCursor("from");
-				const head = editor.getCursor("to");
-				if (anchor.ch) anchor.ch --; // do not apply to first line position
-				editor.setSelection (anchor, head);
-			}
 			// expand selection to prevent double spaces after deletion
 			if (isOutsideSel(" ", "")) {
 				const anchor = editor.getCursor("from");
 				const head = editor.getCursor("to");
-				if (anchor.ch) anchor.ch--;
+				if (anchor.ch) anchor.ch--; // do not apply to first line position
 				editor.setSelection (anchor, head);
 			}
 

@@ -1,3 +1,6 @@
+- 2022-02-10	release 1.4.0
+- 2022-02-10	new command: smart uppercase/lowercase
+- 2022-02-10	minor refactor of smart delete
 - 2022-02-02	release 1.3.3
 - 2022-02-02	fix #22
 - 2022-01-18	release 1.3.2

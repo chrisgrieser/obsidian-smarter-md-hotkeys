@@ -1,5 +1,5 @@
 import { COMMANDS, TRIMBEFORE, TRIMAFTER, DEBUGGING, IMAGEEXTENSIONS, EXPANDWHENOUTSIDE } from "const";
-import { Editor, EditorPosition, Plugin } from "obsidian";
+import { Editor, EditorPosition, Plugin, Notice } from "obsidian";
 declare module "obsidian" {
 	// add type safety for the undocumented method
 	interface Editor {
@@ -7,6 +7,9 @@ declare module "obsidian" {
 			findWordAt?: (pos: EditorPosition) => EditorSelection;
 			state?: { wordAt: (offset: number) => { from: number, to: number} };
 		};
+	}
+	interface App {
+		commands: { executeCommandById: (commandID: string) => void }
 	}
 }
 
@@ -22,10 +25,27 @@ export default class SmarterMDhotkeys extends Plugin {
 					this.expandAndWrap(before, after, editor),
 			});
 		});
+		this.addCommand({
+			id: "smarter-delete-current-file",
+			name: "Smarter Delete Current Note",
+			callback: () => this.deleteFile(),
+		});
 		console.log("Smarter MD Hotkeys loaded.");
 	}
 
 	async onunload() { console.log("Smarter MD Hotkeys unloaded.") }
+
+	deleteFile () {
+		const runCommand = (str: string) => this.app.commands.executeCommandById(str);
+
+		const activeFile = this.app.workspace.getActiveFile();
+		if (!activeFile) return; // guard close when no file to delete
+
+		new Notice ("\"" + activeFile.name + "\" deleted.");
+		runCommand("app:delete-file");
+		runCommand("app:go-back");
+		runCommand("app:go-back");
+	}
 
 	async expandAndWrap(frontMarkup: string, endMarkup: string, editor: Editor) {
 		interface contentChange {
@@ -408,7 +428,6 @@ export default class SmarterMDhotkeys extends Plugin {
 				});
 			}
 		});
-
 
 	}
 }

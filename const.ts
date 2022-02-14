@@ -96,9 +96,12 @@ export const COMMANDS: {
 		before: "[",
 		after: "]",
 	},
+
+	// leave "after" key empty for special commands that actually insert text
+	// so trimSelection does not apply trimming to them
 	{
 		id: "smarter-delete",
-		name: "Smarter Delete",
+		name: "Smarter Delete Text",
 		before: "delete",
 		after: "",
 	},
@@ -110,8 +113,6 @@ export const COMMANDS: {
 	}
 ];
 
-// leave "after" key empty for special commands that actually insert text
-// so trimSelection does not apply trimming to them
 
 export const TRIMBEFORE = [
 	"\"",

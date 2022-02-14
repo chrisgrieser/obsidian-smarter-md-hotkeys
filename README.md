@@ -16,8 +16,9 @@ A plugin for [Obsidian](https://obsidian.md/) providing hotkeys that select word
 	- [Smarter Comment](#smarter-comment)
 	- [Smarter Wikilink](#smarter-wikilink)
 	- [Smarter Mathjax](#smarter-mathjax)
-- [Smarter Punctuation & Delete Commands](#smarter-punctuation--delete-commands)
+- [Smarter Punctuation Commands Added](#smarter-punctuation-commands-added)
 - [Smarter Upper/Lower Case](#smarter-upperlower-case)
+- [Smarter Deletion Commands Added](#smarter-deletion-commands-added)
 - [How it works in detail](#how-it-works-in-detail)
 - [Setting the Hotkeys](#setting-the-hotkeys)
 - [Installation](#installation)
@@ -65,18 +66,23 @@ The following commands have some special features:
 ### Smarter Mathjax
 - __Automatic Switch to Blocks__: When more than one line is selected, the `Smarter MathJax` command will also [expand the selection to whole blocks](https://help.obsidian.md/How+to/Format+your+notes#Math) and switch from `$` to `$$`. (I do not use Mathjax myself, so feel free to open an issue when the Mathjax command can be improved somehow.)
 
-## Smarter Punctuation & Delete Commands
-While strictly speaking quotation marks and brackets are not a form of markup, I found it quite useful to be able to set them in the same way. Similarly, it is useful to delete text in a smart way, too. Therefore, the following commands have been added as well:
+## Smarter Punctuation Commands Added
+While strictly speaking quotation marks and brackets are not a form of markup, I found it quite useful to be able to set them in the same way. Therefore, the following commands have been added as well:
 
 - Smarter Quotation Marks
 - Smarter Round Brackets
 - Smarter Square Brackets
-- Smarter Delete
 
 ## Smarter Upper/Lower Case
 The same logic can also be applied to case switching commands. However, instead of having a smart upper case and a smart lower case command, both are merged into one command: The text will normally be upper cased, except when the text is already fully upper cased, in which case it will be lower cased. (For most cases making lower casing an undo of upper casing.)
 
 - Smarter Upper/Lower Case
+
+## Smarter Deletion Commands Added
+Smarter Deletion of Text also works, doesn't it? Also, I found the built-in Deletion command a bit annoying, since it left an empty pane. `Smarter Delete Current Note` deletes the current note, confirms it with a Notification, and navigates back to the last file.
+
+- Smarter Delete Text
+- Smarter Delete Current Note
 
 ## How it works in detail
 `|` is a cursor without selection. `Selection` signifies the part of the text being selected. This table serves as a reference for the precise mechanics of this plugin.

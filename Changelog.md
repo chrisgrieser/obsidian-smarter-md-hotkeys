@@ -1,3 +1,5 @@
+- 2022-02-14	release 1.5.0
+- 2022-02-14	add 'smarter delete current file' command
 - 2022-02-10	release 1.4.0
 - 2022-02-10	new command: smart uppercase/lowercase
 - 2022-02-10	minor refactor of smart delete

@@ -53,7 +53,7 @@ The following commands have some special features:
 - __Automatic Switch to Image Syntax__ When the URL in the clipboard ends with an image extension like `.png`,[^2] the command will also prepend the `!` for image links.
 
 ### Smarter Inline/Fenced Code
-- __Terms instead of Words:__ `Smarter Code` will *not* consider punctuation or brackets as delimiters. This means that a cursor anywhere in "object.method" will select the whole term and result in "`object.method`" instead of "`object`.method".
+- __Terms instead of Words:__ `Smarter Code` will _not_ consider punctuation or brackets as delimiters. This means that a cursor anywhere in "object.method" will select the whole term and result in "`object.method`" instead of "`object`.method".
 - __Automatic Switch to Fenced Code Syntax__: When more than one line is selected, `Smarter Code` will wrap the selected lines in [fenced code syntax](https://help.obsidian.md/How+to/Format+your+notes#Code+blocks) instead. Furthermore, the cursor is moved to the beginning of the fenced code block so you can conveniently enter the code language.
 - 💡 `Smarter Fenced Code` synergizes well with the [Codeblock Completer Plugin](https://github.com/SkepticMystic/codeblock-completer).
 
@@ -89,14 +89,14 @@ Smarter Deletion of Text also works, doesn't it? Also, I found the built-in Dele
 
 |                                    |  Normal Hotkeys                                        | Smarter Hotkeys                                                    |
 | ---------------------------------- | ------------------------------------------------------ | ------------------------------------------------------------------ |
-| foo`\|`bar                         | foo\*\*\*\*bar                                         | \*\***foobar**\*\*                                                 |
-| f`oo`bar                           | f\*\***oo**\*\*bar                                     | \*\***foobar**\*\*                                                 |
-| Lor`em Ips`um                      | Lor\*\***em Ips**\*\*um                                | \*\***Lorem Ipsum**\*\*                                            |
-| `- [ ] foobar ^123`                | \*\***- [ ] foobar ^123**\*\*                          | - [ ] \*\***foobar**\*\* <sup>^123</sup>                           |
-| `## foobar-heading`                | ==**## Lorem Ipsum**==                                 | ## ==**Lorem Ipsum**==                                             |
-| - Lor`em`<br>`- Ips`um         | - Lor\*\***em<br>&nbsp;&nbsp;&nbsp;&nbsp;- Ips**\*\*um | - \*\***Lorem**\*\*<br>&nbsp;&nbsp;&nbsp;&nbsp;- \*\***Ipsum**\*\* |
-| \*\***foo**`\|`**bar**\*\* *(Undo)*| \*\***foo\*\*\*\*bar**\*\*                             | foobar                                                             |
-| \*\***Lor`em Ips`um**\*\* *(Undo)* | \*\***Lor**\*\*em Ips\*\***um**\*\*                    | Lorem Ipsum                                                        |
+| foo`\|`bar                         | foo\*\*\*\*bar                                         | \*\*__foobar__\*\*                                                 |
+| f`oo`bar                           | f\*\*__oo__\*\*bar                                     | \*\*__foobar__\*\*                                                 |
+| Lor`em Ips`um                      | Lor\*\*__em Ips__\*\*um                                | \*\*__Lorem Ipsum__\*\*                                            |
+| `- [ ] foobar ^123`                | \*\*__- [ ] foobar ^123__\*\*                          | - [ ] \*\*__foobar__\*\* <sup>^123</sup>                           |
+| `## foobar-heading`                | ==__## Lorem Ipsum__==                                 | ## ==__Lorem Ipsum__==                                             |
+| - Lor`em`<br>`- Ips`um         | - Lor\*\***em<br>&nbsp;&nbsp;&nbsp;&nbsp;- Ips**\*\*um | - \*\*__Lorem__\*\*<br>&nbsp;&nbsp;&nbsp;&nbsp;- \*\*__Ipsum__\*\* |
+| \*\*__foo__`\|`__bar__\*\* _(Undo)_| \*\***foo\*\*\*\*bar**\*\*                             | foobar                                                             |
+| \*\***Lor`em Ips`um**\*\* _(Undo)_ | \*\*__Lor__\*\*em Ips\*\*__um__\*\*                    | Lorem Ipsum                                                        |
 
 You can take a look which characters exactly are included or excluded by taking a look at the [`const.ts`](const.ts#L144).
 
@@ -108,12 +108,12 @@ If you want to replace the default commands from Obsidian, remember to remove th
 💡 For the smarter punctuation commands, you can also use a hotkey with `shift`, for example `shift + 2` for Smarter Quotation Marks. Curiously, Obsidian accepts such hotkeys, so you can basically "overwrite" normal punctuation typing if you want to. (However, note that this comes at the cost of losing the ability to type punctuation normally.)
 
 ## Installation
-The plugin is available in Obsidian's Community Plugin Browser via: `Settings` → `Community Plugins` → `Browse` → Search for *"Smarter Markdown Hotkeys"*
+The plugin is available in Obsidian's Community Plugin Browser via: `Settings` → `Community Plugins` → `Browse` → Search for _"Smarter Markdown Hotkeys"_
 
 ## Contribute
 The easiest way to make contributions is to make changes to `const.st`, since the constants there determine commands and what to include/exclude.
 
-Please use the `.eslintrc` configuration located in the repository and run eslint before doing a pull request, and do *not* use `prettier`. 🙂
+Please use the `.eslintrc` configuration located in the repository and run eslint before doing a pull request, and do _not_ use `prettier`. 🙂
 
 ```shell
 # Run eslint fixing most common mistakes
@@ -125,7 +125,7 @@ Thanks to @SkepticMystic for his support!
 
 Donations are welcome via [PayPal](https://www.paypal.com/paypalme/ChrisGrieser) or [Ko-Fi](https://ko-fi.com/pseudometa). 🙏
 
-**About me**
+__About me__
 In my day job, I am a sociologist studying the social mechanisms underlying the digital economy. For my PhD project, I investigate the governance of the app economy and how software ecosystems manage the tension between innovation and compatibility. If you are interested in this subject, feel free to visit [my academic homepage](https://chris-grieser.de/) and get in touch.
 - [Discord](https://discord.gg/veuWUTm): `@pseudometa#9546`
 - Twitter: [@pseudo_meta](https://twitter.com/pseudo_meta)

@@ -250,16 +250,25 @@ export default class SmarterMDhotkeys extends Plugin {
 		}
 
 		function applyMarkup (preAnchor: EditorPosition, preHead: EditorPosition, lineMode: string ) {
-			const selectedText = editor.getSelection();
+			let selectedText = editor.getSelection();
 			const so = startOffset();
-			const eo = endOffset();
+			let eo = endOffset();
 
 			// abort if empty line & multi, since no markup on empty line in between desired
 			if (noSel() && lineMode === "multi") return;
 
 			// Do Markup
 			if (!markupOutsideSel()) {
+				// insert extra space for comments
+				if (["%%", "<!--"].includes(frontMarkup)) {
+					selectedText = " " + selectedText + " ";
+					// account for shift in positining for the cursor repositioning
+					eo = eo + 2;
+					blen++;
+					alen++;
+				}
 				editor.replaceSelection(frontMarkup + selectedText + endMarkup);
+
 				contentChangeList.push(
 					{ line: preAnchor.line, shift: blen },
 					{ line: preHead.line, shift: alen }
@@ -272,6 +281,7 @@ export default class SmarterMDhotkeys extends Plugin {
 			if (markupOutsideSel()) {
 				editor.setSelection(offToPos(so - blen), offToPos(eo + alen));
 				editor.replaceSelection(selectedText);
+
 				contentChangeList.push(
 					{ line: preAnchor.line, shift: -blen },
 					{ line: preHead.line, shift: -alen }

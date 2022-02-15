@@ -1,4 +1,4 @@
-export const DEBUGGING = true;
+export const DEBUGGING = false;
 
 export const COMMANDS: {
 	id: string;

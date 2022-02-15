@@ -1,3 +1,5 @@
+- 2022-02-15	release 1.5.1
+- 2022-02-15	add spaces when inserting comment markup without selection
 - 2022-02-14	release 1.5.0
 - 2022-02-14	add 'smarter delete current file' command
 - 2022-02-10	release 1.4.0

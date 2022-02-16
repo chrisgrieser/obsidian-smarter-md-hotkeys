@@ -2,6 +2,7 @@
 # Release Obsidian Plugin
 # https://forum.obsidian.md/t/using-github-actions-to-release-plugins/7877
 # https://marcus.se.net/obsidian-plugin-docs/publishing/release-your-plugin-with-github-actions
+# ---------
 
 # ensure relevant files exist
 if [[ ! -f "./manifest.json" ]] ; then
@@ -22,7 +23,6 @@ cd "$(dirname "$0")" || exit
 eslint --fix ./*.ts
 markdownlint --fix ./*.md
 markdown-link-check ./README.md
-find ./docs -name \*.md -print0 | xargs -0 -n1 markdown-link-check
 
 # get version number from the manifest of the latest release
 lastVersion=$(grep "version" "./manifest.json" | cut -d\" -f4)

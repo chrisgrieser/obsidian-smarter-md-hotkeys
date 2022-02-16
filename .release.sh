@@ -6,22 +6,23 @@
 # ensure relevant files exist
 if [[ ! -f "./manifest.json" ]] ; then
 	echo "manifest.json does not exist yet"
-	return
+	exit
 fi
 if [[ ! -f "./versions.json" ]] ; then
 	echo "versions.json does not exist yet"
-	return
+	exit
 fi
 if [[ ! -f "./.github/workflows/release.yml" ]] ; then
 	echo "/.github/workflows/release.yml does not exist yet"
-	return
+	exit
 fi
 
 # Lint
 cd "$(dirname "$0")" || exit
 eslint --fix ./*.ts
-# disable strong style, since the variation is needed for examples in the table
-markdownlint --fix --diable strong-style ./*.md
+markdownlint --fix ./*.md
+markdown-link-check ./README.md
+find ./docs -name \*.md -print0 | xargs -0 -n1 markdown-link-check
 
 # get version number from the manifest of the latest release
 lastVersion=$(grep "version" "./manifest.json" | cut -d\" -f4)

@@ -232,6 +232,7 @@ export default class SmarterMDhotkeys extends Plugin {
 			// has to come after trimming to include things like bracket
 			const expandWhenOutside = EXPANDWHENOUTSIDE;
 			expandWhenOutside.forEach(pair => {
+				if (pair[0] === frontMarkup || pair[1] === endMarkup ) return; // allow undoing of the command creating the syntax
 				if (isOutsideSel (pair[0], pair[1])) {
 					firstWordRange.anchor.ch -= pair[0].length;
 					lastWordRange.head.ch += pair[1].length;

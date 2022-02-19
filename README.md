@@ -23,6 +23,9 @@ A plugin for [Obsidian](https://obsidian.md/) providing hotkeys that select word
 - [Setting the Hotkeys](#setting-the-hotkeys)
 - [Installation](#installation)
 - [Contribute](#contribute)
+- [About the Developer](#about-the-developer)
+	- [Profiles](#profiles)
+	- [Donate](#donate)
 - [Credits](#credits)
 
 <!-- /MarkdownTOC -->
@@ -120,15 +123,23 @@ Please use the `.eslintrc` configuration located in the repository and run eslin
 eslint --fix *.ts
 ```
 
+## About the Developer
+In my day job, I am a sociologist studying the social mechanisms underlying the digital economy. For my PhD project, I investigate the governance of the app economy and how software ecosystems manage the tension between innovation and compatibility. If you are interested in this subject, feel free to get in touch!
+
+### Profiles
+- Discord: `@pseudometa#9546`
+- [Academic Website](https://chris-grieser.de/)
+- [GitHub](https://github.com/chrisgrieser/)
+- [Twitter](https://twitter.com/pseudo_meta)
+- [ResearchGate](https://www.researchgate.net/profile/Christopher-Grieser)
+- [LinkedIn](https://www.linkedin.com/in/christopher-grieser-ba693b17a/) <!-- markdown-link-check-disable-line -->
+
+### Donate
+- [PayPal](https://www.paypal.com/paypalme/ChrisGrieser)
+- [Ko-Fi](https://ko-fi.com/pseudometa) <!-- markdown-link-check-disable-line -->
+
 ## Credits
-Thanks to @SkepticMystic for his support!
-
-Donations are welcome via [PayPal](https://www.paypal.com/paypalme/ChrisGrieser) or [Ko-Fi](https://ko-fi.com/pseudometa). 🙏
-
-__About me__
-In my day job, I am a sociologist studying the social mechanisms underlying the digital economy. For my PhD project, I investigate the governance of the app economy and how software ecosystems manage the tension between innovation and compatibility. If you are interested in this subject, feel free to visit [my academic homepage](https://chris-grieser.de/) and get in touch.
-- [Discord](https://discord.gg/veuWUTm): `@pseudometa#9546`
-- Twitter: [@pseudo_meta](https://twitter.com/pseudo_meta)
+Thanks to @SkepticMystic for his support during development
 
 [⬆️ Go Back to Top](#Table-of-Contents)
 

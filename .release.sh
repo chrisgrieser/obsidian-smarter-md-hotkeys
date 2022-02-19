@@ -18,12 +18,6 @@ if [[ ! -f "./.github/workflows/release.yml" ]] ; then
 	exit
 fi
 
-# Lint
-cd "$(dirname "$0")" || exit
-eslint --fix ./*.ts
-markdownlint --fix ./*.md
-markdown-link-check ./README.md
-
 # get version number from the manifest of the latest release
 lastVersion=$(grep "version" "./manifest.json" | cut -d\" -f4)
 echo "last version: $lastVersion"
@@ -32,6 +26,19 @@ echo "last version: $lastVersion"
 echo -n "next version: "
 read -r nextVersion
 echo ""
+
+# ----------------------
+
+# Lint
+cd "$(dirname "$0")" || exit
+eslint --fix ./*.ts
+markdownlint --fix --disable strong-style ./*.md # disable strong style since needed for complicated table
+markdown-link-check -q ./README.md
+
+markdownlint: error
+MD050 - strong-style Strong style should be consistent [Expected: underscore; Actual: asterisk]
+
+# ----------------------
 
 # set version number in `manifest.json`
 sed -E -i '' "s/\"version\".*/\"version\": \"$nextVersion\",/" "manifest.json"

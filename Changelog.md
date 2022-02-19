@@ -1,3 +1,7 @@
+- 2022-02-19	release 1.5.2
+- 2022-02-19	better undoing of some markup
+- 2022-02-16	added markdown-link-check
+- 2022-02-15	shellcheck (linting)
 - 2022-02-15	release 1.5.1
 - 2022-02-15	add spaces when inserting comment markup without selection
 - 2022-02-14	release 1.5.0

@@ -36,7 +36,7 @@ echo ""
 # Lint
 cd "$(dirname "$0")" || exit
 eslint --fix ./*.ts
-markdownlint --fix --disable strong-style ./*.md # disable strong style since needed for complicated table
+markdownlint --fix --disable=strong-style ./README.md # disable strong style since needed for complicated table
 markdown-link-check -q ./README.md
 
 # ----------------------

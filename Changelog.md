@@ -1,3 +1,7 @@
+- 2022-02-25	release 1.6.0
+- 2022-02-25	new commands: smarter curly brackets & smarter wikilink to heading
+- 2022-02-20	trim ':' when applying markup
+- 2022-02-19	update readme & release workflow
 - 2022-02-19	release 1.5.2
 - 2022-02-19	better undoing of some markup
 - 2022-02-16	added markdown-link-check

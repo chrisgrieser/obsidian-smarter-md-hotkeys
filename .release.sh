@@ -7,15 +7,19 @@
 # ensure relevant files exist
 if [[ ! -f "./manifest.json" ]] ; then
 	echo "manifest.json does not exist yet"
-	exit
+	exit 1
 fi
 if [[ ! -f "./versions.json" ]] ; then
 	echo "versions.json does not exist yet"
-	exit
+	exit 1
+fi
+if [[ ! -f "./package.json" ]] ; then
+	echo "package.json does not exist yet"
+	exit 1
 fi
 if [[ ! -f "./.github/workflows/release.yml" ]] ; then
 	echo "/.github/workflows/release.yml does not exist yet"
-	exit
+	exit 1
 fi
 
 # get version number from the manifest of the latest release
@@ -35,13 +39,11 @@ eslint --fix ./*.ts
 markdownlint --fix --disable strong-style ./*.md # disable strong style since needed for complicated table
 markdown-link-check -q ./README.md
 
-markdownlint: error
-MD050 - strong-style Strong style should be consistent [Expected: underscore; Actual: asterisk]
-
 # ----------------------
 
-# set version number in `manifest.json`
+# set version number in `manifest.json` and `package.json`
 sed -E -i '' "s/\"version\".*/\"version\": \"$nextVersion\",/" "manifest.json"
+sed -E -i '' "s/\"version\".*/\"version\": \"$nextVersion\",/" "package.json"
 
 # add version number in `versions.json`, assuming same compatibility
 grep -Ev "^$" "versions.json" | grep -v "}" | sed -e '$ d' > temp

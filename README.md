@@ -42,6 +42,7 @@ A plugin for [Obsidian](https://obsidian.md/) providing hotkeys that select word
 - Smarter Strikethrough
 - Smarter Markdown/Image Link
 - Smarter Wikilink (Internal Link)
+- Smarter Wikilink a Heading
 - Smarter Mathjax\*
 
 All commands also support __multiple cursors__, smart __inclusion/exclusion of special characters__, and __undoing markup__ by triggering the same hotkey.
@@ -56,7 +57,7 @@ The following commands have some special features:
 - __Automatic Switch to Image Syntax__ When the URL in the clipboard ends with an image extension like `.png`,[^2] the command will also prepend the `!` for image links.
 
 ### Smarter Inline/Fenced Code
-- __Terms instead of Words:__ `Smarter Code` will _not_ consider punctuation or brackets as delimiters. This means that a cursor anywhere in "object.method" will select the whole term and result in "`object.method`" instead of "`object`.method".
+- __Terms instead of Words:__ `Smarter Code` will _not_ consider punctuation or brackets as delimiters. This means that a cursor anywhere in "object.method" will select the whole term and result correctly in "`object.method`" instead of "`object`.method".
 - __Automatic Switch to Fenced Code Syntax__: When more than one line is selected, `Smarter Code` will wrap the selected lines in [fenced code syntax](https://help.obsidian.md/How+to/Format+your+notes#Code+blocks) instead. Furthermore, the cursor is moved to the beginning of the fenced code block so you can conveniently enter the code language.
 - 💡 `Smarter Fenced Code` synergizes well with the [Codeblock Completer Plugin](https://github.com/SkepticMystic/codeblock-completer).
 
@@ -65,6 +66,7 @@ The following commands have some special features:
 
 ### Smarter Wikilink
 - __Auto-Suggest__: When turning text into a wikilink, `Smarter Wikilinks` will trigger the suggester afterwards.
+- __Wikilink a Heading__: Alternative command that inserts the syntax for a markdown link to a heading, and also triggers the Suggester after doing so. (i.e., instead of `[[ ]]`, it uses `[[## ]]`).
 
 ### Smarter Mathjax
 - __Automatic Switch to Blocks__: When more than one line is selected, the `Smarter MathJax` command will also [expand the selection to whole blocks](https://help.obsidian.md/How+to/Format+your+notes#Math) and switch from `$` to `$$`. (I do not use Mathjax myself, so feel free to open an issue when the Mathjax command can be improved somehow.)
@@ -75,6 +77,7 @@ While strictly speaking quotation marks and brackets are not a form of markup, I
 - Smarter Quotation Marks
 - Smarter Round Brackets
 - Smarter Square Brackets
+- Smarter Curly Brackets
 
 ## Smarter Upper/Lower Case
 The same logic can also be applied to case switching commands. However, instead of having a smart upper case and a smart lower case command, both are merged into one command: The text will normally be upper cased, except when the text is already fully upper cased, in which case it will be lower cased. (For most cases making lower casing an undo of upper casing.)
@@ -144,4 +147,4 @@ Thanks to @SkepticMystic for his support during development
 [⬆️ Go Back to Top](#Table-of-Contents)
 
 [^1]: macOS uses `cmd`, Windows and Linux use `ctrl`.
-[^2]: The supported image extensions are [listed here](const.ts#L152).
+[^2]: The supported image extensions are [listed here](const.ts#L156).

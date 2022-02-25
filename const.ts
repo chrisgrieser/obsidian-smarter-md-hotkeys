@@ -67,6 +67,12 @@ export const COMMANDS: {
 		after: "]]",
 	},
 	{
+		id: "smarter-wikilink-heading",
+		name: "Smarter Wikilink to Heading",
+		before: "[[##",
+		after: "]]",
+	},
+	{
 		id: "smarter-md-link",
 		name: "Smarter Markdown Link/Image",
 		before: "[",
@@ -95,6 +101,12 @@ export const COMMANDS: {
 		name: "Smarter Square Brackets",
 		before: "[",
 		after: "]",
+	},
+	{
+		id: "smarter-curly-brackets",
+		name: "Smarter Curly Brackets",
+		before: "{",
+		after: "}",
 	},
 
 	// leave "after" key empty for special commands that actually insert text

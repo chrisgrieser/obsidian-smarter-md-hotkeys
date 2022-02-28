@@ -148,6 +148,7 @@ export const TRIMBEFORE = [
 export const TRIMAFTER = [
 	"\"",
 	")",
+	"](", // to not break markdown links
 	"]",
 	":",
 	"\n",
@@ -163,7 +164,7 @@ export const EXPANDWHENOUTSIDE = [
 	["\"", "\""],
 	["'", "'"],
 	["(", ")"],
-	["[", "]"],
+	["[", "] "], // extra space to not break markdown links
 	["$", ""],
 	["", "€"]
 ];

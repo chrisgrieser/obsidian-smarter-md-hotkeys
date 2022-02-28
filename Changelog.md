@@ -1,3 +1,6 @@
+- 2022-02-28	release 1.6.1
+- 2022-02-28	fix #24
+- 2022-02-25	fix markdownlinting in release workflow
 - 2022-02-25	release 1.6.0
 - 2022-02-25	new commands: smarter curly brackets & smarter wikilink to heading
 - 2022-02-20	trim ':' when applying markup

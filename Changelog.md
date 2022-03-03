@@ -1,3 +1,5 @@
+- 2022-03-03	release 1.7.0
+- 2022-03-03	added smarter copy path/filename commands
 - 2022-02-28	release 1.6.1
 - 2022-02-28	fix #24
 - 2022-02-25	fix markdownlinting in release workflow

@@ -144,7 +144,6 @@ export const OTHER_COMMANDS: {
 ];
 
 
-
 export const TRIMBEFORE = [
 	"\"",
 	"(",

@@ -45,7 +45,7 @@ export default class SmarterMDhotkeys extends Plugin {
 		if (!activeFile) return; // guard clause when no file open
 
 		// File Deletion
-		if (commandID == "smarter-delete-current-file") {
+		if (commandID === "smarter-delete-current-file") {
 			const runCommand = (str: string) => this.app.commands.executeCommandById(str);
 
 			runCommand("app:delete-file");
@@ -55,7 +55,7 @@ export default class SmarterMDhotkeys extends Plugin {
 			new Notice ("\"" + activeFile.name + "\" deleted.");
 
 		// Copy Path
-		} else if (commandID == "smarter-copy-path") {
+		} else if (commandID === "smarter-copy-path") {
 			let noticeText;
 			const relativePath = activeFile.path;
 			const currentClipboardText = await navigator.clipboard.readText();
@@ -69,10 +69,10 @@ export default class SmarterMDhotkeys extends Plugin {
 				navigator.clipboard.writeText(relativePath);
 				noticeText = "Relative path copied: \n\n" + relativePath;
 			}
-			new Notice(noticeText, 7000);
+			new Notice(noticeText, 7000); // eslint-disable-line no-magic-numbers
 
 		// Copy File Name
-		} else if (commandID == "smarter-copy-file-name") {
+		} else if (commandID === "smarter-copy-file-name") {
 			const currentClipboardText = await navigator.clipboard.readText();
 			let fileName = activeFile.basename;
 

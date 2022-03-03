@@ -12,6 +12,7 @@
   "rules": {
     // specifically for Obsidian Plugins
     "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/no-extra-semi": "warn",
     "@typescript-eslint/no-empty-function": "warn",
     "no-shadow": ["error", { "builtinGlobals": true, "hoist": "all", "allow": ["Editor"] }],
@@ -47,7 +48,7 @@
     "comma-style": "warn",
     "comma-dangle": ["error", {
         "arrays": "never",
-        "objects": "only-multiline",
+        "objects": "only-multiline"
     }],
     "object-curly-newline": ["error", { "multiline": true }],
     "curly": ["warn", "multi-or-nest", "consistent"],
@@ -78,6 +79,6 @@
     "no-lonely-if": "error",
 
     // Misc
-    "dot-notation": "error",
+    "dot-notation": "error"
   }
 }

@@ -1,6 +1,6 @@
 export const DEBUGGING = false;
 
-export const COMMANDS: {
+export const MD_COMMANDS: {
 	id: string;
 	name: string;
 	before: string;
@@ -124,6 +124,25 @@ export const COMMANDS: {
 		after: "",
 	}
 ];
+
+export const OTHER_COMMANDS: {
+	id: string;
+	name: string;
+}[] = [
+	{
+		id: "smarter-delete-current-file",
+		name: "Smarter Delete Current Note",
+	},
+	{
+		id: "smarter-copy-path",
+		name: "Smarter Copy Relative/Absolute Path",
+	},
+	{
+		id: "smarter-copy-file-name",
+		name: "Smarter Copy File Name",
+	}
+];
+
 
 
 export const TRIMBEFORE = [

@@ -1,4 +1,4 @@
-import { COMMANDS, TRIMBEFORE, TRIMAFTER, DEBUGGING, IMAGEEXTENSIONS, EXPANDWHENOUTSIDE } from "const";
+import { MD_COMMANDS, OTHER_COMMANDS, TRIMBEFORE, TRIMAFTER, DEBUGGING, IMAGEEXTENSIONS, EXPANDWHENOUTSIDE } from "const";
 import { Editor, EditorPosition, Plugin, Notice } from "obsidian";
 declare module "obsidian" {
 	// add type safety for the undocumented method
@@ -9,14 +9,14 @@ declare module "obsidian" {
 		};
 	}
 	interface App {
-		commands: { executeCommandById: (commandID: string) => void }
+		commands: { executeCommandById: (commandID: string) => void };
 	}
 }
 
 export default class SmarterMDhotkeys extends Plugin {
 
 	async onload() {
-		COMMANDS.forEach((command) => {
+		MD_COMMANDS.forEach((command) => {
 			const { id, name, before, after } = command;
 			this.addCommand({
 				id,
@@ -25,26 +25,63 @@ export default class SmarterMDhotkeys extends Plugin {
 					this.expandAndWrap(before, after, editor),
 			});
 		});
-		this.addCommand({
-			id: "smarter-delete-current-file",
-			name: "Smarter Delete Current Note",
-			callback: () => this.deleteFile(),
+
+		OTHER_COMMANDS.forEach((command) => {
+			const { id, name } = command;
+			this.addCommand({
+				id,
+				name,
+				callback: () => this.otherCommands(id),
+			});
 		});
+
 		console.log("Smarter MD Hotkeys loaded.");
 	}
 
 	async onunload() { console.log("Smarter MD Hotkeys unloaded.") }
 
-	deleteFile () {
-		const runCommand = (str: string) => this.app.commands.executeCommandById(str);
-
+	async otherCommands (commandID: string) {
 		const activeFile = this.app.workspace.getActiveFile();
-		if (!activeFile) return; // guard close when no file to delete
+		if (!activeFile) return; // guard clause when no file open
 
-		new Notice ("\"" + activeFile.name + "\" deleted.");
-		runCommand("app:delete-file");
-		runCommand("app:go-back");
-		runCommand("app:go-back");
+		// File Deletion
+		if (commandID == "smarter-delete-current-file") {
+			const runCommand = (str: string) => this.app.commands.executeCommandById(str);
+
+			runCommand("app:delete-file");
+			runCommand("app:go-back");
+			runCommand("app:go-back");
+
+			new Notice ("\"" + activeFile.name + "\" deleted.");
+
+		// Copy Path
+		} else if (commandID == "smarter-copy-path") {
+			let noticeText;
+			const relativePath = activeFile.path;
+			const currentClipboardText = await navigator.clipboard.readText();
+
+			if (currentClipboardText === relativePath) {
+				// @ts-ignore, basePath not part of API
+				const absolutePath = this.app.vault.adapter.basePath + "/" + relativePath;
+				navigator.clipboard.writeText(absolutePath);
+				noticeText = "Absolute path copied: \n\n" + absolutePath;
+			} else {
+				navigator.clipboard.writeText(relativePath);
+				noticeText = "Relative path copied: \n\n" + relativePath;
+			}
+			new Notice(noticeText, 7000);
+
+		// Copy File Name
+		} else if (commandID == "smarter-copy-file-name") {
+			const currentClipboardText = await navigator.clipboard.readText();
+			let fileName = activeFile.basename;
+
+			if (currentClipboardText === fileName) fileName += "." + activeFile.extension;
+			navigator.clipboard.writeText(fileName);
+
+			new Notice("File Name copied: \n\n" + fileName);
+		}
+
 	}
 
 	async expandAndWrap(frontMarkup: string, endMarkup: string, editor: Editor) {

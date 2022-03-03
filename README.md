@@ -18,7 +18,11 @@ A plugin for [Obsidian](https://obsidian.md/) providing hotkeys that select word
 	- [Smarter Mathjax](#smarter-mathjax)
 - [Smarter Punctuation Commands Added](#smarter-punctuation-commands-added)
 - [Smarter Upper/Lower Case](#smarter-upperlower-case)
-- [Smarter Deletion Commands Added](#smarter-deletion-commands-added)
+- [Other Commands Added](#other-commands-added)
+	- [Smarter Delete Text](#smarter-delete-text)
+	- [Smarter Delete Current Note](#smarter-delete-current-note)
+	- [Smarter Copy Path](#smarter-copy-path)
+	- [Smarter Copy File Name](#smarter-copy-file-name)
 - [How it works in detail](#how-it-works-in-detail)
 - [Setting the Hotkeys](#setting-the-hotkeys)
 - [Installation](#installation)
@@ -84,11 +88,23 @@ The same logic can also be applied to case switching commands. However, instead 
 
 - Smarter Upper/Lower Case
 
-## Smarter Deletion Commands Added
-Smarter Deletion of Text also works, doesn't it? Also, I found the built-in Deletion command a bit annoying, since it left an empty pane. `Smarter Delete Current Note` deletes the current note, confirms it with a Notification, and navigates back to the last file.
-
+## Other Commands Added
 - Smarter Delete Text
 - Smarter Delete Current Note
+- Smarter Copy Path
+- Smarter Copy File Name
+
+### Smarter Delete Text
+Deletes text with the same text-expanding logic from the smarter markdown commands.
+
+### Smarter Delete Current Note
+Deletes the current note, but also goes back to the last file instead of leaving an empty pane.
+
+### Smarter Copy Path
+Press once to copy the relative path of the current file, press a second time to copy the absolute path.
+
+### Smarter Copy File Name
+Press once to copy the name of the current file without extension, press a second time to copy it with extensions.
 
 ## How it works in detail
 `|` is a cursor without selection. `Selection` signifies the part of the text being selected. This table serves as a reference for the precise mechanics of this plugin.

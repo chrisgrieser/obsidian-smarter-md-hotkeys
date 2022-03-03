@@ -64,10 +64,10 @@ export default class SmarterMDhotkeys extends Plugin {
 				// @ts-ignore, basePath not part of API
 				const absolutePath = this.app.vault.adapter.basePath + "/" + relativePath;
 				navigator.clipboard.writeText(absolutePath);
-				noticeText = "Absolute path copied: \n\n" + absolutePath;
+				noticeText = "Absolute path copied: \n" + absolutePath;
 			} else {
 				navigator.clipboard.writeText(relativePath);
-				noticeText = "Relative path copied: \n\n" + relativePath;
+				noticeText = "Relative path copied: \n" + relativePath;
 			}
 			new Notice(noticeText, 7000); // eslint-disable-line no-magic-numbers
 
@@ -79,7 +79,7 @@ export default class SmarterMDhotkeys extends Plugin {
 			if (currentClipboardText === fileName) fileName += "." + activeFile.extension;
 			navigator.clipboard.writeText(fileName);
 
-			new Notice("File Name copied: \n\n" + fileName);
+			new Notice("File Name copied: \n" + fileName);
 		}
 
 	}

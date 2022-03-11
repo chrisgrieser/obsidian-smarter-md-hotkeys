@@ -145,17 +145,19 @@ eslint --fix *.ts
 ## About the Developer
 In my day job, I am a sociologist studying the social mechanisms underlying the digital economy. For my PhD project, I investigate the governance of the app economy and how software ecosystems manage the tension between innovation and compatibility. If you are interested in this subject, feel free to get in touch!
 
+<!-- markdown-link-check-disable -->
+
 ### Profiles
-- [Discord](https://discordapp.com/users/462774483044794368/)
 - [Academic Website](https://chris-grieser.de/)
+- [ResearchGate](https://www.researchgate.net/profile/Christopher-Grieser)
+- [Discord](https://discordapp.com/users/462774483044794368/)
 - [GitHub](https://github.com/chrisgrieser/)
 - [Twitter](https://twitter.com/pseudo_meta)
-- [ResearchGate](https://www.researchgate.net/profile/Christopher-Grieser)
-- [LinkedIn](https://www.linkedin.com/in/christopher-grieser-ba693b17a/) <!-- markdown-link-check-disable-line -->
+- [LinkedIn](https://www.linkedin.com/in/christopher-grieser-ba693b17a/)
 
 ### Donate
-- [PayPal](https://www.paypal.com/paypalme/ChrisGrieser)
-- [Ko-Fi](https://ko-fi.com/pseudometa) <!-- markdown-link-check-disable-line -->
+- [PayPal](https://www.paypal.com/PayPalme/ChrisGrieser)
+- [Ko-Fi](https://ko-fi.com/pseudometa)
 
 ## Credits
 Thanks to @SkepticMystic for his support during development

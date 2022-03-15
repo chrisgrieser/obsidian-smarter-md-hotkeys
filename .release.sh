@@ -41,8 +41,7 @@ echo ""
 
 # Lint
 cd "$(dirname "$0")" || exit 1
-eslint --fix ./*.ts
-eslint --fix ./*/*.ts
+eslint . --fix --ext=ts # to not lint the main.js files
 markdownlint --fix --disable=strong-style ./README.md # disable strong style since needed for complicated table
 markdown-link-check -q ./README.md
 

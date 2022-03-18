@@ -81,7 +81,6 @@ export default class SmarterMDhotkeys extends Plugin {
 
 			new Notice("File Name copied: \n" + fileName);
 		}
-
 	}
 
 	async expandAndWrap(frontMarkup: string, endMarkup: string, editor: Editor) {
@@ -104,7 +103,7 @@ export default class SmarterMDhotkeys extends Plugin {
 			return (charsBefore === bef && charsAfter === aft);
 		}
 
-		const multiLineMarkup = () => (["`", "%%", "<!--", "$"].includes(frontMarkup));
+		const isMultiLineMarkup = () => (["`", "%%", "<!--", "$"].includes(frontMarkup));
 		const markupOutsideSel = () => isOutsideSel (frontMarkup, endMarkup);
 		function markupOutsideMultiline (anchor: EditorPosition, head: EditorPosition) {
 			if (anchor.line === 0) return false;
@@ -143,6 +142,7 @@ export default class SmarterMDhotkeys extends Plugin {
 			}
 		}
 
+		// TODO: better console.log
 		function log (msg: string, appendSelection?: boolean) {
 			if (!DEBUGGING) return;
 			let appended = "";
@@ -165,6 +165,7 @@ export default class SmarterMDhotkeys extends Plugin {
 				// https://github.com/argenos/nldates-obsidian/blob/e6b95969d7215b9ded2b72c4e319e35bc6022199/src/utils.ts#L16
 				// https://github.com/obsidianmd/obsidian-api/blob/fac5e67f5d83829a4e0126905494c8cbca27765b/obsidian.d.ts#L787
 
+				// TODO: update for mobile https://github.com/obsidianmd/obsidian-releases/pull/712#issuecomment-1004417481
 				if (editor.cm instanceof window.CodeMirror) return editor.cm.findWordAt(ep); // CM5
 
 				const word = editor.cm.state.wordAt(editor.posToOffset (ep)); // CM6
@@ -204,7 +205,7 @@ export default class SmarterMDhotkeys extends Plugin {
 			let trimBefore = TRIMBEFORE;
 
 			// modify what to trim based on command
-			if (multiLineMarkup()) {
+			if (isMultiLineMarkup()) {
 				trimBefore = [frontMarkup];
 				trimAfter = [endMarkup];
 			} else if (endMarkup) { // check needed to ensure no special commands are added
@@ -450,12 +451,12 @@ export default class SmarterMDhotkeys extends Plugin {
 				applyMarkup(preSelExpAnchor, preSelExpHead, "single");
 			}
 			// Wrap multi-line selection
-			else if (multiLineSel() && multiLineMarkup()) {
+			else if (multiLineSel() && isMultiLineMarkup()) {
 				log ("Multiline Wrap");
 				wrapMultiLine();
 			}
 			// Wrap *each* line of multi-line selection
-			else if (multiLineSel() && !multiLineMarkup()) {
+			else if (multiLineSel() && !isMultiLineMarkup()) {
 				let pointerOff = startOffset();
 				const lines = editor.getSelection().split("\n");
 				log ("lines: " + lines.length.toString());

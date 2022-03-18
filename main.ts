@@ -89,7 +89,7 @@ export default class SmarterMDhotkeys extends Plugin {
 			shift: number;
 		}
 
-		// Utility Functions
+		// Utility Functions TODO: export these to an `utils.ts`
 		//-------------------------------------------------------------------
 		function isOutsideSel (bef:string, aft:string) {
 			const so = startOffset();

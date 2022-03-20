@@ -16,6 +16,7 @@ A plugin for [Obsidian](https://obsidian.md/) providing hotkeys that select word
 	- [Smarter Comment](#smarter-comment)
 	- [Smarter Wikilink](#smarter-wikilink)
 	- [Smarter Mathjax](#smarter-mathjax)
+	- [Smarter Callout](#smarter-callout)
 - [Smarter Punctuation Commands Added](#smarter-punctuation-commands-added)
 - [Smarter Upper/Lower Case](#smarter-upperlower-case)
 - [Other Commands Added](#other-commands-added)
@@ -48,6 +49,7 @@ A plugin for [Obsidian](https://obsidian.md/) providing hotkeys that select word
 - Smarter Wikilink (Internal Link)
 - Smarter Wikilink a Heading
 - Smarter Mathjax\*
+- 🆕 Smarter Callout
 
 All commands also support __multiple cursors__, smart __inclusion/exclusion of special characters__, and __undoing markup__ by triggering the same hotkey.
 
@@ -74,6 +76,14 @@ The following commands have some special features:
 
 ### Smarter Mathjax
 - __Automatic Switch to Blocks__: When more than one line is selected, the `Smarter MathJax` command will also [expand the selection to whole blocks](https://help.obsidian.md/How+to/Format+your+notes#Math) and switch from `$` to `$$`. (I do not use Mathjax myself, so feel free to open an issue when the Mathjax command can be improved somehow.)
+
+### Smarter Callout
+Turns the text under the cursor into a callout.
+
+<details>
+	<summary>Demo</summary>
+	<img width=60% alt="Demo Smarter Callout Command" src="demo/smarter-callout.gif">
+</details>
 
 ## Smarter Punctuation Commands Added
 While strictly speaking quotation marks and brackets are not a form of markup, I found it quite useful to be able to set them in the same way. Therefore, the following commands have been added as well:

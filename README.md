@@ -82,7 +82,7 @@ Turns the text under the cursor into a callout label.
 
 <details>
 	<summary>Demo</summary>
-	<img width=60% alt="Demo Smarter Callout Command" src="demo/smarter-callout.gif">
+	<img width=60% alt="Demo Smarter Callout Label Command" src="demo/smarter-callout-label.gif">
 </details>
 
 ## Smarter Punctuation Commands Added

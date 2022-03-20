@@ -1,4 +1,4 @@
-import { MD_COMMANDS, OTHER_COMMANDS, TRIMBEFORE, TRIMAFTER, DEBUGGING, IMAGEEXTENSIONS, EXPANDWHENOUTSIDE } from "const";
+import * as constant from "const";
 import { Editor, EditorPosition, Plugin, Notice } from "obsidian";
 declare module "obsidian" {
 	// add type safety for the undocumented method
@@ -16,7 +16,7 @@ declare module "obsidian" {
 export default class SmarterMDhotkeys extends Plugin {
 
 	async onload() {
-		MD_COMMANDS.forEach((command) => {
+		constant.MD_COMMANDS.forEach((command) => {
 			const { id, name, before, after } = command;
 			this.addCommand({
 				id,
@@ -26,7 +26,7 @@ export default class SmarterMDhotkeys extends Plugin {
 			});
 		});
 
-		OTHER_COMMANDS.forEach((command) => {
+		constant.OTHER_COMMANDS.forEach((command) => {
 			const { id, name } = command;
 			this.addCommand({
 				id,
@@ -144,7 +144,7 @@ export default class SmarterMDhotkeys extends Plugin {
 
 		// TODO: better console.log
 		function log (msg: string, appendSelection?: boolean) {
-			if (!DEBUGGING) return;
+			if (!constant.DEBUGGING) return;
 			let appended = "";
 			if (appendSelection) appended = ": \"" + editor.getSelection() + "\"";
 			if (!msg.startsWith("\n")) msg = "- " + msg;
@@ -201,8 +201,8 @@ export default class SmarterMDhotkeys extends Plugin {
 		}
 
 		function trimSelection() {
-			let trimAfter = TRIMAFTER;
-			let trimBefore = TRIMBEFORE;
+			let trimAfter = constant.TRIMAFTER;
+			let trimBefore = constant.TRIMBEFORE;
 
 			// modify what to trim based on command
 			if (isMultiLineMarkup()) {
@@ -268,7 +268,7 @@ export default class SmarterMDhotkeys extends Plugin {
 			trimSelection();
 
 			// has to come after trimming to include things like bracket
-			const expandWhenOutside = EXPANDWHENOUTSIDE;
+			const expandWhenOutside = constant.EXPANDWHENOUTSIDE;
 			expandWhenOutside.forEach(pair => {
 				if (pair[0] === frontMarkup || pair[1] === endMarkup ) return; // allow undoing of the command creating the syntax
 				if (isOutsideSel (pair[0], pair[1])) {
@@ -383,7 +383,7 @@ export default class SmarterMDhotkeys extends Plugin {
 			if (URLregex.test(cbText)) {
 				endMarkup_ = "](" + cbText + ")";
 				const urlExtension = cbText.split(".").pop();
-				if (IMAGEEXTENSIONS.includes(urlExtension)) frontMarkup_ = "![";
+				if (constant.IMAGEEXTENSIONS.includes(urlExtension)) frontMarkup_ = "![";
 			}
 			return [frontMarkup_, endMarkup_];
 		}

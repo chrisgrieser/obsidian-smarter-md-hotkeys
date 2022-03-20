@@ -1,6 +1,6 @@
 {
 	"name": "smarter-md-hotkeys",
-	"version": "1.8.1",
+	"version": "1.8.2",
 	"description": "Hotkeys that select words and lines in a smart way before applying markup. Multiple cursors are supported as well.",
 	"main": "main.js",
 	"scripts": {

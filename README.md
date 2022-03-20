@@ -16,7 +16,7 @@ A plugin for [Obsidian](https://obsidian.md/) providing hotkeys that select word
 	- [Smarter Comment](#smarter-comment)
 	- [Smarter Wikilink](#smarter-wikilink)
 	- [Smarter Mathjax](#smarter-mathjax)
-	- [Smarter Callout](#smarter-callout)
+	- [Smarter Callout Label](#smarter-callout-label)
 - [Smarter Punctuation Commands Added](#smarter-punctuation-commands-added)
 - [Smarter Upper/Lower Case](#smarter-upperlower-case)
 - [Other Commands Added](#other-commands-added)
@@ -49,7 +49,7 @@ A plugin for [Obsidian](https://obsidian.md/) providing hotkeys that select word
 - Smarter Wikilink (Internal Link)
 - Smarter Wikilink a Heading
 - Smarter Mathjax\*
-- 🆕 Smarter Callout
+- 🆕 Smarter Callout Label
 
 All commands also support __multiple cursors__, smart __inclusion/exclusion of special characters__, and __undoing markup__ by triggering the same hotkey.
 
@@ -77,8 +77,8 @@ The following commands have some special features:
 ### Smarter Mathjax
 - __Automatic Switch to Blocks__: When more than one line is selected, the `Smarter MathJax` command will also [expand the selection to whole blocks](https://help.obsidian.md/How+to/Format+your+notes#Math) and switch from `$` to `$$`. (I do not use Mathjax myself, so feel free to open an issue when the Mathjax command can be improved somehow.)
 
-### Smarter Callout
-Turns the text under the cursor into a callout.
+### Smarter Callout Label
+Turns the text under the cursor into a callout label.
 
 <details>
 	<summary>Demo</summary>
@@ -111,10 +111,10 @@ Deletes text with the same text-expanding logic from the smarter markdown comman
 Deletes the current note, but also goes back to the last file instead of leaving an empty pane.
 
 ### Smarter Copy Path
-Press once to copy the relative path of the current file, press a second time to copy the absolute path.
+Press once to copy the vault-relative path of the current file, press a second time to copy the absolute path.
 
 ### Smarter Copy File Name
-Press once to copy the name of the current file without extension, press a second time to copy it with extensions.
+Press once to copy the name of the current file without extension, press a second time to copy it with extension.
 
 ## How it works in detail
 `|` is a cursor without selection. `Selection` signifies the part of the text being selected. This table serves as a reference for the precise mechanics of this plugin.

@@ -85,8 +85,8 @@ export const MD_COMMANDS: {
 		after: "$",
 	},
 	{
-		id: "smarter-callout",
-		name: "Smarter Callout",
+		id: "smarter-callout-label",
+		name: "Smarter Callout Label",
 		before: "> [!",
 		after: "]\n> ",
 	},

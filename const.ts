@@ -85,6 +85,12 @@ export const MD_COMMANDS: {
 		after: "$",
 	},
 	{
+		id: "smarter-callout",
+		name: "Smarter Callout",
+		before: "> [!",
+		after: "]\n> ",
+	},
+	{
 		id: "smarter-quotation-marks",
 		name: "Smarter Quotation Mark",
 		before: "\"",

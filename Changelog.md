@@ -1,3 +1,8 @@
+- 2022-03-20	release 1.8.0
+- 2022-03-20	✨ new feature: Smarter Callouts (Obsidian 0.14)
+- 2022-03-14	improved release workflow
+- 2022-03-14	improved release workflow
+- 2022-03-14	improved release workflow
 - 2022-03-03	release 1.7.1
 - 2022-03-03	some improved linting setup
 - 2022-03-03	release 1.7.0

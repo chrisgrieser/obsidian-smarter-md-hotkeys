@@ -35,6 +35,15 @@ export default class SmarterMDhotkeys extends Plugin {
 			});
 		});
 
+		this.addCommand({
+			id: "smarter-insert-new-line",
+			name: "Smarter Insert New Line",
+			editorCallback: (editor) => {
+				// @ts-expect-error, not typed
+				editor.newlineOnly();
+			}
+		});
+
 		console.log("Smarter MD Hotkeys loaded.");
 	}
 

@@ -35,6 +35,7 @@ export default class SmarterMDhotkeys extends Plugin {
 			});
 		});
 
+		// useful for getting out of nested lists, equivalent to VIM `o`
 		this.addCommand({
 			id: "smarter-insert-new-line",
 			name: "Smarter Insert New Line",

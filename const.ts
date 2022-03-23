@@ -115,7 +115,7 @@ export const MD_COMMANDS: {
 		after: "}",
 	},
 
-	// leave "after" key empty for special commands that actually insert text
+	// leave "after" key empty for special commands that do not actually insert text
 	// so trimSelection does not apply trimming to them
 	{
 		id: "smarter-delete",
@@ -127,6 +127,12 @@ export const MD_COMMANDS: {
 		id: "smarter-upper-lower",
 		name: "Smarter Upper/Lower Case",
 		before: "upper-lower",
+		after: "",
+	},
+	{
+		id: "smarter-insert-new-line",
+		name: "Smarter Insert New Line",
+		before: "new-line",
 		after: "",
 	}
 ];

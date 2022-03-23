@@ -1,5 +1,5 @@
 import * as constant from "const";
-import { Editor, EditorPosition, Plugin, Notice, EditorSelection } from "obsidian";
+import { Editor, EditorPosition, Plugin, Notice } from "obsidian";
 declare module "obsidian" {
 	// add type safety for the undocumented method
 	interface Editor {
@@ -21,8 +21,7 @@ export default class SmarterMDhotkeys extends Plugin {
 			this.addCommand({
 				id,
 				name,
-				editorCallback: (editor) =>
-					this.expandAndWrap(before, after, editor),
+				editorCallback: (editor) => this.expandAndWrap(before, after, editor),
 			});
 		});
 
@@ -33,16 +32,6 @@ export default class SmarterMDhotkeys extends Plugin {
 				name,
 				callback: () => this.otherCommands(id),
 			});
-		});
-
-		// useful for getting out of nested lists, equivalent to VIM `o`
-		this.addCommand({
-			id: "smarter-insert-new-line",
-			name: "Smarter Insert New Line",
-			editorCallback: (editor) => {
-				// @ts-expect-error, not typed
-				editor.newlineOnly();
-			}
 		});
 
 		console.log("Smarter MD Hotkeys loaded.");
@@ -423,6 +412,14 @@ export default class SmarterMDhotkeys extends Plugin {
 		//-------------------------------------------------------------------
 		log("\nSmarterMD Hotkeys triggered\n---------------------------");
 
+		// does not have to occur in multi-cursor loop since it already works
+		// on every cursor
+		if (frontMarkup === "new-line") {
+			// @ts-expect-error, not typed
+			editor.newlineOnly();
+			return;
+		}
+
 		if (endMarkup === "]()") [frontMarkup, endMarkup] = await insertURLtoMDLink();
 		let [blen, alen] = [frontMarkup.length, endMarkup.length];
 
@@ -433,7 +430,6 @@ export default class SmarterMDhotkeys extends Plugin {
 
 		// sets markup for each cursor/selection
 		allCursors.forEach(sel => {
-
 			// account for shifts in Editor Positions due to applying markup to previous cursors
 			sel.anchor = recalibratePos (sel.anchor);
 			sel.head = recalibratePos (sel.head);

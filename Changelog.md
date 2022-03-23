@@ -1,3 +1,5 @@
+- 2022-03-23	release 1.9.1
+- 2022-03-23	changed URL regex to string containing solely URL
 - 2022-03-23	release 1.9.0
 - 2022-03-23	refactored stuff from @kometenstaub PR
 - 2022-03-23	Merge pull request #26 from kometenstaub/feat/insert-new-line

@@ -374,7 +374,7 @@ export default class SmarterMDhotkeys extends Plugin {
 		}
 
 		async function insertURLtoMDLink () {
-			const URLregex = /\b((?:[a-z][\w-]+:(?:\/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))/; // eslint-disable-line no-useless-escape
+			const URLregex = constant.URL_REGEX;
 			const cbText = (await navigator.clipboard.readText()).trim();
 
 			let frontMarkup_ = frontMarkup;

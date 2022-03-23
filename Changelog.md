@@ -1,3 +1,12 @@
+- 2022-03-23	release 1.9.0
+- 2022-03-23	refactored stuff from @kometenstaub PR
+- 2022-03-23	Merge pull request #26 from kometenstaub/feat/insert-new-line
+- 2022-03-22	refactor: explain what added command does
+- 2022-03-22	fix: add missing awaits
+- 2022-03-22	build: target ES2018, minify prod
+- 2022-03-22	feat: insert new line command
+- 2022-03-22	fix: add missing import
+- 2022-03-22	chore: ignore IDE config folder
 - 2022-03-20	release 1.8.2
 - 2022-03-20	release 1.8.1
 - 2022-03-20	release 1.8.0

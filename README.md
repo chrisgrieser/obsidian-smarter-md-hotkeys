@@ -21,6 +21,7 @@ A plugin for [Obsidian](https://obsidian.md/) providing hotkeys that select word
 - [Smarter Upper/Lower Case](#smarter-upperlower-case)
 - [Other Commands Added](#other-commands-added)
 	- [Smarter Delete Text](#smarter-delete-text)
+	- [Smarter Insert New Line](#smarter-insert-new-line)
 	- [Smarter Delete Current Note](#smarter-delete-current-note)
 	- [Smarter Copy Path](#smarter-copy-path)
 	- [Smarter Copy File Name](#smarter-copy-file-name)
@@ -100,12 +101,16 @@ The same logic can also be applied to case switching commands. However, instead 
 
 ## Other Commands Added
 - Smarter Delete Text
+- Smarter New Line
 - Smarter Delete Current Note
 - Smarter Copy Path
 - Smarter Copy File Name
 
 ### Smarter Delete Text
 Deletes text with the same text-expanding logic from the smarter markdown commands.
+
+### Smarter Insert New Line
+Inserts line break, even when the cursor is in a nested list. Pressing `return` in a nested list normally inserts a line break followed by a indented list marker. (This command is essentially the same as `o` in Vim.)
 
 ### Smarter Delete Current Note
 Deletes the current note, but also goes back to the last file instead of leaving an empty pane.

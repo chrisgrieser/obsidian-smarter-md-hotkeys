@@ -1,5 +1,5 @@
 import * as constant from "const";
-import { Editor, EditorPosition, Plugin, Notice } from "obsidian";
+import { Editor, EditorPosition, Plugin, Notice, EditorSelection } from "obsidian";
 declare module "obsidian" {
 	// add type safety for the undocumented method
 	interface Editor {
@@ -35,6 +35,16 @@ export default class SmarterMDhotkeys extends Plugin {
 			});
 		});
 
+		// useful for getting out of nested lists, equivalent to VIM `o`
+		this.addCommand({
+			id: "smarter-insert-new-line",
+			name: "Smarter Insert New Line",
+			editorCallback: (editor) => {
+				// @ts-expect-error, not typed
+				editor.newlineOnly();
+			}
+		});
+
 		console.log("Smarter MD Hotkeys loaded.");
 	}
 
@@ -63,10 +73,10 @@ export default class SmarterMDhotkeys extends Plugin {
 			if (currentClipboardText === relativePath) {
 				// @ts-ignore, basePath not part of API
 				const absolutePath = this.app.vault.adapter.basePath + "/" + relativePath;
-				navigator.clipboard.writeText(absolutePath);
+				await navigator.clipboard.writeText(absolutePath);
 				noticeText = "Absolute path copied: \n" + absolutePath;
 			} else {
-				navigator.clipboard.writeText(relativePath);
+				await navigator.clipboard.writeText(relativePath);
 				noticeText = "Relative path copied: \n" + relativePath;
 			}
 			new Notice(noticeText, 7000); // eslint-disable-line no-magic-numbers
@@ -77,7 +87,7 @@ export default class SmarterMDhotkeys extends Plugin {
 			let fileName = activeFile.basename;
 
 			if (currentClipboardText === fileName) fileName += "." + activeFile.extension;
-			navigator.clipboard.writeText(fileName);
+			await navigator.clipboard.writeText(fileName);
 
 			new Notice("File Name copied: \n" + fileName);
 		}

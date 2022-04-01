@@ -130,7 +130,7 @@ Press once to copy the name of the current file without extension, press a secon
 | f`oo`bar                           | f\*\*__oo__\*\*bar                                     | \*\*__foobar__\*\*                                                 |
 | Lor`em Ips`um                      | Lor\*\*__em Ips__\*\*um                                | \*\*__Lorem Ipsum__\*\*                                            |
 | `- [ ] foobar ^123`                | \*\*__- [ ] foobar ^123__\*\*                          | - [ ] \*\*__foobar__\*\* <sup>^123</sup>                           |
-| `## foobar-heading`                | ==__## Lorem Ipsum__==                                 | ## ==__Lorem Ipsum__==                                             |
+| `## Lorem Ipsum`                | ==__## Lorem Ipsum__==                                 | ## ==__Lorem Ipsum__==                                             |
 | - Lor`em`<br>`- Ips`um         | - Lor\*\***em<br>&nbsp;&nbsp;&nbsp;&nbsp;- Ips**\*\*um | - \*\*__Lorem__\*\*<br>&nbsp;&nbsp;&nbsp;&nbsp;- \*\*__Ipsum__\*\* |
 | \*\*__foo__`\|`__bar__\*\* _(Undo)_| \*\***foo\*\*\*\*bar**\*\*                             | foobar                                                             |
 | \*\***Lor`em Ips`um**\*\* _(Undo)_ | \*\*__Lor__\*\*em Ips\*\*__um__\*\*                    | Lorem Ipsum                                                        |

@@ -69,7 +69,7 @@ The following commands have some special features:
 - 💡 `Smarter Fenced Code` synergizes well with the [Codeblock Completer Plugin](https://github.com/SkepticMystic/codeblock-completer).
 
 ### Smarter Comment
-- __Automatic Switch to Block Comments__: When more than one line is selected, the `Smarter Comment` commands will expand the selection to whole blocks and than [wrap all of them together](https://help.obsidian.md/How+to/Format+your+notes#Comments) into the comment syntax.
+- __Automatic Switch to Block Comments__: When more than one line is selected, the `Smarter Comment` commands will expand the selection to whole blocks and then [wrap all of them together](https://help.obsidian.md/How+to/Format+your+notes#Comments) into the comment syntax.
 
 ### Smarter Wikilink
 - __Auto-Suggest__: When turning text into a wikilink, `Smarter Wikilinks` will trigger the suggester afterwards.

@@ -113,7 +113,7 @@ Deletes text with the same text-expanding logic from the smarter markdown comman
 Inserts line break, even when the cursor is in a nested list. Pressing `return` in a nested list normally inserts a line break followed by a indented list marker. (This command is essentially the same as `o` in Vim.)
 
 ### Smarter Delete Current Note
-Deletes the current note, but also goes back to the last file instead of leaving an empty pane.
+Deletes the current note, but also goes back to the last file instead of leaving an empty pane. (This requires `Confirm File Deleteion` in the Obsidian settings to be _disabled_.)
 
 ### Smarter Copy Path
 Press once to copy the vault-relative path of the current file, press a second time to copy the absolute path.
@@ -122,7 +122,7 @@ Press once to copy the vault-relative path of the current file, press a second t
 Press once to copy the name of the current file without extension, press a second time to copy it with extension.
 
 ## How it works in detail
-`|` is a cursor without selection. `Selection` signifies the part of the text being selected. This table serves as a reference for the precise mechanics of this plugin.
+`|` is a cursor without selection. `Inline code` signifies the part of the text being selected. This table serves as a reference for the precise mechanics of this plugin.
 
 |                                    |  Normal Hotkeys                                        | Smarter Hotkeys                                                    |
 | ---------------------------------- | ------------------------------------------------------ | ------------------------------------------------------------------ |

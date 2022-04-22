@@ -1,5 +1,5 @@
 import * as constant from "const";
-import { Editor, EditorPosition, Plugin, Notice } from "obsidian";
+import { Editor, EditorPosition, Notice, Plugin } from "obsidian";
 declare module "obsidian" {
 	// add type safety for the undocumented method
 	interface Editor {

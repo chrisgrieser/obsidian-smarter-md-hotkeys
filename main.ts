@@ -90,35 +90,9 @@ export default class SmarterMDhotkeys extends Plugin {
 
 		// Utility Functions TODO: export these to an `utils.ts`
 		//-------------------------------------------------------------------
-		function isOutsideSel (bef:string, aft:string) {
-			const so = startOffset();
-			const eo = endOffset();
-
-			if ((so - bef.length) < 0) return false; // beginning of the document
-			if ((eo - aft.length) > noteLength()) return false; // end of the document
-
-			const charsBefore = editor.getRange(offToPos(so - bef.length), offToPos(so));
-			const charsAfter = editor.getRange(offToPos(eo), offToPos(eo + aft.length));
-			return (charsBefore === bef && charsAfter === aft);
-		}
-
-		const isMultiLineMarkup = () => (["`", "%%", "<!--", "$"].includes(frontMarkup));
-		const markupOutsideSel = () => isOutsideSel (frontMarkup, endMarkup);
-		function markupOutsideMultiline (anchor: EditorPosition, head: EditorPosition) {
-			if (anchor.line === 0) return false;
-			if (head.line === editor.lastLine()) return false;
-
-			const prevLineContent = editor.getLine(anchor.line - 1);
-			const followLineContent = editor.getLine(head.line + 1);
-			return (prevLineContent.startsWith(frontMarkup) && followLineContent.startsWith(endMarkup));
-		}
-
-		const noSel = () => !editor.somethingSelected();
-		const multiLineSel = () => editor.getSelection().includes("\n");
-		const noteLength = () => (editor.getValue()).length;
-
 		const startOffset = () => editor.posToOffset(editor.getCursor("from"));
 		const endOffset = () => editor.posToOffset(editor.getCursor("to"));
+		const noteLength = () => editor.getValue().length;
 		const offToPos = (offset: number) => {
 
 			// prevent error when at the start or beginning of document
@@ -127,6 +101,32 @@ export default class SmarterMDhotkeys extends Plugin {
 
 			return editor.offsetToPos(offset);
 		};
+		function isOutsideSel (bef:string, aft:string) {
+			const so = startOffset();
+			const eo = endOffset();
+
+			if (so - bef.length < 0) return false; // beginning of the document
+			if (eo - aft.length > noteLength()) return false; // end of the document
+
+			const charsBefore = editor.getRange(offToPos(so - bef.length), offToPos(so));
+			const charsAfter = editor.getRange(offToPos(eo), offToPos(eo + aft.length));
+			return charsBefore === bef && charsAfter === aft;
+		}
+
+		const isMultiLineMarkup = () => ["`", "%%", "<!--", "$"].includes(frontMarkup);
+		const markupOutsideSel = () => isOutsideSel (frontMarkup, endMarkup);
+		function markupOutsideMultiline (anchor: EditorPosition, head: EditorPosition) {
+			if (anchor.line === 0) return false;
+			if (head.line === editor.lastLine()) return false;
+
+			const prevLineContent = editor.getLine(anchor.line - 1);
+			const followLineContent = editor.getLine(head.line + 1);
+			return prevLineContent.startsWith(frontMarkup) && followLineContent.startsWith(endMarkup);
+		}
+
+		const noSel = () => !editor.somethingSelected();
+		const multiLineSel = () => editor.getSelection().includes("\n");
+
 
 		function deleteLine (lineNo: number) {
 			// there is no 'next line' when cursor is on the last line
@@ -224,9 +224,8 @@ export default class SmarterMDhotkeys extends Plugin {
 					if (selection.startsWith(str)) {
 						selection = selection.slice(str.length);
 						so += str.length;
-					} else {
-						cleanCount++;
 					}
+					else cleanCount++;
 
 				});
 				if (cleanCount === trimBefore.length || !selection.length) trimFinished = true;

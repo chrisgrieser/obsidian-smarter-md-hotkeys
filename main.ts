@@ -479,8 +479,8 @@ export default class SmarterMDhotkeys extends Plugin {
 
 					// Move Pointer to next line
 					pointerOff += line.length + 1; // +1 to account for line break
-					if (markupOutsideSel()) pointerOff-= (blen + alen); // account for removed markup
-					else pointerOff += (blen + alen); // account for added markup
+					if (markupOutsideSel()) pointerOff-= blen + alen; // account for removed markup
+					else pointerOff += blen + alen; // account for added markup
 
 					applyMarkup(preSelExpAnchor, preSelExpHead, "multi");
 				});

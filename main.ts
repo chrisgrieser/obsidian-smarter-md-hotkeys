@@ -57,13 +57,17 @@ export default class SmarterMDhotkeys extends Plugin {
 		} else if (commandID === "smarter-copy-path") {
 			let noticeText;
 			const relativePath = activeFile.path;
+			// @ts-ignore, basePath not part of API
+			const absolutePath = this.app.vault.adapter.basePath + "/" + relativePath;
+			const parentFolder = relativePath.replace(/(.*)\/.*/, "$1");
 			const currentClipboardText = await navigator.clipboard.readText();
 
 			if (currentClipboardText === relativePath) {
-				// @ts-ignore, basePath not part of API
-				const absolutePath = this.app.vault.adapter.basePath + "/" + relativePath;
 				await navigator.clipboard.writeText(absolutePath);
 				noticeText = "Absolute path copied: \n" + absolutePath;
+			} else if (currentClipboardText === absolutePath) {
+				await navigator.clipboard.writeText(parentFolder);
+				noticeText = "Parent Folder copied: \n" + parentFolder;
 			} else {
 				await navigator.clipboard.writeText(relativePath);
 				noticeText = "Relative path copied: \n" + relativePath;

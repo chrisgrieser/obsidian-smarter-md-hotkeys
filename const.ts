@@ -181,7 +181,6 @@ export const TRIMAFTER = [
 	")",
 	"](", // to not break markdown links
 	"]",
-	":",
 	"\n",
 	"\t",
 	" "

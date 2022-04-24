@@ -59,7 +59,10 @@ export default class SmarterMDhotkeys extends Plugin {
 			const relativePath = activeFile.path;
 			// @ts-ignore, basePath not part of API
 			const absolutePath = this.app.vault.adapter.basePath + "/" + relativePath;
-			const parentFolder = relativePath.replace(/(.*)\/.*/, "$1");
+			let parentFolder;
+			if (relativePath.includes("/")) parentFolder = relativePath.replace(/(.*)\/.*/, "$1");
+			else parentFolder = "/"; // root
+
 			const currentClipboardText = await navigator.clipboard.readText();
 
 			if (currentClipboardText === relativePath) {
@@ -72,6 +75,8 @@ export default class SmarterMDhotkeys extends Plugin {
 				await navigator.clipboard.writeText(relativePath);
 				noticeText = "Relative path copied: \n" + relativePath;
 			}
+
+			// slightly longer Notice so a longer path can be read
 			new Notice(noticeText, 7000); // eslint-disable-line no-magic-numbers
 
 		// Copy File Name

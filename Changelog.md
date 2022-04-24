@@ -1,3 +1,4 @@
+- 2022-04-24	release 1.9.3
 - 2022-04-23	release 1.9.2
 - 2022-04-23	implement #28
 - 2022-04-22	some linting

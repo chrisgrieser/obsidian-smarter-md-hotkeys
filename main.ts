@@ -150,7 +150,6 @@ export default class SmarterMDhotkeys extends Plugin {
 			}
 		}
 
-		// TODO: better console.log
 		function log (msg: string, appendSelection?: boolean) {
 			if (!constant.DEBUGGING) return;
 			let appended = "";
@@ -429,7 +428,8 @@ export default class SmarterMDhotkeys extends Plugin {
 		}
 
 		if (endMarkup === "]()") [frontMarkup, endMarkup] = await insertURLtoMDLink();
-		let [blen, alen] = [frontMarkup.length, endMarkup.length];
+		let blen = frontMarkup.length;
+		let alen = endMarkup.length;
 
 		// saves the amount of position shift for each line
 		// used to calculate correct positions for multi-cursor

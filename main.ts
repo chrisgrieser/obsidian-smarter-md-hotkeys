@@ -1,5 +1,5 @@
 import * as constant from "const";
-import { Editor, EditorPosition, Notice, Plugin } from "obsidian";
+import { Editor, EditorPosition, EditorSelection, Notice, Plugin } from "obsidian";
 declare module "obsidian" {
 	// add type safety for the undocumented method
 	interface Editor {
@@ -12,6 +12,9 @@ declare module "obsidian" {
 		commands: { executeCommandById: (commandID: string) => void };
 	}
 }
+
+const posEqual = (a: EditorPosition, b: EditorPosition) => a.line === b.line && a.ch === b.ch,
+rangeEqual = (a: EditorSelection, b: EditorSelection) => posEqual(a.anchor, b.anchor) && posEqual(a.head, b.head);
 
 export default class SmarterMDhotkeys extends Plugin {
 
@@ -267,7 +270,22 @@ export default class SmarterMDhotkeys extends Plugin {
 			const preSelExpHead = editor.getCursor("to");
 
 			const firstWordRange = textUnderCursor(preSelExpAnchor);
-			const lastWordRange = textUnderCursor(preSelExpHead);
+			let lastWordRange = textUnderCursor(preSelExpHead);
+
+			if (
+				!posEqual(preSelExpAnchor, preSelExpHead) &&
+				preSelExpHead.ch > 0
+			) {
+				const lastWordRangeInner = textUnderCursor({
+					...preSelExpHead,
+					ch: preSelExpHead.ch - 1,
+				});
+				// if the result of last word range is not the same 
+				// as the result of head going back one character,
+				// use the inner result
+				if (!rangeEqual(lastWordRange, lastWordRangeInner))
+					lastWordRange = lastWordRangeInner;
+			}
 
 			editor.setSelection(firstWordRange.anchor, lastWordRange.head);
 			log ("after expandSelection", true);

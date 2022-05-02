@@ -45,6 +45,8 @@ A plugin for [Obsidian](https://obsidian.md/) providing hotkeys that select word
 - Smarter HTML Comment\*
 - Smarter Inline/Fenced Code\*
 - Smarter Highlight
+- Smarter Bold & Highlight[^3]
+- Smarter Italics & Highlight[^3]
 - Smarter Strikethrough
 - Smarter Markdown/Image Link
 - Smarter Wikilink (Internal Link)
@@ -180,3 +182,4 @@ Thanks to [@SkepticMystic](https://github.com/SkepticMystic) for his support dur
 
 [^1]: macOS uses `cmd`, Windows and Linux use `ctrl`.
 [^2]: The supported image extensions are [listed here](const.ts#L156).
+[^3]: These commands are mostly used for Multi-Color Highlights that some Obsidian themes like [Sanctum](https://github.com/jdanielmourao/obsidian-sanctum) or [Shimmering Focus](https://github.com/chrisgrieser/shimmering-focus) offer.

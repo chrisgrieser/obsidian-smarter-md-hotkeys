@@ -55,6 +55,18 @@ export const MD_COMMANDS: {
 		after: "==",
 	},
 	{
+		id: "smarter-bold-highlight",
+		name: "Smarter Bold & Highlight",
+		before: "**==",
+		after: "==**",
+	},
+	{
+		id: "smarter-italics-highlight",
+		name: "Smarter Italics & Highlight",
+		before: "*==",
+		after: "==*",
+	},
+	{
 		id: "smarter-strikethrough",
 		name: "Smarter Strikethrough",
 		before: "~~",

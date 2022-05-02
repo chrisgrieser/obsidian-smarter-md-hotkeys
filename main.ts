@@ -13,6 +13,9 @@ declare module "obsidian" {
 	}
 }
 
+// TODO use
+
+// TODO: move this to utils
 // needed for Chinese Word Delimiter Fix https://github.com/chrisgrieser/obsidian-smarter-md-hotkeys/pull/30
 const posEqual = (a: EditorPosition, b: EditorPosition) => a.line === b.line && a.ch === b.ch;
 const rangeEqual = (a: EditorSelection, b: EditorSelection) => posEqual(a.anchor, b.anchor) && posEqual(a.head, b.head);
@@ -442,7 +445,8 @@ export default class SmarterMDhotkeys extends Plugin {
 			return;
 		}
 
-		// eslint-disable-next-line require-atomic-updates, TODO
+		// TODO: remove this
+		// eslint-disable-next-line require-atomic-updates
 		if (endMarkup === "]()") [frontMarkup, endMarkup] = await insertURLtoMDLink();
 		let blen = frontMarkup.length;
 		let alen = endMarkup.length;

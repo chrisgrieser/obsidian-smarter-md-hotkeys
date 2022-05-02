@@ -1,7 +1,7 @@
 import * as constant from "const";
 import { Editor, EditorPosition, EditorSelection, Notice, Plugin } from "obsidian";
 declare module "obsidian" {
-	// add type safety for the undocumented method
+	// add type safety for the undocumented methods
 	interface Editor {
 		cm: {
 			findWordAt?: (pos: EditorPosition) => EditorSelection;
@@ -13,8 +13,9 @@ declare module "obsidian" {
 	}
 }
 
-const posEqual = (a: EditorPosition, b: EditorPosition) => a.line === b.line && a.ch === b.ch,
-	rangeEqual = (a: EditorSelection, b: EditorSelection) => posEqual(a.anchor, b.anchor) && posEqual(a.head, b.head);
+// needed for Chinese Word Delimiter Fix https://github.com/chrisgrieser/obsidian-smarter-md-hotkeys/pull/30
+const posEqual = (a: EditorPosition, b: EditorPosition) => a.line === b.line && a.ch === b.ch;
+const rangeEqual = (a: EditorSelection, b: EditorSelection) => posEqual(a.anchor, b.anchor) && posEqual(a.head, b.head);
 
 export default class SmarterMDhotkeys extends Plugin {
 
@@ -272,19 +273,15 @@ export default class SmarterMDhotkeys extends Plugin {
 			const firstWordRange = textUnderCursor(preSelExpAnchor);
 			let lastWordRange = textUnderCursor(preSelExpHead);
 
-			if (
-				!posEqual(preSelExpAnchor, preSelExpHead) &&
-				preSelExpHead.ch > 0
-			) {
+			// Chinese Word Delimiter Fix https://github.com/chrisgrieser/obsidian-smarter-md-hotkeys/pull/30
+			if (!posEqual(preSelExpAnchor, preSelExpHead) && preSelExpHead.ch > 0 ) {
 				const lastWordRangeInner = textUnderCursor({
 					...preSelExpHead,
 					ch: preSelExpHead.ch - 1,
 				});
-				// if the result of last word range is not the same 
-				// as the result of head going back one character,
-				// use the inner result
-				if (!rangeEqual(lastWordRange, lastWordRangeInner))
-					lastWordRange = lastWordRangeInner;
+				// if the result of last word range is not the same as the result of
+				// head going back one character, use the inner result
+				if (!rangeEqual(lastWordRange, lastWordRangeInner)) lastWordRange = lastWordRangeInner;
 			}
 
 			editor.setSelection(firstWordRange.anchor, lastWordRange.head);
@@ -445,6 +442,7 @@ export default class SmarterMDhotkeys extends Plugin {
 			return;
 		}
 
+		// eslint-disable-next-line require-atomic-updates, TODO
 		if (endMarkup === "]()") [frontMarkup, endMarkup] = await insertURLtoMDLink();
 		let blen = frontMarkup.length;
 		let alen = endMarkup.length;

@@ -1,3 +1,6 @@
+- 2022-05-02	release 1.11.0
+- 2022-05-02	added multi-color highlight markup (bold/italics + highlight) commands
+- 2022-05-02	minor linting
 - 2022-05-02	release 1.10.0
 - 2022-05-02	Merge pull request #30 from aidenlx/master
 - 2022-05-01	fix extra word selected at the end when expanding selection in language without explicit word divider

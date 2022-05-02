@@ -14,7 +14,7 @@ declare module "obsidian" {
 }
 
 const posEqual = (a: EditorPosition, b: EditorPosition) => a.line === b.line && a.ch === b.ch,
-rangeEqual = (a: EditorSelection, b: EditorSelection) => posEqual(a.anchor, b.anchor) && posEqual(a.head, b.head);
+	rangeEqual = (a: EditorSelection, b: EditorSelection) => posEqual(a.anchor, b.anchor) && posEqual(a.head, b.head);
 
 export default class SmarterMDhotkeys extends Plugin {
 

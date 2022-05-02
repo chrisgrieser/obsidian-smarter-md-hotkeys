@@ -1,3 +1,6 @@
+- 2022-05-02	release 1.10.0
+- 2022-05-02	Merge pull request #30 from aidenlx/master
+- 2022-05-01	fix extra word selected at the end when expanding selection in language without explicit word divider
 - 2022-04-24	release 1.9.3
 - 2022-04-23	release 1.9.2
 - 2022-04-23	implement #28

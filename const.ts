@@ -200,6 +200,7 @@ export const TRIMAFTER = [
 
 export const EXPANDWHENOUTSIDE = [
 	["#", ""],
+	["", ":"],
 	["[[", "]]"],
 	["", "]]"],
 	["[[", ""],

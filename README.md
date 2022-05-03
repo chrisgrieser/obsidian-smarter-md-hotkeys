@@ -109,7 +109,8 @@ The same logic can also be applied to case switching commands. However, instead 
 - Smarter Copy File Name
 
 ### Smarter Delete Text
-Deletes text with the same text-expanding logic from the smarter markdown commands. (This command is equivalent to Vim's `diw`.)
+Deletes text with the same text-expanding logic from the smarter markdown commands. (This command is equivalent to Vim's `diw`.
+)
 
 ### Smarter Insert New Line
 Inserts line break, even when the cursor is in a nested list. Pressing `return` in a nested list normally inserts a line break followed by a indented list marker. (This command is essentially the same as `o` in Vim.)

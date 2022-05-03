@@ -1,3 +1,4 @@
+- 2022-05-03	release 1.11.1
 - 2022-05-02	release 1.11.0
 - 2022-05-02	added multi-color highlight markup (bold/italics + highlight) commands
 - 2022-05-02	minor linting

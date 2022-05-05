@@ -66,7 +66,7 @@ The following commands have some special features:
 - __Automatic Switch to Image Syntax__ When the URL in the clipboard ends with an image extension like `.png`,[^2] the command will also prepend the `!` for image links.
 
 ### Smarter Inline/Fenced Code
-- __Terms instead of Words:__ `Smarter Code` will _not_ consider punctuation or brackets as delimiters. This means that a cursor anywhere in "object.method" will select the whole term and result correctly in "`object.method`" instead of "`object`.method".
+- __Terms instead of Words:__ `Smarter Code` will _not_ consider punctuation or brackets as delimiters. This means that a cursor anywhere in "object.method" will select the whole term and result correctly in "`object.method`" instead of "`object`.method". (Similar to WORD in Vim.)
 - __Automatic Switch to Fenced Code Syntax__: When more than one line is selected, `Smarter Code` will wrap the selected lines in [fenced code syntax](https://help.obsidian.md/How+to/Format+your+notes#Code+blocks) instead. Furthermore, the cursor is moved to the beginning of the fenced code block so you can conveniently enter the code language.
 - 💡 `Smarter Fenced Code` synergizes well with the [Codeblock Completer Plugin](https://github.com/SkepticMystic/codeblock-completer).
 
@@ -109,8 +109,7 @@ The same logic can also be applied to case switching commands. However, instead 
 - Smarter Copy File Name
 
 ### Smarter Delete Text
-Deletes text with the same text-expanding logic from the smarter markdown commands. (This command is equivalent to Vim's `diw`.
-)
+Deletes text with the same text-expanding logic from the smarter markdown commands. (This command is equivalent to `daw` in Vim.)
 
 ### Smarter Insert New Line
 Inserts line break, even when the cursor is in a nested list. Pressing `return` in a nested list normally inserts a line break followed by a indented list marker. (This command is essentially the same as `o` in Vim.)

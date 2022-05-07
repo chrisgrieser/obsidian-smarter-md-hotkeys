@@ -425,11 +425,26 @@ export default class SmarterMDhotkeys extends Plugin {
 			editor.replaceSelection ("");
 		}
 
-		function	smartUpperLowerCase(preAnchor: EditorPosition, preHead: EditorPosition) {
-			let newText = editor.getSelection();
-			if (newText.toUpperCase() === newText) newText = newText.toLowerCase();
-			else newText = newText.toUpperCase();
-			editor.replaceSelection (newText);
+		function	smartCaseSwitch(preAnchor: EditorPosition, preHead: EditorPosition) {
+			function sentenceCase (str: string) {
+				// Move i to index of first letter (using this trick: https://stackoverflow.com/a/32567789)
+				let i = 0;
+				while (str.charAt(i).toLowerCase() === str.charAt(i).toUpperCase()) {
+					i++;
+					if (i > str.length) break;
+				}
+				return str.charAt(i).toUpperCase() + str.slice(i+1).toLowerCase();
+			}
+
+			let sel = editor.getSelection();
+
+			// Lower → Sentence, Sentence → Upper, Upper/Other → Lower
+			if (sel === sel.toLowerCase()) sel = sentenceCase(sel);
+			else if (sel === sentenceCase(sel)) sel = sel.toUpperCase();
+			else if (sel === sel.toUpperCase()) sel = sel.toLowerCase();
+			else sel = sel.toLowerCase();
+
+			editor.replaceSelection (sel);
 			editor.setSelection(preAnchor, preHead);
 		}
 
@@ -466,16 +481,16 @@ export default class SmarterMDhotkeys extends Plugin {
 			// prevent things like triple-click selection from triggering multi-line
 			trimSelection();
 
-			// run smart delete instead
+			// run special cases instead
 			if (frontMarkup === "delete") {
 				log ("Smart Delete");
 				expandSelection();
 				smartDelete();
 			}
-			else if (frontMarkup === "upper-lower") {
-				log ("Smart Upper/Lower Case");
+			else if (frontMarkup === "case-switch") {
+				log ("Smart Case Switch");
 				const { anchor: preSelExpAnchor, head: preSelExpHead } = expandSelection();
-				smartUpperLowerCase(preSelExpAnchor, preSelExpHead);
+				smartCaseSwitch(preSelExpAnchor, preSelExpHead);
 			}
 
 			// wrap single line selection

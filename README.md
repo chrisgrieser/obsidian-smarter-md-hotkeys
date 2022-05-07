@@ -18,7 +18,7 @@ A plugin for [Obsidian](https://obsidian.md/) providing hotkeys that select word
 	- [Smarter Mathjax](#smarter-mathjax)
 	- [Smarter Callout Label](#smarter-callout-label)
 - [Smarter Punctuation Commands Added](#smarter-punctuation-commands-added)
-- [Smarter Upper/Lower Case](#smarter-upperlower-case)
+- [Smarter Case Switching](#smarter-case-switching)
 - [Other Commands Added](#other-commands-added)
 	- [Smarter Delete Text](#smarter-delete-text)
 	- [Smarter Insert New Line](#smarter-insert-new-line)
@@ -89,17 +89,25 @@ Turns the text under the cursor into a callout label.
 </details>
 
 ## Smarter Punctuation Commands Added
-While strictly speaking quotation marks and brackets are not a form of markup, I found it quite useful to be able to set them in the same way. Therefore, the following commands have been added as well:
+While strictly speaking quotation marks and brackets are not a form of markup, I found it quite useful to be able to set them in the same way. Therefore, the following commands have been added as well. 
 
 - Smarter Quotation Marks
 - Smarter Round Brackets
 - Smarter Square Brackets
 - Smarter Curly Brackets
 
-## Smarter Upper/Lower Case
-The same logic can also be applied to case switching commands. However, instead of having a smart upper case and a smart lower case command, both are merged into one command: The text will normally be upper cased, except when the text is already fully upper cased, in which case it will be lower cased. (For most cases making lower casing an undo of upper casing.)
+## Smarter Case Switching
+The same logic can also be applied to case switching commands. And instead of having multiple commands for each type of casing, this command smartly switches between which case to switch to (pun unintended). 
 
-- Smarter Upper/Lower Case
+The casing to which the selection is changed to depends on the current casing of the selection (after expansion to full words/lines). 
+- `lower case` → `Sentence case`\*
+- `Sentence case` → `UPPER CASE`
+- `UPPER CASE` → `lower case`
+- `OTheR` → `lower case`
+
+This allows you to repeatedly press the hotkey to achieve a certain result, e.g. two times when on a `lowercase` word to make it `UPPERCASE`.
+
+\* `Sentence case` means that the first letter of the string will be capitalized, like in an English sentence. If the string only contains one word, `Sentence case` produces the same result as `Capital Case`.
 
 ## Other Commands Added
 - Smarter Delete Text

@@ -137,8 +137,8 @@ export const MD_COMMANDS: {
 	},
 	{
 		id: "smarter-upper-lower",
-		name: "Smarter Upper/Lower Case",
-		before: "upper-lower",
+		name: "Smarter Case Switch",
+		before: "case-switch",
 		after: "",
 	},
 	{

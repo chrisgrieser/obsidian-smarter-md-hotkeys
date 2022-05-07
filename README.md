@@ -89,7 +89,7 @@ Turns the text under the cursor into a callout label.
 </details>
 
 ## Smarter Punctuation Commands Added
-While strictly speaking quotation marks and brackets are not a form of markup, I found it quite useful to be able to set them in the same way. Therefore, the following commands have been added as well. 
+While strictly speaking quotation marks and brackets are not a form of markup, I found it quite useful to be able to set them in the same way. Therefore, the following commands have been added as well.
 
 - Smarter Quotation Marks
 - Smarter Round Brackets
@@ -97,9 +97,9 @@ While strictly speaking quotation marks and brackets are not a form of markup, I
 - Smarter Curly Brackets
 
 ## Smarter Case Switching
-The same logic can also be applied to case switching commands. And instead of having multiple commands for each type of casing, this command smartly switches between which case to switch to (pun unintended). 
+The same logic can also be applied to case switching commands. And instead of having multiple commands for each type of casing, this command smartly switches between which case to switch to (pun unintended).
 
-The casing to which the selection is changed to depends on the current casing of the selection (after expansion to full words/lines). 
+The casing to which the selection is changed to depends on the current casing of the selection (after expansion to full words/lines).
 - `lower case` → `Sentence case`\*
 - `Sentence case` → `UPPER CASE`
 - `UPPER CASE` → `lower case`

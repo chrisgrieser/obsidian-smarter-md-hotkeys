@@ -1,3 +1,5 @@
+- 2022-05-08	release 1.12.0
+- 2022-05-08	changed lower/upper case switching to smarter case switching (includes Capital/Sentence case)
 - 2022-05-03	release 1.11.1
 - 2022-05-02	release 1.11.0
 - 2022-05-02	added multi-color highlight markup (bold/italics + highlight) commands

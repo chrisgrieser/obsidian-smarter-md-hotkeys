@@ -9,7 +9,7 @@ A plugin for [Obsidian](https://obsidian.md/) providing hotkeys that select word
 ## Table of Contents
 <!-- MarkdownTOC -->
 
-- [Markup Commands added](#markup-commands-added)
+- [Markup Commands with Smart Expansion](#markup-commands-with-smart-expansion)
 - [Command-Specific Details](#command-specific-details)
 	- [Smarter Markdown/Image Link](#smarter-markdownimage-link)
 	- [Smarter Inline/Fenced Code](#smarter-inlinefenced-code)
@@ -17,15 +17,16 @@ A plugin for [Obsidian](https://obsidian.md/) providing hotkeys that select word
 	- [Smarter Wikilink](#smarter-wikilink)
 	- [Smarter Mathjax](#smarter-mathjax)
 	- [Smarter Callout Label](#smarter-callout-label)
-- [Smarter Punctuation Commands Added](#smarter-punctuation-commands-added)
+- [Non-Markup Commands with Smart Expansion Logic](#non-markup-commands-with-smart-expansion-logic)
+- [Smarter Punctuation Commands](#smarter-punctuation-commands)
 - [Smarter Case Switching](#smarter-case-switching)
-- [Other Commands Added](#other-commands-added)
 	- [Smarter Delete Text](#smarter-delete-text)
+- [Commands added without Smart Expansion](#commands-added-without-smart-expansion)
 	- [Smarter Insert New Line](#smarter-insert-new-line)
 	- [Smarter Delete Current Note](#smarter-delete-current-note)
 	- [Smarter Copy Path](#smarter-copy-path)
 	- [Smarter Copy File Name](#smarter-copy-file-name)
-- [How it works in detail](#how-it-works-in-detail)
+- [How the Smart Expansion works in detail](#how-the-smart-expansion-works-in-detail)
 - [Setting the Hotkeys](#setting-the-hotkeys)
 - [Installation](#installation)
 - [Contribute](#contribute)
@@ -36,7 +37,7 @@ A plugin for [Obsidian](https://obsidian.md/) providing hotkeys that select word
 
 <!-- /MarkdownTOC -->
 
-## Markup Commands added
+## Markup Commands with Smart Expansion
 - Smarter Bold
 - Smarter Italics
 - Smarter Underscore Bold (`__foobar__`)
@@ -52,7 +53,7 @@ A plugin for [Obsidian](https://obsidian.md/) providing hotkeys that select word
 - Smarter Wikilink (Internal Link)
 - Smarter Wikilink a Heading
 - Smarter Mathjax\*
-- 🆕 Smarter Callout Label
+- Smarter Callout Label
 
 All commands also support __multiple cursors__, smart __inclusion/exclusion of special characters__, and __undoing markup__ by triggering the same hotkey.
 
@@ -81,14 +82,16 @@ The following commands have some special features:
 - __Automatic Switch to Blocks__: When more than one line is selected, the `Smarter MathJax` command will also [expand the selection to whole blocks](https://help.obsidian.md/How+to/Format+your+notes#Math) and switch from `$` to `$$`. (I do not use Mathjax myself, so feel free to open an issue when the Mathjax command can be improved somehow.)
 
 ### Smarter Callout Label
-Turns the text under the cursor into a callout label.
+Turns the text under the cursor into a callout _label_.
 
 <details>
 	<summary>Demo</summary>
 	<img width=60% alt="Demo Smarter Callout Label Command" src="demo/smarter-callout-label.gif">
 </details>
 
-## Smarter Punctuation Commands Added
+## Non-Markup Commands with Smart Expansion Logic
+
+## Smarter Punctuation Commands
 While strictly speaking quotation marks and brackets are not a form of markup, I found it quite useful to be able to set them in the same way. Therefore, the following commands have been added as well.
 
 - Smarter Quotation Marks
@@ -97,27 +100,21 @@ While strictly speaking quotation marks and brackets are not a form of markup, I
 - Smarter Curly Brackets
 
 ## Smarter Case Switching
-The same logic can also be applied to case switching commands. And instead of having multiple commands for each type of casing, this command smartly switches between which case to switch to (pun unintended).
-
-The casing to which the selection is changed to depends on the current casing of the selection (after expansion to full words/lines).
+The same logic can also be applied to case switching commands. First, the selection is expanded to whole words, then casing of the whole selection is changed. And instead of having multiple commands for each type of casing, this command smartly switches the case depending on the current state.
 - `lower case` → `Sentence case`\*
 - `Sentence case`\* → `UPPER CASE`
 - `UPPER CASE` → `lower case`
 - `OTheR` → `Sentence case`
 
-This allows you to repeatedly press the hotkey to achieve a certain result, e.g. two times when on a `lowercase` word to make it `UPPERCASE`.
+This allows you to repeatedly press the hotkey to achieve a certain result, e.g. two times on a `lowercase` word to make it `UPPERCASE`.
 
 \* `Sentence case` means that the first letter of the string will be capitalized, like in an English sentence. If the string only contains one word, `Sentence case` produces the same result as `Capital Case`.
 
-## Other Commands Added
-- Smarter Delete Text
-- Smarter New Line
-- Smarter Delete Current Note
-- Smarter Copy Path
-- Smarter Copy File Name
-
 ### Smarter Delete Text
-Deletes text with the same text-expanding logic from the smarter markdown commands. (This command is equivalent to `daw` in Vim.)
+Deletes text with the same text-expanding logic from the smarter markdown commands. (This command is similar to `daw` in Vim.)
+
+## Commands added without Smart Expansion
+These commands have simply been added for convenience. They do not use any kind of selection expansion, but are still attempts to improve the normal commands they correspond to.
 
 ### Smarter Insert New Line
 Inserts line break, even when the cursor is in a nested list. Pressing `return` in a nested list normally inserts a line break followed by a indented list marker. (This command is essentially the same as `o` in Vim.)
@@ -131,8 +128,8 @@ Press once to copy the vault-relative path of the current file, press a second t
 ### Smarter Copy File Name
 Press once to copy the name of the current file without extension, press a second time to copy it with extension.
 
-## How it works in detail
-`|` is a cursor without selection. `Inline code` signifies the part of the text being selected. This table serves as a reference for the precise mechanics of this plugin.
+## How the Smart Expansion works in detail
+`Inline code` signifies the part of the text being selected. `|` is a cursor without selection. This table serves as a reference for the precise mechanics of this plugin.
 
 |                                    |  Normal Hotkeys                                        | Smarter Hotkeys                                                    |
 | ---------------------------------- | ------------------------------------------------------ | ------------------------------------------------------------------ |
@@ -152,7 +149,9 @@ If you want to replace the default commands from Obsidian, remember to remove th
 1. Remove the hotkey `cmd/ctrl + B`[^1] for the default command `Toggle Bold`.
 2. Assign `cmd/ctrl + B` as the hotkey for the command `Smarter Bold`.
 
-💡 For the smarter punctuation commands, you can also use a hotkey with `shift`, for example `shift + 2` for Smarter Quotation Marks. Curiously, Obsidian accepts such hotkeys, so you can basically "overwrite" normal punctuation typing if you want to. (However, note that this comes at the cost of losing the ability to type punctuation normally.)
+💡 For the Smarter Punctuation Commands, you can also use a hotkey with `shift`, e.g. `shift + 2` for Smarter Quotation Marks. Curiously, Obsidian accepts such hotkeys, so you can basically "overwrite" normal punctuation typing if you want to. 
+
+However, note that this comes at the cost of losing the ability to type punctuation normally. Also, this does seem to result in minor bugs, e.g. [interference with Obsidian's in-document search](https://github.com/chrisgrieser/obsidian-smarter-md-hotkeys/issues/23).
 
 ## Installation
 The plugin is available in Obsidian's Community Plugin Browser via: `Settings` → `Community Plugins` → `Browse` → Search for _"Smarter Markdown Hotkeys"_
@@ -184,7 +183,7 @@ In my day job, I am a sociologist studying the social mechanisms underlying the 
 <!-- markdown-link-check-enable -->
 
 ## Credits
-Thanks to [@SkepticMystic](https://github.com/SkepticMystic) for his support during development
+Thanks to [@SkepticMystic](https://github.com/SkepticMystic) for his support during development.
 
 [⬆️ Go Back to Top](#Table-of-Contents)
 

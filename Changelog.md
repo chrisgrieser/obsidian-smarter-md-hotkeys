@@ -1,3 +1,5 @@
+- 2022-05-11	release 1.12.1
+- 2022-05-11	smarter case switch defaults to capital/sentence case on first press
 - 2022-05-08	release 1.12.0
 - 2022-05-08	changed lower/upper case switching to smarter case switching (includes Capital/Sentence case)
 - 2022-05-03	release 1.11.1

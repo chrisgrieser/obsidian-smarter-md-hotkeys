@@ -438,11 +438,11 @@ export default class SmarterMDhotkeys extends Plugin {
 
 			let sel = editor.getSelection();
 
-			// Lower → Sentence, Sentence → Upper, Upper/Other → Lower
+			// Other/Lower → Sentence, Sentence → Upper, Upper → Lower
 			if (sel === sel.toLowerCase()) sel = sentenceCase(sel);
 			else if (sel === sentenceCase(sel)) sel = sel.toUpperCase();
 			else if (sel === sel.toUpperCase()) sel = sel.toLowerCase();
-			else sel = sel.toLowerCase();
+			else sel = sentenceCase(sel);
 
 			editor.replaceSelection (sel);
 			editor.setSelection(preAnchor, preHead);

@@ -101,9 +101,9 @@ The same logic can also be applied to case switching commands. And instead of ha
 
 The casing to which the selection is changed to depends on the current casing of the selection (after expansion to full words/lines).
 - `lower case` → `Sentence case`\*
-- `Sentence case` → `UPPER CASE`
+- `Sentence case`\* → `UPPER CASE`
 - `UPPER CASE` → `lower case`
-- `OTheR` → `lower case`
+- `OTheR` → `Sentence case`
 
 This allows you to repeatedly press the hotkey to achieve a certain result, e.g. two times when on a `lowercase` word to make it `UPPERCASE`.
 

@@ -6,7 +6,6 @@
 
 # Requirements
 # - markdownlint
-# - markdown-link-check
 # - eslint
 
 # ensure relevant files exist

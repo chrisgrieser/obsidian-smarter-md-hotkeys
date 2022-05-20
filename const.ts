@@ -201,16 +201,17 @@ export const TRIMAFTER = [
 
 export const EXPANDWHENOUTSIDE = [
 	["#", ""],
-	["", ":"],
 	["[[", "]]"],
 	["", "]]"],
 	["[[", ""],
 	["\"", "\""],
 	["'", "'"],
 	["(", ")"],
-	["[", "] "], // extra space to not break markdown links
 	["$", ""],
-	["", "€"]
+	["", "€"],
+	// extra spaces are trimmed seperately later, only there to avoid conflict with TRIM_AFTER values
+	["", ": ", "trim_last_space"], // dataview inline field exception
+	["[", "] ", "trim_last_space"] // md link exception
 ];
 
 export const IMAGEEXTENSIONS = [

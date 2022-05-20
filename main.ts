@@ -291,16 +291,20 @@ export default class SmarterMDhotkeys extends Plugin {
 			log ("after expandSelection", true);
 			trimSelection();
 
-			// has to come after trimming to include things like bracket
+			// has to come after trimming to include things like brackets
 			const expandWhenOutside = constant.EXPANDWHENOUTSIDE;
 			expandWhenOutside.forEach(pair => {
 				if (pair[0] === frontMarkup || pair[1] === endMarkup ) return; // allow undoing of the command creating the syntax
+				const trimLastSpace = Boolean(pair[2]);
+
 				if (isOutsideSel (pair[0], pair[1])) {
 					firstWordRange.anchor.ch -= pair[0].length;
 					lastWordRange.head.ch += pair[1].length;
+					if (trimLastSpace) lastWordRange.head.ch--; // to avoid conflicts between trimming and expansion
 					editor.setSelection(firstWordRange.anchor, lastWordRange.head);
 				}
 			});
+
 
 			return { anchor: preSelExpAnchor, head: preSelExpHead };
 		}

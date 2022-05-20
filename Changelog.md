@@ -1,3 +1,8 @@
+- 2022-05-20	release 1.12.2
+- 2022-05-20	postfix #38
+- 2022-05-20	fix #38
+- 2022-05-17	fix heading levels
+- 2022-05-11	improved docs
 - 2022-05-11	release 1.12.1
 - 2022-05-11	smarter case switch defaults to capital/sentence case on first press
 - 2022-05-08	release 1.12.0

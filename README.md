@@ -145,7 +145,7 @@ If you want to replace the default commands from Obsidian, remember to remove th
 1. Remove the hotkey `cmd/ctrl + B`[^1] for the default command `Toggle Bold`.
 2. Assign `cmd/ctrl + B` as the hotkey for the command `Smarter Bold`.
 
-💡 For the Smarter Punctuation Commands, you can also use a hotkey with `shift`, e.g. `shift + 2` for Smarter Quotation Marks. Curiously, Obsidian accepts such hotkeys, so you can basically "overwrite" normal punctuation typing if you want to. 
+💡 For the Smarter Punctuation Commands, you can also use a hotkey with `shift`, e.g. `shift + 2` for Smarter Quotation Marks. Curiously, Obsidian accepts such hotkeys, so you can basically "overwrite" normal punctuation typing if you want to.
 
 However, note that this comes at the cost of losing the ability to type punctuation normally. Also, this does seem to result in minor bugs, e.g. [interference with Obsidian's in-document search](https://github.com/chrisgrieser/obsidian-smarter-md-hotkeys/issues/23).
 

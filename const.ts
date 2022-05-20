@@ -192,6 +192,7 @@ export const TRIMAFTER = [
 	"\"",
 	")",
 	"](", // to not break markdown links
+	"::", // preseve dataview inline fields
 	"]",
 	"\n",
 	"\t",

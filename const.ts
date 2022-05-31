@@ -74,7 +74,7 @@ export const MD_COMMANDS: {
 	},
 	{
 		id: "smarter-wikilink",
-		name: "Smarter Wikilink (Internal Link)",
+		name: "Smarter Wikilink",
 		before: "[[",
 		after: "]]",
 	},
@@ -82,6 +82,12 @@ export const MD_COMMANDS: {
 		id: "smarter-wikilink-heading",
 		name: "Smarter Wikilink to Heading",
 		before: "[[##",
+		after: "]]",
+	},
+	{
+		id: "smarter-wikilink-heading",
+		name: "Smarter Embedded Wikilink",
+		before: "![[",
 		after: "]]",
 	},
 	{
@@ -104,9 +110,15 @@ export const MD_COMMANDS: {
 	},
 	{
 		id: "smarter-quotation-marks",
-		name: "Smarter Quotation Mark",
+		name: "Smarter Double Quotation Mark",
 		before: "\"",
 		after: "\"",
+	},
+	{
+		id: "smarter-single-quotation-marks",
+		name: "Smarter Single Quotation Mark",
+		before: "'",
+		after: "'",
 	},
 	{
 		id: "smarter-round-brackets",

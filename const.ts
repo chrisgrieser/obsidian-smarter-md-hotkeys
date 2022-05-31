@@ -167,7 +167,7 @@ export const OTHER_COMMANDS: {
 }[] = [
 	{
 		id: "smarter-delete-current-file",
-		name: "Smarter Delete Current Note",
+		name: "Smarter Delete Current File",
 	},
 	{
 		id: "smarter-copy-path",

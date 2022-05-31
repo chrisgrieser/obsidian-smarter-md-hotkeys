@@ -1,3 +1,5 @@
+- 2022-05-31	release 1.12.3
+- 2022-05-31	add commands for embedded wikilinks and single quotation marks
 - 2022-05-20	release 1.12.2
 - 2022-05-20	postfix #38
 - 2022-05-20	fix #38

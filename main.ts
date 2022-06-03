@@ -11,11 +11,12 @@ declare module "obsidian" {
 	interface App {
 		commands: { executeCommandById: (commandID: string) => void };
 	}
+	interface Vault {
+		setConfig: (config: string, newValue: boolean) => void;
+		getConfig: (config: string) => boolean;
+	}
 }
 
-// TODO use
-
-// TODO: move this to utils
 // needed for Chinese Word Delimiter Fix https://github.com/chrisgrieser/obsidian-smarter-md-hotkeys/pull/30
 const posEqual = (a: EditorPosition, b: EditorPosition) => a.line === b.line && a.ch === b.ch;
 const rangeEqual = (a: EditorSelection, b: EditorSelection) => posEqual(a.anchor, b.anchor) && posEqual(a.head, b.head);
@@ -48,16 +49,21 @@ export default class SmarterMDhotkeys extends Plugin {
 
 	async otherCommands (commandID: string) {
 		const activeFile = this.app.workspace.getActiveFile();
-		if (!activeFile) return; // guard clause when no file open
+		if (!activeFile) return; // no file open
 
 		// File Deletion
 		if (commandID === "smarter-delete-current-file") {
 			const runCommand = (str: string) => this.app.commands.executeCommandById(str);
 
+			const deletionPromptEnabled = this.app.vault.getConfig("promptDelete");
+			if (deletionPromptEnabled) {
+				new Notice ("This command requires that the core Obsidian setting \"Confirm file deletion\" is *disabled*.");
+				return; // the quite simple method below only works the prompt is disabled.
+			}
+
 			runCommand("app:delete-file");
 			runCommand("app:go-back");
 			runCommand("app:go-back");
-
 			new Notice ("\"" + activeFile.name + "\" deleted.");
 
 		// Copy Path

@@ -20,6 +20,7 @@ A plugin for [Obsidian](https://obsidian.md/) providing hotkeys that select word
 	- [Smarter Delete Current Note](#smarter-delete-current-note)
 	- [Smarter Copy Path](#smarter-copy-path)
 	- [Smarter Copy File Name](#smarter-copy-file-name)
+	- [Toggle Readable Line Length & Toggle Line Numbers](#toggle-readable-line-length--toggle-line-numbers)
 - [How the Smart Expansion works in detail](#how-the-smart-expansion-works-in-detail)
 - [Setting the Hotkeys](#setting-the-hotkeys)
 - [Installation](#installation)
@@ -123,6 +124,9 @@ Press once to copy the vault-relative path of the current file, press a second t
 
 ### Smarter Copy File Name
 Press once to copy the name of the current file without extension, press a second time to copy it with extension.
+
+### Toggle Readable Line Length & Toggle Line Numbers
+These do pretty much what the name says.
 
 ## How the Smart Expansion works in detail
 `Inline code` signifies the part of the text being selected. `|` is a cursor without selection. This table serves as a reference for the precise mechanics of this plugin.

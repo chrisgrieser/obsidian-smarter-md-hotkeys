@@ -101,7 +101,18 @@ export default class SmarterMDhotkeys extends Plugin {
 			await navigator.clipboard.writeText(fileName);
 
 			new Notice("File Name copied: \n" + fileName);
+
+		// Toggle Line Numbers
+		} else if (commandID === "toggle-line-numbers") {
+			const optionEnabled = this.app.vault.getConfig("showLineNumber");
+			this.app.vault.setConfig("showLineNumber", !optionEnabled);
+
+		// Toggle Readable Line Length
+		} else if (commandID === "toggle-readable-line-length") {
+			const optionEnabled = this.app.vault.getConfig("readableLineLength");
+			this.app.vault.setConfig("readableLineLength", !optionEnabled);
 		}
+
 	}
 
 	async expandAndWrap(frontMarkup: string, endMarkup: string, editor: Editor) {

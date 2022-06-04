@@ -174,6 +174,14 @@ export const OTHER_COMMANDS: {
 		name: "Smarter Copy Relative/Absolute Path",
 	},
 	{
+		id: "toggle-line-numbers",
+		name: "Toggle Line Numbers",
+	},
+	{
+		id: "toggle-readable-line-length",
+		name: "Toggle Readable Line Length",
+	},
+	{
 		id: "smarter-copy-file-name",
 		name: "Smarter Copy File Name",
 	}

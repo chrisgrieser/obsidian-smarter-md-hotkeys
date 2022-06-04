@@ -1,3 +1,7 @@
+- 2022-06-04	release 1.13.0
+- 2022-06-04	commands for toggling line length and line numbers
+- 2022-06-03	url-regex now case insensitive
+- 2022-06-03	safeguard when file deletion prompt isnt disabled
 - 2022-05-31	release 1.12.3
 - 2022-05-31	add commands for embedded wikilinks and single quotation marks
 - 2022-05-20	release 1.12.2

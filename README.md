@@ -52,7 +52,7 @@ A plugin for [Obsidian](https://obsidian.md/) providing hotkeys that select word
 
 All commands also support __multiple cursors__, smart __inclusion/exclusion of special characters__, and __undoing markup__ by triggering the same hotkey.
 
-\* These commands _wrap whole blocks_ instead of wrapping each line when the hotkey is triggered on a multi-line selection. They also switch to the appropriate syntax, for example from inline code syntax to fenced code syntax. (See below for details.)
+<small>\* These commands _wrap whole blocks_ instead of wrapping each line when the hotkey is triggered on a multi-line selection. They also switch to the appropriate syntax, for example from inline code syntax to fenced code syntax. (See below for details.)</small>
 
 ### Command-Specific Details
 The following commands have some special features:
@@ -97,7 +97,7 @@ While strictly speaking quotation marks and brackets are not a form of markup, I
 When there is no selection, the the Smarter Punctuation Commands essentially emulate `ysiw"`, `ysiw)`, `ysiw]`, and `ysiw}` from [vim-surround](https://github.com/tpope/vim-surround).
 
 ### Smarter Case Switching
-The same logic can also be applied to case switching commands. First, the selection is expanded to whole words, then casing of the whole selection is changed. And instead of having multiple commands for each type of casing, this command smartly switches the case depending on the current state.
+The same logic can also be applied to case switching commands. First, the selection is expanded to whole words. Then, the casing of the whole selection is changed. Instead of having multiple hotkeys for each type of casing, this command smartly switches the case depending on the current state.
 - `lower case` → `Sentence case`\*
 - `Sentence case`\* → `UPPER CASE`
 - `UPPER CASE` → `lower case`
@@ -105,7 +105,7 @@ The same logic can also be applied to case switching commands. First, the select
 
 This allows you to repeatedly press the hotkey to achieve a certain result, e.g. two times on a `lowercase` word to make it `UPPERCASE`.
 
-\* `Sentence case` means that the first letter of the string will be capitalized, like in an English sentence. If the string only contains one word, `Sentence case` produces the same result as `Capital Case`.
+<small>\* `Sentence case` means that the first letter of the string will be capitalized, like in an English sentence. If the string only contains one word, `Sentence case` produces the same result as `Capital Case`.</small>
 
 ### Smarter Delete Text
 Deletes text with the same text-expanding logic from the smarter markdown commands. (This command is similar to `daw` in Vim.)

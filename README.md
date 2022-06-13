@@ -46,7 +46,7 @@ A plugin for [Obsidian](https://obsidian.md/) providing hotkeys that select word
 - Smarter Strikethrough
 - Smarter Markdown/Image Link
 - Smarter Wikilink (Internal Link)
-- Smarter Wikilink a Heading
+- Smarter Wikilink with Heading
 - Smarter Mathjax\*
 - Smarter Callout Label
 
@@ -194,4 +194,4 @@ Thanks to [@SkepticMystic](https://github.com/SkepticMystic) for his support dur
 [^1]: macOS uses `cmd`, Windows and Linux use `ctrl`.
 [^2]: The supported image extensions are [listed here](const.ts#L156).
 [^3]: These commands are mostly used for Multi-Color Highlights that some Obsidian themes like [Sanctum](https://github.com/jdanielmourao/obsidian-sanctum) or [Shimmering Focus](https://github.com/chrisgrieser/shimmering-focus) offer.
-[^4]: When there is no selection, the smart expansion is quite similar `ysiw{markup}` from [vim-surround](https://github.com/tpope/vim-surround).
+[^4]: When there is no selection, the smart expansion is essentially equivalent to `ysiw{markup}` from [vim-surround](https://github.com/tpope/vim-surround), but with less keystrokes.

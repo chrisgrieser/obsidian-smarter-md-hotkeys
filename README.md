@@ -16,6 +16,7 @@ A plugin for [Obsidian](https://obsidian.md/) providing hotkeys that select word
 	- [Smarter Case Switching](#smarter-case-switching)
 	- [Smarter Delete Text](#smarter-delete-text)
 - [Commands without Smart Expansion](#commands-without-smart-expansion)
+	- [Smarter Toggle Heading](#smarter-toggle-heading)
 	- [Smarter Insert New Line](#smarter-insert-new-line)
 	- [Smarter Delete Current Note](#smarter-delete-current-note)
 	- [Smarter Copy Path](#smarter-copy-path)
@@ -112,6 +113,9 @@ Deletes text with the same text-expanding logic from the smarter markdown comman
 
 ## Commands without Smart Expansion
 These commands have simply been added for convenience. They do not use any kind of selection expansion, but are still attempts to improve the normal commands they correspond to.
+
+### Smarter Toggle Heading
+Increases the Heading Level of the line under the cursor by 1. If already at 6, removes the heading instead. Intended for pressing it quickly multiple times, e.g. pressing the hotkey 3 times to turn a normal line into a h3.
 
 ### Smarter Insert New Line
 Inserts line break, even when the cursor is in a nested list. Pressing `return` in a nested list normally inserts a line break followed by a indented list marker. (This command is essentially the same as `o` in Vim.)

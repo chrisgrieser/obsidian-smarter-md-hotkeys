@@ -117,6 +117,8 @@ These commands have simply been added for convenience. They do not use any kind 
 ### Smarter Toggle Heading
 Increases the Heading Level of the line under the cursor by 1. If already at 6, removes the heading instead. Intended for pressing it quickly multiple times, e.g. pressing the hotkey 3 times to turn a normal line into a h3.
 
+<img width=60% alt="Demo Smarter Toggle Heading Command" src="demo/smarter-toggle-heading.gif">
+
 ### Smarter Insert New Line
 Inserts line break, even when the cursor is in a nested list. Pressing `return` in a nested list normally inserts a line break followed by a indented list marker. (This command is essentially the same as `o` in Vim.)
 

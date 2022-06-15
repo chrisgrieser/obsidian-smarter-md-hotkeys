@@ -158,6 +158,12 @@ export const MD_COMMANDS: {
 		name: "Smarter Insert New Line",
 		before: "new-line",
 		after: "",
+	},
+	{
+		id: "smarter-toggle-heading",
+		name: "Smarter Toggle Heading",
+		before: "heading",
+		after: "",
 	}
 ];
 

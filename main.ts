@@ -127,11 +127,9 @@ export default class SmarterMDhotkeys extends Plugin {
 		const endOffset = () => editor.posToOffset(editor.getCursor("to"));
 		const noteLength = () => editor.getValue().length;
 		const offToPos = (offset: number) => {
-
 			// prevent error when at the start or beginning of document
 			if (offset < 0) offset = 0;
 			if (offset > noteLength()) offset = noteLength();
-
 			return editor.offsetToPos(offset);
 		};
 		function isOutsideSel (bef:string, aft:string) {
@@ -469,6 +467,32 @@ export default class SmarterMDhotkeys extends Plugin {
 			editor.setSelection(preAnchor, preHead);
 		}
 
+		function smartHeading () {
+			const { line: lineNumber, ch: column } = editor.getCursor("head");
+			const lineContent = editor.getLine(lineNumber);
+			const hasHeading = lineContent.match(/^#{1,6}(?= )/);
+			let currentHeadingLvl;
+			let newLineContent;
+			let newColumn;
+
+			if (hasHeading) {
+				currentHeadingLvl = hasHeading[0];
+				if (currentHeadingLvl.length < 6) {
+					newLineContent = "#" + lineContent;
+					newColumn = column + 1;
+				} else {
+					newLineContent = lineContent.slice(7);
+					if (column > 6) newColumn = column - 7;
+					else newColumn = 0;
+				}
+			} else {
+				newLineContent = "# " + lineContent;
+				newColumn = column + 2;
+			}
+			editor.setLine(lineNumber, newLineContent);
+			editor.setCursor(lineNumber, newColumn);
+		}
+
 		// MAIN
 		//-------------------------------------------------------------------
 		log("\nSmarterMD Hotkeys triggered\n---------------------------");
@@ -512,6 +536,10 @@ export default class SmarterMDhotkeys extends Plugin {
 				log ("Smart Case Switch");
 				const { anchor: preSelExpAnchor, head: preSelExpHead } = expandSelection();
 				smartCaseSwitch(preSelExpAnchor, preSelExpHead);
+			}
+			else if (frontMarkup === "heading") {
+				log ("Smart Toggle Heading");
+				smartHeading();
 			}
 
 			// wrap single line selection

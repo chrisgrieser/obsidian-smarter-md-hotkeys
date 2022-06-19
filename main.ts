@@ -467,7 +467,7 @@ export default class SmarterMDhotkeys extends Plugin {
 			editor.setSelection(preAnchor, preHead);
 		}
 
-		function smartHeading () {
+		function smartHeading (direction: string) {
 			const { line: lineNumber, ch: column } = editor.getCursor("head");
 			const lineContent = editor.getLine(lineNumber);
 			const hasHeading = lineContent.match(/^#{1,6}(?= )/);
@@ -475,7 +475,7 @@ export default class SmarterMDhotkeys extends Plugin {
 			let newLineContent;
 			let newColumn;
 
-			if (hasHeading) {
+			if (direction === "increase" && hasHeading) {
 				currentHeadingLvl = hasHeading[0];
 				if (currentHeadingLvl.length < 6) {
 					newLineContent = "#" + lineContent;
@@ -485,9 +485,15 @@ export default class SmarterMDhotkeys extends Plugin {
 					if (column > 6) newColumn = column - 7;
 					else newColumn = 0;
 				}
-			} else {
+			} else if (direction === "increase" && !hasHeading) {
 				newLineContent = "# " + lineContent;
 				newColumn = column + 2;
+			} else if (direction === "decrease" && hasHeading) {
+				newLineContent = lineContent.slice(1);
+				newColumn = column - 1;
+			} else if (direction === "decrease" && !hasHeading) {
+				newLineContent = "###### " + lineContent;
+				newColumn = column + 7;
 			}
 			editor.setLine(lineNumber, newLineContent);
 			editor.setCursor(lineNumber, newColumn);
@@ -539,7 +545,7 @@ export default class SmarterMDhotkeys extends Plugin {
 			}
 			else if (frontMarkup === "heading") {
 				log ("Smart Toggle Heading");
-				smartHeading();
+				smartHeading(endMarkup);
 			}
 
 			// wrap single line selection

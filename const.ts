@@ -161,9 +161,15 @@ export const MD_COMMANDS: {
 	},
 	{
 		id: "smarter-toggle-heading",
-		name: "Smarter Toggle Heading",
+		name: "Increase Heading Level",
 		before: "heading",
-		after: "",
+		after: "increase",
+	},
+	{
+		id: "smarter-toggle-heading-reverse",
+		name: "Decrease Heading Level",
+		before: "heading",
+		after: "decrease",
 	}
 ];
 

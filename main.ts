@@ -489,8 +489,14 @@ export default class SmarterMDhotkeys extends Plugin {
 				newLineContent = "# " + lineContent;
 				newColumn = column + 2;
 			} else if (direction === "decrease" && hasHeading) {
-				newLineContent = lineContent.slice(1);
-				newColumn = column - 1;
+				currentHeadingLvl = hasHeading[0];
+				if (currentHeadingLvl.length > 1) {
+					newLineContent = lineContent.slice(1);
+					newColumn = column - 1;
+				} else {
+					newLineContent = lineContent.slice(2);
+					newColumn = column - 2;
+				}
 			} else if (direction === "decrease" && !hasHeading) {
 				newLineContent = "###### " + lineContent;
 				newColumn = column + 7;

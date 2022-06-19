@@ -1,3 +1,4 @@
+- 2022-06-19	release 1.15.1
 - 2022-06-19	release 1.15.0
 - 2022-06-19	new command: decrease heading level
 - 2022-06-16	release 1.14.0

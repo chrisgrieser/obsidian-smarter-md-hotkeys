@@ -196,6 +196,10 @@ export const OTHER_COMMANDS: {
 	{
 		id: "smarter-copy-file-name",
 		name: "Smarter Copy File Name",
+	},
+	{
+		id: "hide-notice",
+		name: "Hide all Notices",
 	}
 ];
 

@@ -1,3 +1,5 @@
+- 2022-07-07	release 1.16.0
+- 2022-07-07	add command for hiding notices
 - 2022-06-19	release 1.15.1
 - 2022-06-19	release 1.15.0
 - 2022-06-19	new command: decrease heading level

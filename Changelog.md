@@ -1,3 +1,4 @@
+- 2022-07-08	release 1.16.2
 - 2022-07-07	release 1.16.1
 - 2022-07-07	release 1.16.0
 - 2022-07-07	add command for hiding notices

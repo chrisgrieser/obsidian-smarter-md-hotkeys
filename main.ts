@@ -114,21 +114,14 @@ export default class SmarterMDhotkeys extends Plugin {
 
 		// Hide Notice
 		} else if (commandID === "hide-notice") {
-
 			const isVersionFifteen = requireApiVersion("0.15.0");
 			if (isVersionFifteen) {
 				// @ts-ignore
-				for (const el of activeDocument.body.getElementsByClassName("notice"))
-					el.hide();
-
+				for (const el of activeDocument.body.getElementsByClassName("notice")) el.hide();
 			} else {
 				// @ts-ignore
-				for (const el of document.body.getElementsByClassName("notice"))
-					el.hide();
-
+				for (const el of document.body.getElementsByClassName("notice"))el.hide();
 			}
-			const optionEnabled = this.app.vault.getConfig("readableLineLength");
-			this.app.vault.setConfig("readableLineLength", !optionEnabled);
 		}
 
 	}

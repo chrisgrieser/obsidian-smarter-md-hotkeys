@@ -38,7 +38,7 @@ export default class SmarterMDhotkeys extends Plugin {
 			this.addCommand({
 				id,
 				name,
-				callback: () => this.otherCommands(id),
+				editorCallback: (editor) => this.otherCommands(id, editor),
 			});
 		});
 
@@ -47,7 +47,7 @@ export default class SmarterMDhotkeys extends Plugin {
 
 	async onunload() { console.log("Smarter MD Hotkeys unloaded.") }
 
-	async otherCommands (commandID: string) {
+	async otherCommands (commandID: string, editor: Editor) {
 		const activeFile = this.app.workspace.getActiveFile();
 		if (!activeFile) return; // no file open
 
@@ -111,6 +111,68 @@ export default class SmarterMDhotkeys extends Plugin {
 		} else if (commandID === "toggle-readable-line-length") {
 			const optionEnabled = this.app.vault.getConfig("readableLineLength");
 			this.app.vault.setConfig("readableLineLength", !optionEnabled);
+
+		// Follow Link
+		} else if (commandID === "smarter-follow-link") {
+			const cursor = editor.getCursor("from");
+			const line = editor.getLine(cursor.line);
+			const selection = editor.getSelection();
+			const text = selection || line;
+			const links = [...text.matchAll(constant.LINK_REGEX)];
+
+			switch (links.length) {
+				case 0:
+					return;
+				case 1: {
+					// Follow link if there is only a single link in the given line
+					const [link] = links;
+					const [
+						/* linkMarkdown */,
+						externalLink,
+						regularInternalLink,
+						aliasedInternalLink
+					] = link || [];
+					const internalLink = regularInternalLink || aliasedInternalLink;
+
+					if (internalLink)
+						this.app.workspace.openLinkText(internalLink, activeFile.path);
+					if (externalLink)
+						open(externalLink);
+
+					return;
+				}
+				default: {
+					for (const link of links) {
+						const [
+							linkMarkdown,
+							externalLink,
+							regularInternalLink,
+							aliasedInternalLink
+						] = link || [];
+						const internalLink = regularInternalLink || aliasedInternalLink;
+
+						const isCursorOnMarkup =
+							cursor.ch >= link.index && cursor.ch <= link.index + linkMarkdown.length;
+
+						// Open all external links when visually selected
+						if (selection && externalLink)
+							open(externalLink);
+
+						// Follow link if directly under the cursor
+						else if (isCursorOnMarkup) {
+							if (externalLink)
+								open(externalLink);
+							if (internalLink) {
+								this.app.workspace.openLinkText(
+									internalLink,
+									activeFile.path
+								);
+							}
+							return;
+						}
+					}
+				}
+			}
 
 		// Hide Notice
 		} else if (commandID === "hide-notice") {

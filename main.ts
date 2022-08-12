@@ -127,12 +127,12 @@ export default class SmarterMDhotkeys extends Plugin {
 					// Follow link if there is only a single link in the given line
 					const [link] = links;
 					const [
-						/* linkMarkdown */,
-						externalLink,
-						regularInternalLink,
-						aliasedInternalLink
+						/* fullMatch */,
+						directURL,
+						markdownLink,
+						internalLink
 					] = link || [];
-					const internalLink = regularInternalLink || aliasedInternalLink;
+					const externalLink = markdownLink || directURL;
 
 					if (internalLink)
 						this.app.workspace.openLinkText(internalLink, activeFile.path);
@@ -144,15 +144,15 @@ export default class SmarterMDhotkeys extends Plugin {
 				default: {
 					for (const link of links) {
 						const [
-							linkMarkdown,
-							externalLink,
-							regularInternalLink,
-							aliasedInternalLink
+							fullMatch,
+							directURL,
+							markdownLink,
+							internalLink
 						] = link || [];
-						const internalLink = regularInternalLink || aliasedInternalLink;
+						const externalLink = markdownLink || directURL;
 
 						const isCursorOnMarkup =
-							cursor.ch >= link.index && cursor.ch <= link.index + linkMarkdown.length;
+							cursor.ch >= link.index && cursor.ch <= link.index + fullMatch.length;
 
 						// Open all external links when visually selected
 						if (selection && externalLink)

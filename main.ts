@@ -478,8 +478,28 @@ export default class SmarterMDhotkeys extends Plugin {
 			editor.setSelection(preAnchor, preHead);
 		}
 
-		function smartHeading (direction: string) {
-			const { line: lineNumber, ch: column } = editor.getCursor("head");
+    // required to not apply some changes at the end of the function
+		let doIt = true;
+    // new parameters, line number et column from the loop before on multilines
+		function smartHeading(
+			direction: string,
+			lineNumb?: number,
+			col?: number
+		) {
+      // need this to pass through an if condition
+			const scope = [];
+      // will be used later to check if we are multilines. if so lineNumb is defined
+			const multiLines = Boolean(lineNumb);
+      
+      // if single line get variable else we already have them 
+			if (typeof lineNumb === "undefined") {
+				const { line: lineNumb, ch: col } = editor.getCursor("head");
+				scope.push(lineNumb, col);
+			} else 
+				scope.push(lineNumb, col);
+			
+      // get final variables in the main scope
+			const [lineNumber, column] = scope;
 			const lineContent = editor.getLine(lineNumber);
 			const hasHeading = lineContent.match(/^#{1,6}(?= )/);
 			let currentHeadingLvl;
@@ -487,33 +507,38 @@ export default class SmarterMDhotkeys extends Plugin {
 			let newColumn;
 
 			if (direction === "increase" && hasHeading) {
-				currentHeadingLvl = hasHeading[0];
+        currentHeadingLvl = hasHeading[0];
+        // else if header >6 and not mutiline,ok. else multiline don't doIt  
 				if (currentHeadingLvl.length < 6) {
 					newLineContent = "#" + lineContent;
 					newColumn = column + 1;
-				} else {
+				} else if (multiLines===false) {
 					newLineContent = lineContent.slice(7);
 					if (column > 6) newColumn = column - 7;
 					else newColumn = 0;
-				}
+				} else doIt = false;
 			} else if (direction === "increase" && !hasHeading) {
 				newLineContent = "# " + lineContent;
 				newColumn = column + 2;
 			} else if (direction === "decrease" && hasHeading) {
 				currentHeadingLvl = hasHeading[0];
+        // same with decrease
 				if (currentHeadingLvl.length > 1) {
 					newLineContent = lineContent.slice(1);
 					newColumn = column - 1;
-				} else {
+				} else if (multiLines === false) {
 					newLineContent = lineContent.slice(2);
 					newColumn = column - 2;
-				}
+				} else doIt = false;
 			} else if (direction === "decrease" && !hasHeading) {
 				newLineContent = "###### " + lineContent;
 				newColumn = column + 7;
 			}
-			editor.setLine(lineNumber, newLineContent);
-			editor.setCursor(lineNumber, newColumn);
+      // if doIt we can do this
+			if (doIt) {
+				editor.setLine(lineNumber, newLineContent);
+				editor.setCursor(lineNumber, newColumn);
+			}
 		}
 
 		// MAIN
@@ -559,10 +584,31 @@ export default class SmarterMDhotkeys extends Plugin {
 				log ("Smart Case Switch");
 				const { anchor: preSelExpAnchor, head: preSelExpHead } = expandSelection();
 				smartCaseSwitch(preSelExpAnchor, preSelExpHead);
-			}
-			else if (frontMarkup === "heading") {
-				log ("Smart Toggle Heading");
-				smartHeading(endMarkup);
+			} else if (frontMarkup === "heading") {
+				log("Smart Toggle Heading");
+        // get selection range and check if several lines
+				const selected = editor.getSelection();
+				if (selected && selected.includes("\n")) {
+					let { line: from, ch: col0 } = editor.getCursor("from");
+					let { line: to, ch: col1 } = editor.getCursor("to");
+          // for each line in range if header apply smartHeading
+					Array.from({ length: to - from + 1 }, (x, i) => {
+						const lineNumber = from + i;
+						const lineContent = editor.getLine(from + i);
+						if (lineContent.match(/^#{1,6}(?= )/)) {
+							smartHeading(endMarkup, lineNumber, col1);
+              // keep selection on each loop
+							editor.setSelection(
+								{ line: from, ch: col0 },
+								{ line: to, ch: col1 }
+							);
+						}
+					});
+          // 1 line smartHeading
+				} else {
+					console.log("ici");
+					smartHeading(endMarkup);
+				}
 			}
 
 			// wrap single line selection

@@ -481,25 +481,15 @@ export default class SmarterMDhotkeys extends Plugin {
     // required to not apply some changes at the end of the function
 		let doIt = true;
     // new parameters, line number et column from the loop before on multilines
-		function smartHeading(
-			direction: string,
-			lineNumb?: number,
-			col?: number
-		) {
-      // need this to pass through an if condition
-			const scope = [];
-      // will be used later to check if we are multilines. if so lineNumb is defined
-			const multiLines = Boolean(lineNumb);
-      
-      // if single line get variable else we already have them 
-			if (typeof lineNumb === "undefined") {
-				const { line: lineNumb, ch: col } = editor.getCursor("head");
-				scope.push(lineNumb, col);
-			} else 
-				scope.push(lineNumb, col);
+		function smartHeading(direction: string,lineNumber=0,column=0) {
+			// used later to check if we are multilines. if so lineNumb is defined
+			const multiLines = Boolean(lineNumber);      
+      		// if single line get variable else we already have them 
+			if (lineNumber === 0) {
+				lineNumber = editor.getCursor("head").line;
+				column = editor.getCursor("head").ch;
+			}
 			
-      // get final variables in the main scope
-			const [lineNumber, column] = scope;
 			const lineContent = editor.getLine(lineNumber);
 			const hasHeading = lineContent.match(/^#{1,6}(?= )/);
 			let currentHeadingLvl;
@@ -507,8 +497,8 @@ export default class SmarterMDhotkeys extends Plugin {
 			let newColumn;
 
 			if (direction === "increase" && hasHeading) {
-        currentHeadingLvl = hasHeading[0];
-        // else if header >6 and not mutiline,ok. else multiline don't doIt  
+        		currentHeadingLvl = hasHeading[0];
+        		// else if header >6 and not mutiline,ok. else multiline don't doIt  
 				if (currentHeadingLvl.length < 6) {
 					newLineContent = "#" + lineContent;
 					newColumn = column + 1;
@@ -522,7 +512,7 @@ export default class SmarterMDhotkeys extends Plugin {
 				newColumn = column + 2;
 			} else if (direction === "decrease" && hasHeading) {
 				currentHeadingLvl = hasHeading[0];
-        // same with decrease
+        		// same with decrease
 				if (currentHeadingLvl.length > 1) {
 					newLineContent = lineContent.slice(1);
 					newColumn = column - 1;
@@ -534,7 +524,7 @@ export default class SmarterMDhotkeys extends Plugin {
 				newLineContent = "###### " + lineContent;
 				newColumn = column + 7;
 			}
-      // if doIt we can do this
+      		// if doIt we can do this
 			if (doIt) {
 				editor.setLine(lineNumber, newLineContent);
 				editor.setCursor(lineNumber, newColumn);
@@ -586,29 +576,28 @@ export default class SmarterMDhotkeys extends Plugin {
 				smartCaseSwitch(preSelExpAnchor, preSelExpHead);
 			} else if (frontMarkup === "heading") {
 				log("Smart Toggle Heading");
-        // get selection range and check if several lines
+        		// get selection range and check if several lines
 				const selected = editor.getSelection();
 				if (selected && selected.includes("\n")) {
-					let { line: from, ch: col0 } = editor.getCursor("from");
-					let { line: to, ch: col1 } = editor.getCursor("to");
-          // for each line in range if header apply smartHeading
+					const { line: from, ch: col0 } = editor.getCursor("from");
+					const { line: to, ch: col1 } = editor.getCursor("to");
+          			// for each line in range if header apply smartHeading
 					Array.from({ length: to - from + 1 }, (x, i) => {
 						const lineNumber = from + i;
 						const lineContent = editor.getLine(from + i);
 						if (lineContent.match(/^#{1,6}(?= )/)) {
 							smartHeading(endMarkup, lineNumber, col1);
-              // keep selection on each loop
+              				// keep selection on each loop
 							editor.setSelection(
 								{ line: from, ch: col0 },
 								{ line: to, ch: col1 }
 							);
 						}
 					});
-          // 1 line smartHeading
-				} else {
-					console.log("ici");
+          		// 1 line smartHeading
+				} else 
 					smartHeading(endMarkup);
-				}
+				
 			}
 
 			// wrap single line selection

@@ -1,4 +1,10 @@
+- 2023-05-13	release 1.16.4
+- 2023-05-13	style: use rome instead of eslint
+- 2023-05-13	Merge pull request #43 from 1C0D/master
+- 2023-05-13	docs: update
 - 2022-12-05	release 1.16.3
+- 2022-10-14	correction variable scope
+- 2022-10-13	multi smartHeading
 - 2022-07-08	release 1.16.2
 - 2022-07-07	release 1.16.1
 - 2022-07-07	release 1.16.0

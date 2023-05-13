@@ -4,6 +4,13 @@
 
 A plugin for [Obsidian](https://obsidian.md/) providing hotkeys that select words and lines in a smart way[^4] before applying markup. Multiple cursors are supported as well.
 
+---
+
+> __Note__  
+> Looking for Co-maintainer: I simply have too many open source projects and therefore do not have the time to maintain this plugin regularly. So if you are interested in co-maintaining the plugin, feel free to contact me.
+
+---
+
 ![Demo Video](demo/demo.gif)
 
 ## Table of Contents

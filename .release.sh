@@ -4,24 +4,17 @@
 # https://forum.obsidian.md/t/using-github-actions-to-release-plugins/7877
 # https://marcus.se.net/obsidian-plugin-docs/publishing/release-your-plugin-with-github-actions
 
-# Requirements
-# - markdownlint
-# - eslint
-
 # ensure relevant files exist
 if [[ ! -f "./manifest.json" ]] ; then
 	echo "manifest.json does not exist yet"
 	exit 1
-fi
-if [[ ! -f "./versions.json" ]] ; then
+elif [[ ! -f "./versions.json" ]] ; then
 	echo "versions.json does not exist yet"
 	exit 1
-fi
-if [[ ! -f "./package.json" ]] ; then
+elif [[ ! -f "./package.json" ]] ; then
 	echo "package.json does not exist yet"
 	exit 1
-fi
-if [[ ! -f "./.github/workflows/release.yml" ]] ; then
+elif [[ ! -f "./.github/workflows/release.yml" ]] ; then
 	echo "/.github/workflows/release.yml does not exist yet"
 	exit 1
 fi
@@ -37,11 +30,6 @@ else
 	echo "$nextVersion"
 fi
 echo ""
-
-# Lint
-cd "$(dirname "$0")" || exit 1
-eslint . --fix --ext=ts # to not lint the main.js files
-markdownlint --fix --disable=strong-style ./README.md # disable strong style since needed for complicated table
 
 # set version number in `manifest.json`
 sed -E -i '' "s/\"version\".*/\"version\": \"$nextVersion\",/" "manifest.json"

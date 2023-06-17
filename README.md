@@ -144,9 +144,11 @@ Increases the Heading Level of the line under the cursor by 1. If already at 6, 
 
 Inserts line break, even when the cursor is in a nested list. Pressing `return` in a nested list normally inserts a line break followed by a indented list marker. (This command is essentially the same as `o` in Vim.)
 
-### Smarter Delete Current Note
+### Smarter Delete Current Note (deprecated)
 
 Deletes the current note, but also goes back to the last file instead of leaving an empty pane. (This requires `Confirm File Deletion` in the Obsidian settings to be _disabled_.)
+
+*Deprecated. With recent versions of Obsidian, deleting a file does not result in empty panes, so this command is now basically obsolete. The command is only left in the plugin to ensure people's hotkeys do not break.*
 
 ### Smarter Copy Path
 

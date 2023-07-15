@@ -4,8 +4,6 @@
 	"version": "1.16.4",
 	"minAppVersion": "0.13.14",
 	"description": "Hotkeys that select words and lines in a smart way before applying markup. Multiple cursors are supported as well.",
-	"author": "pseudometa",
-   "fundingUrl": "https://ko-fi.com/pseudometa",
-	"authorUrl": "https://chris-grieser.de/",
+	"author": "pseudometa & Craftidore",
 	"isDesktopOnly": false
 }

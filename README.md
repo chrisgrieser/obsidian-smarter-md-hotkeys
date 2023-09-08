@@ -7,7 +7,7 @@ A plugin for [Obsidian](https://obsidian.md/) providing hotkeys that select word
 ---
 
 > __Note__  
-> Looking for Co-maintainer: I simply have too many open source projects and therefore do not have the time to maintain this plugin regularly. So if you are interested in co-maintaining the plugin, feel free to contact me.
+> Most of the plugin's commands have been added to Obsidian core by now. This plugin is therefore not in active development anymore.
 
 ---
 

@@ -436,7 +436,7 @@ export default class SmarterMDhotkeys extends Plugin {
 				endMarkup = "](" + cbText + ")";
 				const urlExtension = cbText.split(".").pop();
 				if (constant.IMAGEEXTENSIONS.includes(urlExtension)) frontMarkup = "![";
-			} else if (cbText.length) {
+			} else if (!editor.somethingSelected() && cbText.length) {
 				const shortenedText = cbText.length > 800 ? cbText.substring(0, 800) : cbText;//let's stay reasonable
 				frontMarkup = "[" + shortenedText
 			}
